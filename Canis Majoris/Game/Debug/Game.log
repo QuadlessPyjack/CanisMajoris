@@ -1,0 +1,45 @@
+﻿Build started 25/05/2015 18:10:45.
+     1>Project "E:\CanisMajoris\Canis Majoris\Game\Game.vcxproj" on node 2 (Build target(s)).
+     1>ClCompile:
+         E:\Programs\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I"E:\CanisMajoris\Canis Majoris\\Engine\include" /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt src\main.cpp
+         main.cpp
+     1>e:\canismajoris\canis majoris\engine\include\enginedllexport.h(10): warning C4005: 'CM_ENGINE_API' : macro redefinition
+                 e:\canismajoris\canis majoris\engine\include\enginedllexport.h(4) : see previous definition of 'CM_ENGINE_API'
+     1>e:\canismajoris\canis majoris\engine\include\renderer\coreutils\primitives\mesh.h(59): warning C4251: 'Core::Renderer::CoreUtils::Mesh::meshID' : class 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' needs to have dll-interface to be used by clients of class 'Core::Renderer::CoreUtils::Mesh'
+     1>e:\canismajoris\canis majoris\engine\include\renderer\coreutils\primitives\mesh.h(61): warning C4251: 'Core::Renderer::CoreUtils::Mesh::m_localVerts' : class 'std::vector<Core::Renderer::CoreUtils::Vertex *,std::allocator<_Ty>>' needs to have dll-interface to be used by clients of class 'Core::Renderer::CoreUtils::Mesh'
+                 with
+                 [
+                     _Ty=Core::Renderer::CoreUtils::Vertex *
+                 ]
+     1>e:\canismajoris\canis majoris\engine\include\renderer\coreutils\primitives\mesh.h(62): warning C4251: 'Core::Renderer::CoreUtils::Mesh::m_localEdges' : class 'std::vector<Core::Renderer::CoreUtils::Edge *,std::allocator<_Ty>>' needs to have dll-interface to be used by clients of class 'Core::Renderer::CoreUtils::Mesh'
+                 with
+                 [
+                     _Ty=Core::Renderer::CoreUtils::Edge *
+                 ]
+     1>e:\canismajoris\canis majoris\engine\include\renderer\coreutils\primitives\mesh.h(63): warning C4251: 'Core::Renderer::CoreUtils::Mesh::m_localTris' : class 'std::vector<Core::Renderer::CoreUtils::Triangle *,std::allocator<_Ty>>' needs to have dll-interface to be used by clients of class 'Core::Renderer::CoreUtils::Mesh'
+                 with
+                 [
+                     _Ty=Core::Renderer::CoreUtils::Triangle *
+                 ]
+     1>e:\canismajoris\canis majoris\engine\include\utils\meshcontainer.h(42): warning C4251: 'MeshContainer::m_meshContainer' : class 'std::vector<Core::Renderer::CoreUtils::Mesh *,std::allocator<_Ty>>' needs to have dll-interface to be used by clients of class 'MeshContainer'
+                 with
+                 [
+                     _Ty=Core::Renderer::CoreUtils::Mesh *
+                 ]
+     1>e:\canismajoris\canis majoris\engine\include\fileio\objimpex\reader\io_objloader.h(50): warning C4251: 'Core::IO::ModelFile::m_filename' : class 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' needs to have dll-interface to be used by clients of class 'Core::IO::ModelFile'
+     1>e:\canismajoris\canis majoris\engine\include\editor\procyonserver\editorserver.h(36): warning C4251: 'Editor::ProcyonServer::m_shm' : class 'boost::interprocess::windows_shared_memory' needs to have dll-interface to be used by clients of class 'Editor::ProcyonServer'
+                 e:\canismajoris\canis majoris\engine\include\editor\procyonserver\editorserver.h(18) : see declaration of 'boost::interprocess::windows_shared_memory'
+     1>e:\canismajoris\canis majoris\engine\include\editor\procyonserver\editorserver.h(37): warning C4251: 'Editor::ProcyonServer::m_region' : class 'boost::interprocess::mapped_region' needs to have dll-interface to be used by clients of class 'Editor::ProcyonServer'
+                 e:\canismajoris\canis majoris\engine\include\editor\procyonserver\editorserver.h(19) : see declaration of 'boost::interprocess::mapped_region'
+     1>e:\canismajoris\canis majoris\engine\include\editor\procyonserver\procyonconstants.h(31): warning C4129: ']' : unrecognized character escape sequence
+       Link:
+         E:\Programs\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"E:\CanisMajoris\Canis Majoris\Debug\Game.exe" /INCREMENTAL /NOLOGO SDL.lib SDLmain.lib SDL_draw.lib SDL_ttf.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"E:\CanisMajoris\Canis Majoris\Debug\Game.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"E:\CanisMajoris\Canis Majoris\Debug\Game.lib" /MACHINE:X86 Debug\main.obj
+         "E:\CanisMajoris\Canis Majoris\Debug\Engine.lib"
+            Creating library E:\CanisMajoris\Canis Majoris\Debug\Game.lib and object E:\CanisMajoris\Canis Majoris\Debug\Game.exp
+     1>MSVCRTD.lib(cinitexe.obj) : warning LNK4098: defaultlib 'msvcrt.lib' conflicts with use of other libs; use /NODEFAULTLIB:library
+         Game.vcxproj -> E:\CanisMajoris\Canis Majoris\Debug\Game.exe
+     1>Done Building Project "E:\CanisMajoris\Canis Majoris\Game\Game.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:02.40

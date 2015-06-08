@@ -1,0 +1,181 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Renderer">
+      <UniqueIdentifier>{f0b70ad6-6631-4ca6-9247-f13bf70655f7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Renderer\CoreUtils">
+      <UniqueIdentifier>{90067e25-9705-4f84-bae9-d1556debe8f2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FileIO">
+      <UniqueIdentifier>{ccd94238-cd82-411e-a8e4-440921c9f7b9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utils">
+      <UniqueIdentifier>{2f3b8891-7a22-4a5d-9186-7fa52a74126c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Renderer\CoreUtils\Primitives">
+      <UniqueIdentifier>{4ae32b42-6aef-4db9-88bd-c71a93bbc7ba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Renderer\CoreUtils\Primitives\Headers">
+      <UniqueIdentifier>{9ba107b7-b1be-48a0-9eb2-cbaa247fd1cb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Renderer\CoreUtils\Primitives\Source">
+      <UniqueIdentifier>{a2782449-5526-41db-9c10-662af5c720b0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utils\Math">
+      <UniqueIdentifier>{fc2907c0-2ace-4496-bc21-15605a00db4f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utils\Math\Headers">
+      <UniqueIdentifier>{21db2406-53ce-40af-b58d-93fc95c12132}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utils\Math\Source">
+      <UniqueIdentifier>{c27dd8dd-d98b-49a8-b068-878462ce3c56}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Renderer\CoreUtils\Rasterizer">
+      <UniqueIdentifier>{1a384c3d-90cc-4b3b-9e17-3ad9e32ec216}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Renderer\CoreUtils\Rasterizer\Headers">
+      <UniqueIdentifier>{6688fad9-5296-4cf9-a55e-cd573b9d1691}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Renderer\CoreUtils\Rasterizer\Source">
+      <UniqueIdentifier>{ff011b13-6bbd-45c0-820f-32ee2e877877}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ScriptAPI">
+      <UniqueIdentifier>{b7993513-881e-47eb-9312-757e9ef31d27}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ScriptAPI\Headers">
+      <UniqueIdentifier>{ae79dcbb-4a31-402d-9950-93293cc1b7e6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ScriptAPI\Source">
+      <UniqueIdentifier>{a696c3d7-4589-4779-82fd-fe139c2e8d12}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Editor">
+      <UniqueIdentifier>{1ebb548e-b150-4f82-a906-332ffb2b82b8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Editor\ProcyonServer">
+      <UniqueIdentifier>{481697fa-7e3c-4368-9268-07c89184f09a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Editor\ProcyonServer\Headers">
+      <UniqueIdentifier>{e068678a-0902-44c4-90ba-6a849e3289b2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Editor\ProcyonServer\Source">
+      <UniqueIdentifier>{1ebc9b8d-62d0-4bfd-acca-787162cd07f2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FileIO\OBJImpex">
+      <UniqueIdentifier>{4c499f83-75e3-449a-97f3-1d89cd88e539}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FileIO\OBJImpex\Reader">
+      <UniqueIdentifier>{536aa08d-7144-41d4-b5fc-f110fd81f3c6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FileIO\OBJImpex\Reader\Headers">
+      <UniqueIdentifier>{de1b2f4f-5135-43b6-a562-f5a3d51203f9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FileIO\OBJImpex\Reader\Source">
+      <UniqueIdentifier>{88b762d2-bbd4-4084-b633-3fd3c25e0ecb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FileIO\OBJImpex\Writer">
+      <UniqueIdentifier>{ec2af4ce-c5bb-43f1-a444-caf1bd74f052}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\Editor\ProcyonServer\EditorServer.cpp">
+      <Filter>Editor\ProcyonServer\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="src\FileIO\OBJImpex\Reader\IO_OBJLoader.cpp">
+      <Filter>FileIO\OBJImpex\Reader\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Renderer\CoreUtils\Camera.cpp">
+      <Filter>Renderer\CoreUtils</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Renderer\CoreUtils\Scene.cpp">
+      <Filter>Renderer\CoreUtils</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Renderer\CoreUtils\Primitives\Edge.cpp">
+      <Filter>Renderer\CoreUtils\Primitives\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Renderer\CoreUtils\Primitives\Mesh.cpp">
+      <Filter>Renderer\CoreUtils\Primitives\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Renderer\CoreUtils\Primitives\Triangle.cpp">
+      <Filter>Renderer\CoreUtils\Primitives\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Renderer\CoreUtils\Primitives\Vertex.cpp">
+      <Filter>Renderer\CoreUtils\Primitives\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Renderer\CoreUtils\Rasterizer\Rasterizer.cpp">
+      <Filter>Renderer\CoreUtils\Rasterizer\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Utils\Math\Vector2.cpp">
+      <Filter>Utils\Math\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Utils\Math\Vector3.cpp">
+      <Filter>Utils\Math\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Utils\MeshContainer.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\Editor\ProcyonServer\EditorServer.h">
+      <Filter>Editor\ProcyonServer\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="include\FileIO\OBJImpex\Reader\IO_OBJLoader.h">
+      <Filter>FileIO\OBJImpex\Reader\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Renderer\CoreUtils\Camera.h">
+      <Filter>Renderer\CoreUtils</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Renderer\CoreUtils\Scene.h">
+      <Filter>Renderer\CoreUtils</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Renderer\CoreUtils\Primitives\Edge.h">
+      <Filter>Renderer\CoreUtils\Primitives\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Renderer\CoreUtils\Primitives\Mesh.h">
+      <Filter>Renderer\CoreUtils\Primitives\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Renderer\CoreUtils\Primitives\Triangle.h">
+      <Filter>Renderer\CoreUtils\Primitives\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Renderer\CoreUtils\Primitives\Vertex.h">
+      <Filter>Renderer\CoreUtils\Primitives\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Renderer\CoreUtils\Rasterizer\Rasterizer.h">
+      <Filter>Renderer\CoreUtils\Rasterizer\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Utils\Math\Vector2.h">
+      <Filter>Utils\Math\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Utils\Math\Vector3.h">
+      <Filter>Utils\Math\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Utils\Constants.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Utils\MeshContainer.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Utils\MessageTable.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Editor\ProcyonServer\ProcyonConstants.h">
+      <Filter>Editor\ProcyonServer\Headers</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="include\Utils\Math\ConverterUtils.inl">
+      <Filter>Utils\Math\Headers</Filter>
+    </None>
+    <None Include="include\Utils\Validators.inl">
+      <Filter>Utils</Filter>
+    </None>
+  </ItemGroup>
+</Project>

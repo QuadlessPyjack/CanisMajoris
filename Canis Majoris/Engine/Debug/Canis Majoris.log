@@ -1,0 +1,33 @@
+﻿Build started 08/04/2015 00:50:27.
+     1>Project "C:\Users\Bogdan\Documents\Visual Studio 2013\Projects\Canis Majoris\Canis Majoris\Canis Majoris.vcxproj" on node 2 (Build target(s)).
+     1>ClCompile:
+         E:\Programs\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I"C:\Users\Bogdan\Documents\Visual Studio 2013\Projects\Canis Majoris\Canis Majoris\include" /I"C:\Users\Bogdan\Documents\Libs\SDL-1.2.15\include" /IC:\Users\Bogdan\Documents\Libs\Qt\5.4\msvc2013_64\lib /IC:\Users\Bogdan\Documents\Libs\Qt\5.4\msvc2013_64\include\QtCore /IC:\Users\Bogdan\Documents\Libs\Qt\5.4\msvc2013_64\include\QtGui /I"C:\Users\Bogdan\Documents\Libs\Qt\5.4\msvc2013_64\mkspecs\win32-msvc2013" /IC:\Users\Bogdan\Documents\Libs\boost_1_57_0 /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D _CRT_SECURE_NO_WARNINGS /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt /EHsc src\CanisMajoris\main.cpp
+         Skipping... (no relevant changes detected)
+         main.cpp
+       Link:
+         E:\Programs\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Bogdan\Documents\Visual Studio 2013\Projects\Canis Majoris\Debug\Canis Majoris.exe" /INCREMENTAL /NOLOGO /LIBPATH:C:\Users\Bogdan\Documents\Libs\boost_1_57_0\stage\lib SDLmain.lib SDL.lib SDL_draw.LIB SDL_ttf.lib C:\Users\Bogdan\Documents\Libs\Qt\5.4\msvc2013_64\lib\qtmain.lib C:\Users\Bogdan\Documents\Libs\Qt\5.4\msvc2013_64\lib\Qt5Core.lib C:\Users\Bogdan\Documents\Libs\Qt\5.4\msvc2013_64\lib\Qt5Gui.lib C:\Users\Bogdan\Documents\Libs\Qt\5.4\msvc2013_64\lib\Qt5Qml.lib C:\Users\Bogdan\Documents\Libs\Qt\5.4\msvc2013_64\lib\Qt5Quick.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\Bogdan\Documents\Visual Studio 2013\Projects\Canis Majoris\Debug\Canis Majoris.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Bogdan\Documents\Visual Studio 2013\Projects\Canis Majoris\Debug\Canis Majoris.lib" /MACHINE:X86 Debug\main.obj
+         Debug\EditorServer.obj
+         Debug\IO_OBJLoader.obj
+         Debug\Camera.obj
+         Debug\Edge.obj
+         Debug\Mesh.obj
+         Debug\Triangle.obj
+         Debug\Vertex.obj
+         Debug\Rasterizer.obj
+         Debug\Scene.obj
+         Debug\Vector2.obj
+         Debug\Vector3.obj
+         Debug\MeshContainer.obj
+         SDL_draw.LIB(SDL_draw.obj) : MSIL .netmodule or module compiled with /GL found; restarting link with /LTCG; add /LTCG to the link command line to improve linker performance
+     1>LINK : warning LNK4075: ignoring '/INCREMENTAL' due to '/LTCG' specification
+     1>main.obj : warning LNK4075: ignoring '/EDITANDCONTINUE' due to '/OPT:LBR' specification
+            Creating library C:\Users\Bogdan\Documents\Visual Studio 2013\Projects\Canis Majoris\Debug\Canis Majoris.lib and object C:\Users\Bogdan\Documents\Visual Studio 2013\Projects\Canis Majoris\Debug\Canis Majoris.exp
+     1>LINK : warning LNK4098: defaultlib 'MSVCRT' conflicts with use of other libs; use /NODEFAULTLIB:library
+         Generating code
+         Finished generating code
+         Canis Majoris.vcxproj -> C:\Users\Bogdan\Documents\Visual Studio 2013\Projects\Canis Majoris\Debug\Canis Majoris.exe
+     1>Done Building Project "C:\Users\Bogdan\Documents\Visual Studio 2013\Projects\Canis Majoris\Canis Majoris\Canis Majoris.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:05.53

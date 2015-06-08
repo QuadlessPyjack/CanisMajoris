@@ -1,0 +1,268 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|ARM">
+      <Configuration>Debug</Configuration>
+      <Platform>ARM</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|ARM">
+      <Configuration>Release</Configuration>
+      <Platform>ARM</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{69BBDDAD-092C-40F7-9723-EA7F7B8E6F7A}</ProjectGuid>
+    <RootNamespace>CanisMajoris</RootNamespace>
+    <ProjectName>Engine</ProjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="Macros.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="Macros.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="Macros.props" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="Macros.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="Macros.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="Macros.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <IncludePath>X:\boost-1.57.0\include;X:\SDL-1.2.15\include;X:\SDL_draw-1.2.13\include;X:\SDL_ttf-2.0.11\include;$(IncludePath)</IncludePath>
+    <LibraryPath>X:\boost-1.57.0\lib\x86;X:\SDL-1.2.15\lib\x86;X:\SDL_draw-1.2.13\lib\x86;X:\SDL_ttf-2.0.11\lib\x86;$(LibraryPath)</LibraryPath>
+    <TargetExt>.dll</TargetExt>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
+    <IncludePath>X:\boost-1.57.0\include;X:\SDL-1.2.15\include;X:\SDL_draw-1.2.13\include;X:\SDL_ttf-2.0.11\include;$(IncludePath)</IncludePath>
+    <LibraryPath>X:\boost-1.57.0\lib\x86;X:\SDL-1.2.15\lib\x86;X:\SDL_draw-1.2.13\lib\x86;X:\SDL_ttf-2.0.11\lib\x86;$(LibraryPath)</LibraryPath>
+    <TargetExt>.dll</TargetExt>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <IncludePath>C:\Users\Bogdan\Documents\Libs\SDL-1.2.15\include;C:\Users\Bogdan\Documents\Libs\SDL_draw\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Users\Bogdan\Documents\Libs\SDL-1.2.15\lib\x64;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <TargetExt>.dll</TargetExt>
+    <IncludePath>X:\boost-1.57.0\include;X:\SDL-1.2.15\include;X:\SDL_draw-1.2.13\include;X:\SDL_ttf-2.0.11\include;$(IncludePath)</IncludePath>
+    <LibraryPath>X:\boost-1.57.0\lib\x86;X:\SDL-1.2.15\lib\x86;X:\SDL_draw-1.2.13\lib\x86;X:\SDL_ttf-2.0.11\lib\x86;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">
+    <TargetExt>.dll</TargetExt>
+    <IncludePath>X:\boost-1.57.0\include;X:\SDL-1.2.15\include;X:\SDL_draw-1.2.13\include;X:\SDL_ttf-2.0.11\include;$(IncludePath)</IncludePath>
+    <LibraryPath>X:\boost-1.57.0\lib\x86;X:\SDL-1.2.15\lib\x86;X:\SDL_draw-1.2.13\lib\x86;X:\SDL_ttf-2.0.11\lib\x86;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>$(ProjectDir)\include;X:\boost-1.57.0\include;X:\SDL-1.2.15\include;X:\SDL_draw-1.2.13\include;X:\SDL_ttf-2.0.11\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>ENGINE_DLL_EXPORT_H;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalOptions>/EHsc %(AdditionalOptions)</AdditionalOptions>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>X:\boost-1.57.0\lib\x86;X:\SDL-1.2.15\lib\x86;X:\SDL_draw-1.2.13\lib\x86;X:\SDL_ttf-2.0.11\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>SDLmain.lib;SDL.lib;SDL_draw.LIB;SDL_ttf.lib;$(QTDIR)\lib\qtmain.lib;$(QTDIR)\lib\Qt5Core.lib;$(QTDIR)\lib\Qt5Gui.lib;$(QTDIR)\lib\Qt5Qml.lib;$(QTDIR)\lib\Qt5Quick.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <SubSystem>Windows</SubSystem>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>$(ProjectDir)\include;X:\boost-1.57.0\include;X:\SDL-1.2.15\include;X:\SDL_draw-1.2.13\include;X:\SDL_ttf-2.0.11\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>ENGINE_DLL_EXPORT_H;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalOptions>/EHsc %(AdditionalOptions)</AdditionalOptions>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>X:\boost-1.57.0\lib\x86;X:\SDL-1.2.15\lib\x86;X:\SDL_draw-1.2.13\lib\x86;X:\SDL_ttf-2.0.11\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>SDLmain.lib;SDL.lib;SDL_draw.LIB;SDL_ttf.lib;$(QTDIR)\lib\qtmain.lib;$(QTDIR)\lib\Qt5Core.lib;$(QTDIR)\lib\Qt5Gui.lib;$(QTDIR)\lib\Qt5Qml.lib;$(QTDIR)\lib\Qt5Quick.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <SubSystem>Windows</SubSystem>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>C:\Users\Bogdan\Documents\Libs\SDL-1.2.15\include;$(QTDIR)\lib;$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\mkspecs\win32-msvc2013;E:\Programs\boost_1_57_0;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>C:\Users\Bogdan\Documents\Libs\SDL-1.2.15\lib\x64;E:\Programs\boost_1_57_0\lib64-msvc-12.0;C:\Users\Bogdan\Documents\Libs\SDL_draw-1.2.13\VC2008EE - Copy;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>SDLmain.lib;SDL.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <SubSystem>Console</SubSystem>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>$(ProjectDir)\include;X:\boost-1.57.0\include;X:\SDL-1.2.15\include;X:\SDL_draw-1.2.13\include;X:\SDL_ttf-2.0.11\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>ENGINE_DLL_EXPORT_H;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalLibraryDirectories>X:\boost-1.57.0\lib\x86;X:\SDL-1.2.15\lib\x86;X:\SDL_draw-1.2.13\lib\x86;X:\SDL_ttf-2.0.11\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>$(ProjectDir)\include;X:\boost-1.57.0\include;X:\SDL-1.2.15\include;X:\SDL_draw-1.2.13\include;X:\SDL_ttf-2.0.11\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>ENGINE_DLL_EXPORT_H;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalLibraryDirectories>X:\boost-1.57.0\lib\x86;X:\SDL-1.2.15\lib\x86;X:\SDL_draw-1.2.13\lib\x86;X:\SDL_ttf-2.0.11\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="src\Editor\ProcyonServer\EditorServer.cpp" />
+    <ClCompile Include="src\Events\EventManager.cpp" />
+    <ClCompile Include="src\FileIO\OBJImpex\Reader\IO_OBJLoader.cpp" />
+    <ClCompile Include="src\Physics\PhysicsManager.cpp" />
+    <ClCompile Include="src\Physics\SimplePhysBody.cpp" />
+    <ClCompile Include="src\Renderer\CoreUtils\Camera.cpp" />
+    <ClCompile Include="src\Renderer\CoreUtils\Primitives\Edge.cpp" />
+    <ClCompile Include="src\Renderer\CoreUtils\Primitives\Mesh.cpp" />
+    <ClCompile Include="src\Renderer\CoreUtils\Primitives\Triangle.cpp" />
+    <ClCompile Include="src\Renderer\CoreUtils\Primitives\Vertex.cpp" />
+    <ClCompile Include="src\Renderer\CoreUtils\Rasterizer\Rasterizer.cpp" />
+    <ClCompile Include="src\Renderer\CoreUtils\Scene.cpp" />
+    <ClCompile Include="src\Utils\EngineTimer.cpp" />
+    <ClCompile Include="src\Utils\Math\Vector2.cpp" />
+    <ClCompile Include="src\Utils\Math\Vector3.cpp" />
+    <ClCompile Include="src\Utils\MeshContainer.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\Editor\ProcyonServer\EditorServer.h" />
+    <ClInclude Include="include\Editor\ProcyonServer\ProcyonConstants.h" />
+    <ClInclude Include="include\EngineDllExport.h" />
+    <ClInclude Include="include\Events\EventManager.h" />
+    <ClInclude Include="include\FileIO\OBJImpex\Reader\IO_OBJLoader.h" />
+    <ClInclude Include="include\Physics\PhysicsManager.h" />
+    <ClInclude Include="include\Physics\SimplePhysBody.h" />
+    <ClInclude Include="include\Renderer\CoreUtils\Camera.h" />
+    <ClInclude Include="include\Renderer\CoreUtils\Primitives\Edge.h" />
+    <ClInclude Include="include\Renderer\CoreUtils\Primitives\Mesh.h" />
+    <ClInclude Include="include\Renderer\CoreUtils\Primitives\Triangle.h" />
+    <ClInclude Include="include\Renderer\CoreUtils\Primitives\Vertex.h" />
+    <ClInclude Include="include\Renderer\CoreUtils\Rasterizer\Rasterizer.h" />
+    <ClInclude Include="include\Renderer\CoreUtils\Scene.h" />
+    <ClInclude Include="include\Utils\Constants.h" />
+    <ClInclude Include="include\Utils\EngineTimer.h" />
+    <ClInclude Include="include\Utils\Math\Vector2.h" />
+    <ClInclude Include="include\Utils\Math\Vector3.h" />
+    <ClInclude Include="include\Utils\MeshContainer.h" />
+    <ClInclude Include="include\Utils\MessageTable.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="include\Events\Event.inl" />
+    <None Include="include\Utils\Math\ConverterUtils.inl" />
+    <None Include="include\Utils\Validators.inl" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

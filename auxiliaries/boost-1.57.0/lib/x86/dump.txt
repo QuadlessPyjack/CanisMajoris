@@ -1,0 +1,532 @@
+Microsoft (R) COFF/PE Dumper Version 12.00.31101.0
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+
+Dump of file libboost_atomic-vc120-mt-1_57.lib
+
+File Type: LIBRARY
+
+FILE HEADER VALUES
+             14C machine (x86)
+              1F number of sections
+        5454171D time date stamp Sat Nov 01 01:11:25 2014
+             8BA file pointer to symbol table
+              4F number of symbols
+               0 size of optional header
+               0 characteristics
+
+SECTION HEADER #1
+.drectve name
+       0 physical address
+       0 virtual address
+      C2 size of raw data
+     4EC file pointer to raw data (000004EC to 000005AD)
+       0 file pointer to relocation table
+       0 file pointer to line numbers
+       0 number of relocations
+       0 number of line numbers
+  100A00 flags
+         Info
+         Remove
+         1 byte align
+
+SECTION HEADER #2
+.debug$S name
+       0 physical address
+       0 virtual address
+      DC size of raw data
+     5AE file pointer to raw data (000005AE to 00000689)
+       0 file pointer to relocation table
+       0 file pointer to line numbers
+       0 number of relocations
+       0 number of line numbers
+42100040 flags
+         Initialized Data
+         Discardable
+         1 byte align
+         Read Only
+
+SECTION HEADER #3
+.text$mn name
+       0 physical address
+       0 virtual address
+      43 size of raw data
+     68A file pointer to raw data (0000068A to 000006CC)
+     6CD file pointer to relocation table
+       0 file pointer to line numbers
+       1 number of relocations
+       0 number of line numbers
+60501020 flags
+         Code
+         COMDAT; sym= "public: __thiscall boost::atomics::detail::lockpool::scoped_lock::scoped_lock(void const volatile *)" (??0scoped_lock@lockpool@detail@atomics@boost@@QAE@PDX@Z)
+         16 byte align
+         Execute Read
+
+SECTION HEADER #4
+.debug$F name
+       0 physical address
+       0 virtual address
+      10 size of raw data
+     6D7 file pointer to raw data (000006D7 to 000006E6)
+     6E7 file pointer to relocation table
+       0 file pointer to line numbers
+       1 number of relocations
+       0 number of line numbers
+42101040 flags
+         Initialized Data
+         COMDAT (no symbol)
+         Discardable
+         1 byte align
+         Read Only
+
+SECTION HEADER #5
+.text$mn name
+       0 physical address
+       0 virtual address
+       6 size of raw data
+     6F1 file pointer to raw data (000006F1 to 000006F6)
+       0 file pointer to relocation table
+       0 file pointer to line numbers
+       0 number of relocations
+       0 number of line numbers
+60501020 flags
+         Code
+         COMDAT; sym= "public: __thiscall boost::atomics::detail::lockpool::scoped_lock::~scoped_lock(void)" (??1scoped_lock@lockpool@detail@atomics@boost@@QAE@XZ)
+         16 byte align
+         Execute Read
+
+SECTION HEADER #6
+.debug$F name
+       0 physical address
+       0 virtual address
+      10 size of raw data
+     6F7 file pointer to raw data (000006F7 to 00000706)
+     707 file pointer to relocation table
+       0 file pointer to line numbers
+       1 number of relocations
+       0 number of line numbers
+42101040 flags
+         Initialized Data
+         COMDAT (no symbol)
+         Discardable
+         1 byte align
+         Read Only
+
+SECTION HEADER #7
+.text$mn name
+       0 physical address
+       0 virtual address
+      18 size of raw data
+     711 file pointer to raw data (00000711 to 00000728)
+       0 file pointer to relocation table
+       0 file pointer to line numbers
+       0 number of relocations
+       0 number of line numbers
+60501020 flags
+         Code
+         COMDAT; sym= "public: static void __cdecl boost::atomics::detail::msvc_x86_operations<unsigned char,struct boost::atomics::detail::operations<1,0> >::clear(unsigned char volatile &,enum boost::memory_order)" (?clear@?$msvc_x86_operations@EU?$operations@$00$0A@@detail@atomics@boost@@@detail@atomics@boost@@SAXACEW4memory_order@4@@Z)
+         16 byte align
+         Execute Read
+
+SECTION HEADER #8
+.debug$F name
+       0 physical address
+       0 virtual address
+      10 size of raw data
+     729 file pointer to raw data (00000729 to 00000738)
+     739 file pointer to relocation table
+       0 file pointer to line numbers
+       1 number of relocations
+       0 number of line numbers
+42101040 flags
+         Initialized Data
+         COMDAT (no symbol)
+         Discardable
+         1 byte align
+         Read Only
+
+SECTION HEADER #9
+.text$mn name
+       0 physical address
+       0 virtual address
+       B size of raw data
+     743 file pointer to raw data (00000743 to 0000074D)
+       0 file pointer to relocation table
+       0 file pointer to line numbers
+       0 number of relocations
+       0 number of line numbers
+60501020 flags
+         Code
+         COMDAT; sym= "public: static unsigned char __cdecl boost::atomics::detail::operations<1,0>::exchange(unsigned char volatile &,unsigned char,enum boost::memory_order)" (?exchange@?$operations@$00$0A@@detail@atomics@boost@@SAEACEEW4memory_order@4@@Z)
+         16 byte align
+         Execute Read
+
+SECTION HEADER #A
+.debug$F name
+       0 physical address
+       0 virtual address
+      10 size of raw data
+     74E file pointer to raw data (0000074E to 0000075D)
+     75E file pointer to relocation table
+       0 file pointer to line numbers
+       1 number of relocations
+       0 number of line numbers
+42101040 flags
+         Initialized Data
+         COMDAT (no symbol)
+         Discardable
+         1 byte align
+         Read Only
+
+SECTION HEADER #B
+.text$mn name
+       0 physical address
+       0 virtual address
+       1 size of raw data
+     768 file pointer to raw data (00000768 to 00000768)
+       0 file pointer to relocation table
+       0 file pointer to line numbers
+       0 number of relocations
+       0 number of line numbers
+60501020 flags
+         Code
+         COMDAT; sym= "public: static void __cdecl boost::atomics::detail::msvc_x86_operations_base::fence_after(enum boost::memory_order)" (?fence_after@msvc_x86_operations_base@detail@atomics@boost@@SAXW4memory_order@4@@Z)
+         16 byte align
+         Execute Read
+
+SECTION HEADER #C
+.debug$F name
+       0 physical address
+       0 virtual address
+      10 size of raw data
+     769 file pointer to raw data (00000769 to 00000778)
+     779 file pointer to relocation table
+       0 file pointer to line numbers
+       1 number of relocations
+       0 number of line numbers
+42101040 flags
+         Initialized Data
+         COMDAT (no symbol)
+         Discardable
+         1 byte align
+         Read Only
+
+SECTION HEADER #D
+.text$mn name
+       0 physical address
+       0 virtual address
+       1 size of raw data
+     783 file pointer to raw data (00000783 to 00000783)
+       0 file pointer to relocation table
+       0 file pointer to line numbers
+       0 number of relocations
+       0 number of line numbers
+60501020 flags
+         Code
+         COMDAT; sym= "public: static void __cdecl boost::atomics::detail::msvc_x86_operations_base::fence_before(enum boost::memory_order)" (?fence_before@msvc_x86_operations_base@detail@atomics@boost@@SAXW4memory_order@4@@Z)
+         16 byte align
+         Execute Read
+
+SECTION HEADER #E
+.debug$F name
+       0 physical address
+       0 virtual address
+      10 size of raw data
+     784 file pointer to raw data (00000784 to 00000793)
+     794 file pointer to relocation table
+       0 file pointer to line numbers
+       1 number of relocations
+       0 number of line numbers
+42101040 flags
+         Initialized Data
+         COMDAT (no symbol)
+         Discardable
+         1 byte align
+         Read Only
+
+SECTION HEADER #F
+.text$mn name
+       0 physical address
+       0 virtual address
+       4 size of raw data
+     79E file pointer to raw data (0000079E to 000007A1)
+       0 file pointer to relocation table
+       0 file pointer to line numbers
+       0 number of relocations
+       0 number of line numbers
+60501020 flags
+         Code
+         COMDAT; sym= "public: static void __cdecl boost::atomics::detail::msvc_x86_operations_base::hardware_full_fence(void)" (?hardware_full_fence@msvc_x86_operations_base@detail@atomics@boost@@SAXXZ)
+         16 byte align
+         Execute Read
+
+SECTION HEADER #10
+.debug$F name
+       0 physical address
+       0 virtual address
+      10 size of raw data
+     7A2 file pointer to raw data (000007A2 to 000007B1)
+     7B2 file pointer to relocation table
+       0 file pointer to line numbers
+       1 number of relocations
+       0 number of line numbers
+42101040 flags
+         Initialized Data
+         COMDAT (no symbol)
+         Discardable
+         1 byte align
+         Read Only
+
+SECTION HEADER #11
+.text$mn name
+       0 physical address
+       0 virtual address
+       3 size of raw data
+     7BC file pointer to raw data (000007BC to 000007BE)
+       0 file pointer to relocation table
+       0 file pointer to line numbers
+       0 number of relocations
+       0 number of line numbers
+60501020 flags
+         Code
+         COMDAT; sym= "void __cdecl boost::atomics::detail::pause(void)" (?pause@detail@atomics@boost@@YAXXZ)
+         16 byte align
+         Execute Read
+
+SECTION HEADER #12
+.debug$F name
+       0 physical address
+       0 virtual address
+      10 size of raw data
+     7BF file pointer to raw data (000007BF to 000007CE)
+     7CF file pointer to relocation table
+       0 file pointer to line numbers
+       1 number of relocations
+       0 number of line numbers
+42101040 flags
+         Initialized Data
+         COMDAT (no symbol)
+         Discardable
+         1 byte align
+         Read Only
+
+SECTION HEADER #13
+.text$mn name
+       0 physical address
+       0 virtual address
+       8 size of raw data
+     7D9 file pointer to raw data (000007D9 to 000007E0)
+       0 file pointer to relocation table
+       0 file pointer to line numbers
+       0 number of relocations
+       0 number of line numbers
+60501020 flags
+         Code
+         COMDAT; sym= "void __cdecl boost::atomics::detail::signal_fence(enum boost::memory_order)" (?signal_fence@detail@atomics@boost@@YAXW4memory_order@3@@Z)
+         16 byte align
+         Execute Read
+
+SECTION HEADER #14
+.debug$F name
+       0 physical address
+       0 virtual address
+      10 size of raw data
+     7E1 file pointer to raw data (000007E1 to 000007F0)
+     7F1 file pointer to relocation table
+       0 file pointer to line numbers
+       1 number of relocations
+       0 number of line numbers
+42101040 flags
+         Initialized Data
+         COMDAT (no symbol)
+         Discardable
+         1 byte align
+         Read Only
+
+SECTION HEADER #15
+.text$mn name
+       0 physical address
+       0 virtual address
+       1 size of raw data
+     7FB file pointer to raw data (000007FB to 000007FB)
+       0 file pointer to relocation table
+       0 file pointer to line numbers
+       0 number of relocations
+       0 number of line numbers
+60501020 flags
+         Code
+         COMDAT; sym= "public: static void __cdecl boost::atomics::detail::lockpool::signal_fence(void)" (?signal_fence@lockpool@detail@atomics@boost@@SAXXZ)
+         16 byte align
+         Execute Read
+
+SECTION HEADER #16
+.debug$F name
+       0 physical address
+       0 virtual address
+      10 size of raw data
+     7FC file pointer to raw data (000007FC to 0000080B)
+     80C file pointer to relocation table
+       0 file pointer to line numbers
+       1 number of relocations
+       0 number of line numbers
+42101040 flags
+         Initialized Data
+         COMDAT (no symbol)
+         Discardable
+         1 byte align
+         Read Only
+
+SECTION HEADER #17
+.text$mn name
+       0 physical address
+       0 virtual address
+      1D size of raw data
+     816 file pointer to raw data (00000816 to 00000832)
+       0 file pointer to relocation table
+       0 file pointer to line numbers
+       0 number of relocations
+       0 number of line numbers
+60501020 flags
+         Code
+         COMDAT; sym= "public: static void __cdecl boost::atomics::detail::msvc_x86_operations<unsigned char,struct boost::atomics::detail::operations<1,0> >::store(unsigned char volatile &,unsigned char,enum boost::memory_order)" (?store@?$msvc_x86_operations@EU?$operations@$00$0A@@detail@atomics@boost@@@detail@atomics@boost@@SAXACEEW4memory_order@4@@Z)
+         16 byte align
+         Execute Read
+
+SECTION HEADER #18
+.debug$F name
+       0 physical address
+       0 virtual address
+      10 size of raw data
+     833 file pointer to raw data (00000833 to 00000842)
+     843 file pointer to relocation table
+       0 file pointer to line numbers
+       1 number of relocations
+       0 number of line numbers
+42101040 flags
+         Initialized Data
+         COMDAT (no symbol)
+         Discardable
+         1 byte align
+         Read Only
+
+SECTION HEADER #19
+.text$mn name
+       0 physical address
+       0 virtual address
+      10 size of raw data
+     84D file pointer to raw data (0000084D to 0000085C)
+       0 file pointer to relocation table
+       0 file pointer to line numbers
+       0 number of relocations
+       0 number of line numbers
+60501020 flags
+         Code
+         COMDAT; sym= "public: static bool __cdecl boost::atomics::detail::msvc_x86_operations<unsigned char,struct boost::atomics::detail::operations<1,0> >::test_and_set(unsigned char volatile &,enum boost::memory_order)" (?test_and_set@?$msvc_x86_operations@EU?$operations@$00$0A@@detail@atomics@boost@@@detail@atomics@boost@@SA_NACEW4memory_order@4@@Z)
+         16 byte align
+         Execute Read
+
+SECTION HEADER #1A
+.debug$F name
+       0 physical address
+       0 virtual address
+      10 size of raw data
+     85D file pointer to raw data (0000085D to 0000086C)
+     86D file pointer to relocation table
+       0 file pointer to line numbers
+       1 number of relocations
+       0 number of line numbers
+42101040 flags
+         Initialized Data
+         COMDAT (no symbol)
+         Discardable
+         1 byte align
+         Read Only
+
+SECTION HEADER #1B
+.text$mn name
+       0 physical address
+       0 virtual address
+       B size of raw data
+     877 file pointer to raw data (00000877 to 00000881)
+       0 file pointer to relocation table
+       0 file pointer to line numbers
+       0 number of relocations
+       0 number of line numbers
+60501020 flags
+         Code
+         COMDAT; sym= "void __cdecl boost::atomics::detail::thread_fence(enum boost::memory_order)" (?thread_fence@detail@atomics@boost@@YAXW4memory_order@3@@Z)
+         16 byte align
+         Execute Read
+
+SECTION HEADER #1C
+.debug$F name
+       0 physical address
+       0 virtual address
+      10 size of raw data
+     882 file pointer to raw data (00000882 to 00000891)
+     892 file pointer to relocation table
+       0 file pointer to line numbers
+       1 number of relocations
+       0 number of line numbers
+42101040 flags
+         Initialized Data
+         COMDAT (no symbol)
+         Discardable
+         1 byte align
+         Read Only
+
+SECTION HEADER #1D
+.text$mn name
+       0 physical address
+       0 virtual address
+       4 size of raw data
+     89C file pointer to raw data (0000089C to 0000089F)
+       0 file pointer to relocation table
+       0 file pointer to line numbers
+       0 number of relocations
+       0 number of line numbers
+60501020 flags
+         Code
+         COMDAT; sym= "public: static void __cdecl boost::atomics::detail::lockpool::thread_fence(void)" (?thread_fence@lockpool@detail@atomics@boost@@SAXXZ)
+         16 byte align
+         Execute Read
+
+SECTION HEADER #1E
+.debug$F name
+       0 physical address
+       0 virtual address
+      10 size of raw data
+     8A0 file pointer to raw data (000008A0 to 000008AF)
+     8B0 file pointer to relocation table
+       0 file pointer to line numbers
+       1 number of relocations
+       0 number of line numbers
+42101040 flags
+         Initialized Data
+         COMDAT (no symbol)
+         Discardable
+         1 byte align
+         Read Only
+
+SECTION HEADER #1F
+    .bss name
+       0 physical address
+       0 virtual address
+     A40 size of raw data
+       0 file pointer to raw data
+       0 file pointer to relocation table
+       0 file pointer to line numbers
+       0 number of relocations
+       0 number of line numbers
+C0700080 flags
+         Uninitialized Data
+         64 byte align
+         Read Write
+
+  Summary
+
+         A40 .bss
+          E0 .debug$F
+          DC .debug$S
+          C2 .drectve
+          BA .text$mn
