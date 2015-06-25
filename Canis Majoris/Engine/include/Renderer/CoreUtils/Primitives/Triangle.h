@@ -10,37 +10,34 @@
 
 #include<Renderer/CoreUtils/Primitives/Edge.h>
 
-namespace Core
-{
-	namespace Renderer
-	{
-		namespace CoreUtils
-		{
-			class Triangle
-			{
-			public:
-				Triangle();
+namespace Core     {
+namespace Renderer {
+namespace CoreUtils{
+ class Triangle
+ {
+ public:
+ Triangle();
+ 
+ Triangle(Vertex& vertA, Vertex& vertB, Vertex& vertC);
+ explicit Triangle(Vertex* triangleVerts[3]);
+ 
+ Triangle(Edge& edgeA, Edge& edgeB, Edge& edgeC);
+ explicit Triangle(Edge* triangleEdges[3]);
+ 
+ void Draw();
+ 
+ std::vector<const Vertex*> GetVertices();
+ void Translate(Vector3 offset);
+ 
+ ~Triangle();
+ 
+ private:
+ Edge* m_edgeA;
+ Edge* m_edgeB;
+ Edge* m_edgeC;
+ };
+} // CoreUtils
+} // Renderer 
+} // Core
 
-				Triangle(Vertex& vertA, Vertex& vertB, Vertex& vertC);
-				Triangle(Vertex* triangleVerts[3]);
-
-				Triangle(Edge& edgeA, Edge& edgeB, Edge& edgeC);
-				Triangle(Edge* triangleEdges[3]);
-
-				void Draw();
-
-				std::vector<const Vertex*> GetVertices();
-				void Translate(Vector3 offset);
-
-				~Triangle();
-
-			private:
-				Edge* m_edgeA;
-				Edge* m_edgeB;
-				Edge* m_edgeC;
-			};
-		}
-	}
-}
-
-#endif
+#endif // TRIANGLE_H

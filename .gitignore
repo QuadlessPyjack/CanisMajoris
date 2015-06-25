@@ -1,0 +1,6 @@
+log_*.txt
+*.suo
+*.opensdf
+*.sdf
+Debug/
+bin/

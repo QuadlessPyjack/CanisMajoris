@@ -35,4 +35,4 @@ const Uint32 PHYS_TICK = 100;
 //Used by Engine
 const Uint32 ENGINE_TICK = 50;
 
-#endif
+#endif // CONSTANTS_H

@@ -32,6 +32,4 @@ static const char LOG_WARNING[] = "[/!\] ";
 static const char LOG_ERROR[] = "[ERROR] ";
 
 
-
-
 #endif

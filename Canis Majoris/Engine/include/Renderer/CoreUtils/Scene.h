@@ -11,35 +11,32 @@
 
 struct SDL_Surface;
 
-namespace Core
-{
-	namespace Renderer
-	{
-		namespace CoreUtils
-		{
-			class Camera;
+namespace Core      {
+namespace Renderer  {
+namespace CoreUtils {
+ class Camera;
 
-			class CM_ENGINE_API Scene
-			{
-			public:
-				~Scene();
+ class CM_ENGINE_API Scene
+ {
+ public:
+ ~Scene();
 
-				static void InitScene(Camera *camera);
-				static Scene &GetInstance();
+ static void InitScene(Camera *camera);
+ static Scene &GetInstance();
 
-				static Camera *GetCamera();
-				static SDL_Surface *GetViewport();
+ static Camera *GetCamera();
+ static SDL_Surface *GetViewport();
 
-			private:
-				Scene();
+ private:
+ Scene();
 
-				static Scene *m_Scene;
-				SDL_Surface *m_SceneViewport;
-				Camera *m_MainCamera;
+ static Scene *m_Scene;
+ SDL_Surface *m_SceneViewport;
+ Camera *m_MainCamera;
+ };
 
-			};
-		}
-	}
-}
+} // CoreUtils
+} // Renderer
+} // Core
 
 #endif // SCENE_H

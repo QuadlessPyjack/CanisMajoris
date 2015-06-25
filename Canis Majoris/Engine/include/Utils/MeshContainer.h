@@ -20,26 +20,26 @@
 class CM_ENGINE_API MeshContainer
 {
 public:
-	MeshContainer();
-
-	bool Exists(Core::Renderer::CoreUtils::Mesh* pMesh);
-	bool Exists(std::string ID);
-
-	Core::Renderer::CoreUtils::Mesh* GetMesh(std::string meshID);
-
-	Core::Renderer::CoreUtils::Mesh* MeshContainer::GetMesh(int meshIndex);
-
-	//wrapper methods follow
-	void AddMesh(Core::Renderer::CoreUtils::Mesh* mesh);
-	void RemoveMesh(Core::Renderer::CoreUtils::Mesh* mesh);
-	int length();
-
-	void clear();
-
-	~MeshContainer();
-
+ MeshContainer();
+ 
+ bool Exists(Core::Renderer::CoreUtils::Mesh* pMesh);
+ bool Exists(std::string ID);
+ 
+ Core::Renderer::CoreUtils::Mesh* GetMesh(std::string meshID);
+ 
+ Core::Renderer::CoreUtils::Mesh* MeshContainer::GetMesh(int meshIndex);
+ 
+ //wrapper methods follow
+ void AddMesh(Core::Renderer::CoreUtils::Mesh* mesh);
+ void RemoveMesh(Core::Renderer::CoreUtils::Mesh* mesh);
+ int length();
+ 
+ void clear();
+ 
+ ~MeshContainer();
+ 
 private:
-	std::vector<Core::Renderer::CoreUtils::Mesh*> m_meshContainer;
+ std::vector<Core::Renderer::CoreUtils::Mesh*> m_meshContainer;
 };
 
-#endif
+#endif //MESHCONTAINER_H

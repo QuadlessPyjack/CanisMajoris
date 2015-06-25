@@ -10,12 +10,7 @@
 #include<EngineDllExport.h>
 
 #include<fstream>
-#include<string>
 #include<vector>
-#include<sstream>
-
-//For debug purposes only. Remove when done
-#include<iostream>
 
 #include<Utils/MeshContainer.h>
 

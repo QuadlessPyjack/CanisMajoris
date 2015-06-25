@@ -23,7 +23,7 @@ namespace Core{
 			{
 			public:
 				Mesh();
-				Mesh(const std::string& ID);
+				explicit Mesh(const std::string& ID);
 				Mesh(const std::string& ID,
 					 SDL_Surface* surface,
 					 std::vector<Vertex*> vertArray,

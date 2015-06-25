@@ -9,34 +9,31 @@
 //////////////////////////////////////////
 #include<Renderer/CoreUtils/Primitives/Vertex.h>
 
-namespace Core
+namespace Core      {
+namespace Renderer  {
+namespace CoreUtils {
+
+class Edge
 {
-	namespace Renderer
-	{
-		namespace CoreUtils
-		{
+public:
+ Edge();
+ Edge(Vertex& startVert, Vertex& endVert);
+ explicit Edge(Vertex* edgeVerts[]);
 
-			class Edge
-			{
-			public:
-				Edge();
-				Edge(Vertex& startVert, Vertex& endVert);
-				Edge(Vertex* edgeVerts[]);
+ void Draw();
+ void Translate(Vector3 offset);
 
-				void Draw();
-				void Translate(Vector3 offset);
+ const Vertex* GetEdgeVertex(int index);
 
-				const Vertex* GetEdgeVertex(int index);
+ ~Edge();
+private:
+ Vertex* m_startVert;
+ Vertex* m_endVert;
+ SDL_Surface* m_SDLSurface;
+};
 
-				~Edge();
-			private:
-				Vertex* m_startVert;
-				Vertex* m_endVert;
-				SDL_Surface* m_SDLSurface;
-			};
+} // CoreUtils
+} // Renderer
+} // Core
 
-		}
-	}
-}
-
-#endif
+#endif // EDGE_H
