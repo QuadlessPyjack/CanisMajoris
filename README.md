@@ -24,6 +24,8 @@ The end result should be a retro style 3D wireframe game - possibly a TIE-fighte
  
  ### Setup
  
- *CanisMajoris/SetMeUpScotty.bat* should configure your environment and run the Visual Studio 2014 solution.
- *CanisMajoris* contains all the source code for CanisMajoris as well as Procyon.
- *Auxiliaries* contains all sorts of 3rd party libraries such as boost, SDL, SDLdraw etc.
+  **CanisMajoris/SetMeUpScotty.bat** should configure your environment and run the Visual Studio 2014 solution.
+
+  **CanisMajoris** contains all the source code for CanisMajoris as well as Procyon.
+  
+  **Auxiliaries** contains all sorts of 3rd party libraries such as boost, SDL, SDLdraw etc.
