@@ -10,6 +10,7 @@
 //! \todo To be determined
 //////////////////////////////////////////
 #include <guiddef.h>
+#include <vector>
 
 namespace Core     {
 namespace EventSys {
