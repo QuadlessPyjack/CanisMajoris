@@ -19,6 +19,16 @@ namespace EventSys {
 //forward declarations
 class EventClient;
 
+namespace
+{
+	enum type
+	{
+		EVENT,
+		SYS_EVENT,
+		CLIENT
+	};
+}
+
 class CM_ENGINE_API EventManager
 {
 public:
@@ -49,6 +59,11 @@ private:
 	std::vector<EventClient*> m_registeredClients;
 	std::vector<Event*> m_eventQueue;
 
+	// cache for events that persist during the entire lifespan of the engine
+	std::vector<Event*> m_persistentEventCache;
+	// volatile storage for non-persistent events
+	std::vector<Event*> m_registeredEvents;
+
 	bool allocateClientID(int &outID);
 	bool deallocateClientID(const int &clientID);
 
@@ -58,6 +73,7 @@ private:
 	bool addClient(EventClient* client, const int index);
 	bool removeClient(EventClient* client, const int index);
 
+	bool validateID(const int &id, type objectType);
 	void RegisterSystemEvents();
 	void Update();
 

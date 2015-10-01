@@ -8,6 +8,7 @@
 //!       because of a git freak accident
 //////////////////////////////////////////////////////
 #include<Events/EventManager.h>
+#include<Events/EventClient.h>
 //#include<memory> header for std::shared_ptr
 namespace Core    {
 namespace EventSys{
@@ -58,6 +59,8 @@ namespace EventSys{
 
 	bool EventManager::deallocateClientID(const int& clientID)
 	{
+		if (!validateID(clientID, CLIENT)) { return false; }
+
 		m_clientIDPool[clientID] = FREE_ID;
 		return true;
 	}
@@ -79,12 +82,16 @@ namespace EventSys{
 
 	bool EventManager::deallocateEventInstanceID(const int& eventID)
 	{
+		if (!validateID(eventID, EVENT)) { return false; }
+
 		m_eventIDPool[eventID] = FREE_ID;
 		return true;
 	}
 
 	bool EventManager::addClient(EventClient* client, const int index)
 	{
+		if (!validateID(index, CLIENT)) { return false; }
+
 		m_registeredClients[index] = client;
 		return true;
 	}
@@ -93,18 +100,42 @@ namespace EventSys{
 	//!        perhaps a smartptr
 	bool EventManager::removeClient(EventClient* client, const int index)
 	{
+		if (!validateID(index, CLIENT)) { return false; }
+
 		m_registeredClients[index] = nullptr;
 		return true;
 	}
 
+	bool EventManager::validateID(const int& id, type objectType)
+	{
+		bool status = false;
+		// the following conditions are all evaluated on a fail-by-default basis
+		if (id == INVALID_ID) { return false; }
+		if (objectType == CLIENT)
+		{
+			id > m_registeredClients.size() ? status = false : status = true;
+			return status;
+		}
+
+		if (objectType == EVENT)
+		{
+			id > m_registeredEvents.size() ? status = false : status = true;
+			return status;
+		}
+
+		return status;
+	}
+
 	void EventManager::RegisterSystemEvents()
 	{
+		// engine update loop tick event setup
 		Event *engine_event = new Event();
 		engine_event->isPersistent = true;
 		engine_event->eid = EID_ENGINE_TICK_EVENT;
 		engine_event->priority = Event::CRITICAL;
 		engine_event->id = 0;
 
+		// physics engine update loop tick event setup
 		Event *phys_tick_event = new Event();
 		phys_tick_event->isPersistent = true;
 		phys_tick_event->eid = EID_PHYS_TICK_EVENT;
@@ -113,6 +144,9 @@ namespace EventSys{
 
 		m_eventQueue.push_back(engine_event);
 		m_eventQueue.push_back(phys_tick_event);
+
+		m_persistentEventCache.push_back(engine_event);
+		m_persistentEventCache.push_back(phys_tick_event);
 	}
 
 	bool EventManager::InitializeEventManager() const
@@ -139,8 +173,48 @@ namespace EventSys{
 		
 		if (!allocateEventInstanceID(event->id)) { return false; };
 
-		m_eventQueue.push_back(event);
+		// persistent events are stored separately from non-persistent ones
+		if (event->isPersistent)
+		{
+			// event is persistent, cache it for easy retrieval
+			m_persistentEventCache.push_back(event);
+		}
+
+		// store the event at its assigned id
+		m_registeredEvents[event->id] = event;
 		return true;
+	}
+
+	bool EventManager::RegisterClientToEvent(const SystemEventID sysId, const int clientId)
+	{
+		if (!validateID(clientId, CLIENT)) { return false; }
+
+		for (int index = 0; index < m_persistentEventCache.size(); ++index)
+		{
+			if (m_persistentEventCache[index]->eid == sysId)
+			{
+				m_persistentEventCache[index]->refCount++;
+				m_persistentEventCache[index]->registeredIdsClients.push_back(clientId);
+
+				return true;
+			}
+		}
+		return false;
+	}
+
+	bool EventManager::RegisterClientToEvent(const int eventId, const int clientId)
+	{
+		if (!validateID(clientId, CLIENT)) { return false; }
+
+		m_registeredEvents[eventId]->registeredIdsClients.push_back(eventId);
+		m_registeredEvents[eventId]->refCount++;
+
+		return true;
+	}
+
+	void EventManager::DecrementEventReference(const int eventId, const int clientId)
+	{
+
 	}
 }
 }
