@@ -5,7 +5,7 @@
 //!	\author  Bogdan Vitel
 //! \details Registers for and receives events
 //! \date    20/07/2015
-//! \todo To be determined
+//! \todo Rename RegisterEvent or add method to Fire a registered event
 //////////////////////////////////////////
 #include <vector>
 #include <Events/EngineEvents.h>

@@ -34,11 +34,14 @@ const int FREE_ID = 0;
 const int USED_ID = 1;
 const int INVALID_ID = -1;
 
+const int DEFAULT_CLIENTS_CAP = 100;
+const int DEFAULT_EVENTS_CAP = 100;
+
 //! event structure used in client - server - client communication
 struct Event
 {
  //! ID used for dynamically generated events
- short id = -1;
+ int id = -1;
  //! ID used for engine events
  SystemEventID eid = EID_NON_SYS_EVENT;
 
