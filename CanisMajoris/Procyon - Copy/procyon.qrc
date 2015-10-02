@@ -1,0 +1,12 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>Procyon_DBGScrollTextComponent.qml</file>
+        <file>tbMoveBtn.png</file>
+        <file>Procyon_Toolbox.qml</file>
+        <file>Procyon_ToolBoxBtn.qml</file>
+        <file>tbCameraBtn.png</file>
+        <file>tbRotateBtn.png</file>
+        <file>tbSelectBtn.png</file>
+    </qresource>
+</RCC>
