@@ -8,7 +8,7 @@ class CM_ENGINE_API EventClientTest : public Core::EventSys::EventClient
 public:
 	EventClientTest() : EventClient() {};
 	~EventClientTest() {};
-	void OnReceive(const Core::EventSys::Event const *event) override;
+	void OnReceive(Core::EventSys::Event const *event) override;
 };
 
 #endif

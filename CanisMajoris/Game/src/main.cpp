@@ -40,7 +40,7 @@ int main(int argc, char* argv[])
 	//TTF_RenderText_Solid
 
 	SDL_Surface* screen = SDL_SetVideoMode(800, 600, 32, SDL_HWSURFACE);
-	SDL_WM_SetCaption("CANIS MAJORIS 3D PERSPECTIVE", NULL);
+	SDL_WM_SetCaption("CANIS MAJORIS 3D PERSPECTIVE", nullptr);
 
 	using namespace std;
 	using namespace Core::Renderer::CoreUtils;
@@ -48,8 +48,16 @@ int main(int argc, char* argv[])
 	using namespace boost::interprocess;
 
 	EventClientTest *evTest = new EventClientTest();
-	Core::EventSys::EventManager::GetInstance().AddEvent(new Core::EventSys::Event());
+	EventClientTest *evReceiver = new EventClientTest();
+	Core::EventSys::Event *testEvent = new Core::EventSys::Event();
 
+	testEvent->eventType = 666;
+	int eventID = -10;
+	evTest->RegisterEvent(testEvent, eventID);
+	cout << "evTest ID: " << evTest->clientID() << '\n';
+	std::cout << "Event ID is: " << eventID << '\n';
+	evReceiver->ConnectToEvent(eventID);
+	cout << "receiver ID: " << evReceiver->clientID() << '\n';
 	/*windows_shared_memory shm(create_only, "DBG_LOG_MEM", read_write, 1000);
 
 	mapped_region region(shm, read_write);
@@ -148,7 +156,7 @@ int main(int argc, char* argv[])
 	SDL_Flip(screen);
 
 	SDL_Delay(5000);
-	SDL_FillRect(screen, NULL, 0x000000);
+	SDL_FillRect(screen, nullptr, 0x000000);
 	SDL_Flip(screen);
 
 	cout << "Mesh[" << MeshPool.GetMesh(0)->GetID().c_str() << "] World Coordinates: " << MeshPool.GetMesh(0)->Location() << " Camera-Relative: " << WorldToCameraCoords(MeshPool.GetMesh(0)->Location()) << endl;
@@ -183,11 +191,15 @@ int main(int argc, char* argv[])
 		if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_UP)
 			MainScene.GetCamera()->Move(Vector3(0, CAM_SPEED, 0));
 		if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_DOWN)
+		{
 			MainScene.GetCamera()->Move(Vector3(0, -CAM_SPEED, 0));
+			evTest->FireEvent(eventID);
+		}
 
 		//
 		MeshPool.GetMesh("DBG_CUBE")->Rotate(Vector3(0.0f, 0.5f, 0.0f));
 
+		Core::EventSys::EventManager::GetInstance().Update();
 
 		MeshPool.GetMesh("DBG_CUBE")->Draw();
 		MeshPool.GetMesh("DBG_GRID")->Draw();
@@ -203,7 +215,8 @@ int main(int argc, char* argv[])
 		//rVal = SDL_BlitSurface(dbg_screen, NULL, screen, NULL);
 		SDL_Flip(screen);
 		SDL_Delay(ENGINE_TICK);
-		SDL_FillRect(screen, NULL, 0x000000);
+		SDL_FillRect(screen, nullptr, 0x000000);
+		Core::EventSys::EventManager::GetInstance().FireEvent(Core::EventSys::EID_ENGINE_TICK_EVENT);
 	}
 
 // emptying geometry pools

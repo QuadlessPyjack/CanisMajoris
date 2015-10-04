@@ -219,7 +219,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\Editor\ProcyonServer\EditorServer.cpp" />
+    <ClCompile Include="src\Events\EventClient.cpp" />
     <ClCompile Include="src\Events\EventManager.cpp" />
+    <ClCompile Include="src\Events\TestEventClient.cpp" />
     <ClCompile Include="src\FileIO\OBJImpex\Reader\IO_OBJLoader.cpp" />
     <ClCompile Include="src\Physics\PhysicsManager.cpp" />
     <ClCompile Include="src\Physics\SimplePhysBody.cpp" />
@@ -239,7 +241,10 @@
     <ClInclude Include="include\Editor\ProcyonServer\EditorServer.h" />
     <ClInclude Include="include\Editor\ProcyonServer\ProcyonConstants.h" />
     <ClInclude Include="include\EngineDllExport.h" />
+    <ClInclude Include="include\Events\EngineEvents.h" />
+    <ClInclude Include="include\Events\EventClient.h" />
     <ClInclude Include="include\Events\EventManager.h" />
+    <ClInclude Include="include\Events\TestEventClient.h" />
     <ClInclude Include="include\FileIO\OBJImpex\Reader\IO_OBJLoader.h" />
     <ClInclude Include="include\Physics\PhysicsManager.h" />
     <ClInclude Include="include\Physics\SimplePhysBody.h" />

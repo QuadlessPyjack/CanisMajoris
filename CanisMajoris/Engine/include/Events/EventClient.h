@@ -18,7 +18,9 @@ class CM_ENGINE_API EventClient
 {
  public:
   EventClient();
-  virtual ~EventClient() {};
+  virtual ~EventClient();
+
+  int clientID();
 
   bool ConnectToEvent(int id);
   bool ConnectToEvent(const SystemEventID &sysId);
@@ -26,7 +28,9 @@ class CM_ENGINE_API EventClient
   void DisconnectFromEvent(const int &id, int index = 0);
   void DisconnectFromEvent(SystemEventID sysId);
 
-  bool RegisterEvent(Event *event);
+  void FireEvent(const int &eventID);
+
+  bool RegisterEvent(Event *event, int &outEventID);
   bool RegisterSystemEvent(const Event &sysEvent);
 
   virtual void OnReceive(Event const *event){};

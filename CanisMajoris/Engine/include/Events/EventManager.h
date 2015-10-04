@@ -37,13 +37,18 @@ public:
 	bool InitializeEventManager() const;
 	
 	bool RegisterClient(int &outClientId, EventClient *client);
-	bool AddEvent(Event *event);
+	bool AddEvent(Event *event, int &outEventID);
 
 	bool RegisterClientToEvent(const SystemEventID sysId, const int clientId);
 	bool RegisterClientToEvent(const int eventId, const int clientId);
 
 	void DecrementEventReference(const int eventId, const int clientId);
 	void DecrementEventReference(const SystemEventID eventId, const int clientId);
+
+	void FireEvent(const int &eventID);
+	void FireEvent(const SystemEventID &sysEventID);
+
+	void Update();
 
 	~EventManager();
 
@@ -80,7 +85,6 @@ private:
 	bool validateID(const int &id, type objectType);
 	void storeEventByPriorityOrder(Event* event);
 	void RegisterSystemEvents();
-	void Update();
 
 };
 

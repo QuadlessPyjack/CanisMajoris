@@ -31,7 +31,8 @@ namespace EventSys{
 	, m_lastMediumEventIndex(0)
 	, m_clientIDPool(m_allowedNumberOfClients)
 	, m_eventIDPool(m_allowedNumberOfEvents)
-	, m_registeredClients()
+	, m_registeredClients(m_allowedNumberOfClients)
+	, m_registeredEvents(m_allowedNumberOfEvents)
 	, m_eventQueue()
 	{
 		RegisterSystemEvents();
@@ -162,14 +163,16 @@ namespace EventSys{
 		engine_event->isPersistent = true;
 		engine_event->eid = EID_ENGINE_TICK_EVENT;
 		engine_event->priority = Event::CRITICAL;
-		engine_event->id = 0;
+		engine_event->id = -1;
+		engine_event->registeredIdsClients.push_back(INVALID_ID);
 
 		// physics engine update loop tick event setup
 		Event *phys_tick_event = new Event();
 		phys_tick_event->isPersistent = true;
 		phys_tick_event->eid = EID_PHYS_TICK_EVENT;
 		phys_tick_event->priority = Event::CRITICAL;
-		engine_event->id = 1;
+		engine_event->id = -2;
+		engine_event->registeredIdsClients.push_back(INVALID_ID);
 
 		storeEventByPriorityOrder(engine_event);
 		storeEventByPriorityOrder(phys_tick_event);
@@ -190,14 +193,14 @@ namespace EventSys{
 
 	void EventManager::Update()
 	{
-		for (int index = 0; index < m_allowedNumberOfEvents; ++index)
+		if (m_eventQueue.size() == 0) { return; }
+		std::vector<int> clientIDs = m_eventQueue.front()->registeredIdsClients;
+		for (int clientIndex = 0; clientIndex < clientIDs.size(); ++clientIndex)
 		{
-			std::vector<int> clientIDs = m_eventQueue[index]->registeredIdsClients;
-			for (int clientIndex = 0; clientIndex < clientIDs.size(); ++clientIndex)
-			{
-				m_registeredClients[clientIndex]->OnReceive(m_eventQueue[index]);
-			}
+			if (clientIDs[0] == INVALID_ID) { break; }
+			m_registeredClients[clientIndex]->OnReceive(m_eventQueue.front());
 		}
+		m_eventQueue.pop_front();
 	}
 
 
@@ -209,7 +212,7 @@ namespace EventSys{
 		return true;
 	}
 
-	bool EventManager::AddEvent(Event* event)
+	bool EventManager::AddEvent(Event* event, int &outEventID)
 	{
 		if (m_eventQueue.size() >= m_allowedNumberOfEvents) { return false; }
 		
@@ -224,6 +227,7 @@ namespace EventSys{
 
 		// store the event at its assigned id
 		m_registeredEvents[event->id] = event;
+		outEventID = event->id;
 		return true;
 	}
 
@@ -249,7 +253,7 @@ namespace EventSys{
 		if (!validateID(clientId, CLIENT)) { return false; }
 
 		m_registeredEvents[eventId]->refCount++;
-		m_registeredEvents[eventId]->registeredIdsClients.push_back(eventId);
+		m_registeredEvents[eventId]->registeredIdsClients.push_back(clientId);
 
 		return true;
 	}
@@ -279,6 +283,24 @@ namespace EventSys{
 			{
 				m_persistentEventCache[index]->refCount--;
 				m_persistentEventCache[index]->registeredIdsClients[clientId] = FREE_ID;
+			}
+		}
+	}
+
+	void EventManager::FireEvent(const int& eventID)
+	{
+		if (!validateID(eventID, EVENT)) return;
+		m_eventQueue.push_back(m_registeredEvents[eventID]);
+	}
+
+	void EventManager::FireEvent(const SystemEventID& sysEventID)
+	{
+		for (int index = 0; index < m_persistentEventCache.size(); ++index)
+		{
+			if (m_persistentEventCache[index]->eid == sysEventID)
+			{
+				m_eventQueue.push_front(m_persistentEventCache[index]);
+				return;
 			}
 		}
 	}
