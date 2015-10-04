@@ -18,9 +18,9 @@ namespace TestFramework
 	public:
 		UnitTestGroup(std::string Name);
 		std::string GetName() { return m_name; };
-		~UnitTestGroup();
+		virtual ~UnitTestGroup() {};
 		virtual void ExecuteAllTests() = 0;
-
+		
 	private:
 		std::string m_name;
 	};

@@ -68,7 +68,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>C:\Users\Bogdan\Documents\Visual Studio 2013\Projects\Canis Majoris\TestFramework\include;C:\Users\Bogdan\Documents\Visual Studio 2013\Projects\Canis Majoris\Canis Majoris\include;$(IncludePath)</IncludePath>
+    <IncludePath>C:\Bogdan\CanisMajoris\CanisMajoris\Engine\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
     <LinkIncremental>true</LinkIncremental>
@@ -93,7 +93,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\Users\Bogdan\Documents\Visual Studio 2013\Projects\Canis Majoris\Canis Majoris\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\Bogdan\CanisMajoris\CanisMajoris\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
@@ -152,16 +152,21 @@
   <ItemGroup>
     <ClCompile Include="src\MathTests\MathTest.cpp" />
     <ClCompile Include="src\UnitTestGroup.cpp" />
+    <ClCompile Include="Test.cpp" />
     <ClCompile Include="TestFramework.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\MathTests\MathTest.h" />
     <ClInclude Include="include\UnitTestGroup.h" />
+    <ClInclude Include="Test.h" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Canis Majoris\Canis Majoris.vcxproj">
+    <ProjectReference Include="..\Engine\Engine.vcxproj">
       <Project>{69bbddad-092c-40f7-9723-ea7f7b8e6f7a}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="TestUtils.inl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

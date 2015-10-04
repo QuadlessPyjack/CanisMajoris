@@ -3,7 +3,7 @@
 
 #include<iostream>
 
-#include<MathTests\MathTest.h>
+#include "include/MathTests/MathTest.h"
 
 int main(int argc, wchar_t* argv[])
 {

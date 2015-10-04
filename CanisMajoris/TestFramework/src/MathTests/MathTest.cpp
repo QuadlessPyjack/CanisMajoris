@@ -1,9 +1,9 @@
 
 #include<iostream>
-#include<MathTests\MathTest.h>
 
 #include<Utils\Math\Vector2.h>
 #include<Utils\Math\Vector3.h>
+#include "../../include/MathTests/MathTest.h"
 
 namespace TestFramework
 {
@@ -13,8 +13,6 @@ namespace TestFramework
 	MathTest::MathTest(std::string Name)
     :UnitTestGroup(Name)
 	{};
-
-	MathTest::~MathTest() {};
 
 	void MathTest::ExecuteAllTests()
 	{

@@ -1,7 +1,7 @@
 #ifndef MATH_TEST_H
 #define MATH_TEST_H
 
-#include<UnitTestGroup.h>
+#include "../UnitTestGroup.h"
 
 namespace TestFramework
 {
@@ -9,9 +9,9 @@ namespace TestFramework
 	{
 	public:
 		MathTest(std::string Name);
-		~MathTest();
+		~MathTest() {};
 
-		void ExecuteAllTests();
+		void ExecuteAllTests() override;
 	};
 }
 

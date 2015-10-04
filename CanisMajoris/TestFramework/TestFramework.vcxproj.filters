@@ -30,6 +30,9 @@
     <ClCompile Include="src\MathTests\MathTest.cpp">
       <Filter>MathTests</Filter>
     </ClCompile>
+    <ClCompile Include="Test.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\UnitTestGroup.h">
@@ -38,5 +41,13 @@
     <ClInclude Include="include\MathTests\MathTest.h">
       <Filter>MathTests</Filter>
     </ClInclude>
+    <ClInclude Include="Test.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="TestUtils.inl">
+      <Filter>Header Files</Filter>
+    </None>
   </ItemGroup>
 </Project>
