@@ -13,7 +13,7 @@
 namespace Core    {
 namespace EventSys{
 
-	EventManager *m_eventManager = nullptr;
+	EventManager *EventManager::m_eventManager = nullptr;
 
 	EventManager& EventManager::GetInstance()
 	{
@@ -27,6 +27,8 @@ namespace EventSys{
 	EventManager::EventManager()
 	: m_allowedNumberOfClients(DEFAULT_CLIENTS_CAP)
 	, m_allowedNumberOfEvents(DEFAULT_EVENTS_CAP)
+	, m_lastCriticalEventIndex(0)
+	, m_lastMediumEventIndex(0)
 	, m_clientIDPool(m_allowedNumberOfClients)
 	, m_eventIDPool(m_allowedNumberOfEvents)
 	, m_registeredClients()
@@ -126,6 +128,33 @@ namespace EventSys{
 		return status;
 	}
 
+	void EventManager::storeEventByPriorityOrder(Event* event)
+	{
+		int priority = event->priority;
+		switch(priority)
+		{
+			case Event::PriorityEnum::CRITICAL:
+			{
+				m_eventQueue.push_front(event);
+			}
+			case Event::PriorityEnum::MEDIUM:
+			{
+				for (int index = m_lastCriticalEventIndex; index < m_eventQueue.size(); ++index)
+				{
+					if (m_eventQueue[index]->id == FREE_ID)
+					{
+						m_eventQueue[index] = event;
+						break;
+					}
+				}
+			}
+			default:
+			{
+				m_eventQueue.push_back(event);
+			}
+		}
+	}
+
 	void EventManager::RegisterSystemEvents()
 	{
 		// engine update loop tick event setup
@@ -142,8 +171,8 @@ namespace EventSys{
 		phys_tick_event->priority = Event::CRITICAL;
 		engine_event->id = 1;
 
-		m_eventQueue.push_back(engine_event);
-		m_eventQueue.push_back(phys_tick_event);
+		storeEventByPriorityOrder(engine_event);
+		storeEventByPriorityOrder(phys_tick_event);
 
 		m_persistentEventCache.push_back(engine_event);
 		m_persistentEventCache.push_back(phys_tick_event);
@@ -158,6 +187,19 @@ namespace EventSys{
 		}
 		return false;
 	}
+
+	void EventManager::Update()
+	{
+		for (int index = 0; index < m_allowedNumberOfEvents; ++index)
+		{
+			std::vector<int> clientIDs = m_eventQueue[index]->registeredIdsClients;
+			for (int clientIndex = 0; clientIndex < clientIDs.size(); ++clientIndex)
+			{
+				m_registeredClients[clientIndex]->OnReceive(m_eventQueue[index]);
+			}
+		}
+	}
+
 
 	bool EventManager::RegisterClient(int &outClientId, EventClient* client)
 	{

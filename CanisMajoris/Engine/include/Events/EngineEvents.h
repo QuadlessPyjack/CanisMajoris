@@ -41,7 +41,7 @@ const int DEFAULT_EVENTS_CAP = 100;
 struct Event
 {
  //! ID used for dynamically generated events
- int id = -1;
+ int id = 0;
  //! ID used for engine events
  SystemEventID eid = EID_NON_SYS_EVENT;
 

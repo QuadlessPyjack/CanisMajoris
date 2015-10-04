@@ -18,7 +18,7 @@ class CM_ENGINE_API EventClient
 {
  public:
   EventClient();
-  virtual ~EventClient();
+  virtual ~EventClient() {};
 
   bool ConnectToEvent(int id);
   bool ConnectToEvent(const SystemEventID &sysId);

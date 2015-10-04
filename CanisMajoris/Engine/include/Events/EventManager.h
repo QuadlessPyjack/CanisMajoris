@@ -12,6 +12,7 @@
 
 #include<EngineDllExport.h>
 #include"EngineEvents.h"
+#include <deque>
 
 namespace Core     {
 namespace EventSys {
@@ -53,11 +54,14 @@ private:
 	int m_allowedNumberOfClients;
 	int m_allowedNumberOfEvents;
 
+	int m_lastCriticalEventIndex;
+	int m_lastMediumEventIndex; // used for culling oldest low priority events first
+
 	std::vector<int> m_clientIDPool;
 	std::vector<int> m_eventIDPool;
 
 	std::vector<EventClient*> m_registeredClients;
-	std::vector<Event*> m_eventQueue;
+	std::deque<Event*> m_eventQueue;
 
 	// cache for events that persist during the entire lifespan of the engine
 	std::vector<Event*> m_persistentEventCache;
@@ -74,6 +78,7 @@ private:
 	bool removeClient(EventClient* client, const int index);
 
 	bool validateID(const int &id, type objectType);
+	void storeEventByPriorityOrder(Event* event);
 	void RegisterSystemEvents();
 	void Update();
 

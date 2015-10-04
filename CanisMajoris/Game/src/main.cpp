@@ -18,6 +18,10 @@
 #include<Utils/Constants.h>
 #include<Utils/Math/Vector2.h>
 
+#include<Events/EventManager.h>
+#include<Events/EventClient.h>
+#include<Events/TestEventClient.h>
+
 #include<Editor/ProcyonServer/EditorServer.h>
 #include<Editor/ProcyonServer/ProcyonConstants.h>
 
@@ -42,6 +46,9 @@ int main(int argc, char* argv[])
 	using namespace Core::Renderer::CoreUtils;
 	using namespace Core::IO;
 	using namespace boost::interprocess;
+
+	EventClientTest *evTest = new EventClientTest();
+	Core::EventSys::EventManager::GetInstance().AddEvent(new Core::EventSys::Event());
 
 	/*windows_shared_memory shm(create_only, "DBG_LOG_MEM", read_write, 1000);
 

@@ -14,7 +14,7 @@ namespace EventSys {
 EventClient::EventClient()
 {
 	EventManager::GetInstance()->RegisterClient(m_clientId, this);
-};
+}
 
 bool EventClient::RegisterEvent(Event *event)
 {
