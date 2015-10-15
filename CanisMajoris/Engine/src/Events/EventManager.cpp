@@ -194,13 +194,16 @@ namespace EventSys{
 	void EventManager::Update()
 	{
 		if (m_eventQueue.size() == 0) { return; }
-		std::vector<int> clientIDs = m_eventQueue.front()->registeredIdsClients;
-		for (int clientIndex = 0; clientIndex < clientIDs.size(); ++clientIndex)
+		for (int queueIndex = 0; queueIndex < m_eventQueue.size(); ++queueIndex)
 		{
-			if (clientIDs[0] == INVALID_ID) { break; }
-			m_registeredClients[clientIndex]->OnReceive(m_eventQueue.front());
+			std::vector<int> clientIDs = m_eventQueue.front()->registeredIdsClients;
+			for (int clientIndex = 0; clientIndex < clientIDs.size(); ++clientIndex)
+			{
+				if (clientIDs[0] == INVALID_ID) { break; }
+				m_registeredClients[clientIndex]->OnReceive(m_eventQueue.front());
+			}
+			m_eventQueue.pop_front();
 		}
-		m_eventQueue.pop_front();
 	}
 
 

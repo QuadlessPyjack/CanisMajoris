@@ -161,7 +161,7 @@ int main(int argc, char* argv[])
 
 	cout << "Mesh[" << MeshPool.GetMesh(0)->GetID().c_str() << "] World Coordinates: " << MeshPool.GetMesh(0)->Location() << " Camera-Relative: " << WorldToCameraCoords(MeshPool.GetMesh(0)->Location()) << endl;
 
-	Uint8 *keystates = SDL_GetKeyState(NULL);
+	Uint8 *keystates = SDL_GetKeyState(nullptr);
 	bool shouldQuit = false;
 	SDL_Event event;
 
