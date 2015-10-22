@@ -23,6 +23,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Game", "Game\Game.vcxproj",
 		{69BBDDAD-092C-40F7-9723-EA7F7B8E6F7A} = {69BBDDAD-092C-40F7-9723-EA7F7B8E6F7A}
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BoneDump", "BoneDump\BoneDump.vcxproj", "{0A47F751-1F21-45A0-8F0B-C99998CFAB9C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|ARM = Debug|ARM
@@ -77,6 +79,14 @@ Global
 		{3C6508F8-1313-483C-9693-27C2B3B843A4}.Release|Win32.ActiveCfg = Release|Win32
 		{3C6508F8-1313-483C-9693-27C2B3B843A4}.Release|Win32.Build.0 = Release|Win32
 		{3C6508F8-1313-483C-9693-27C2B3B843A4}.Release|x64.ActiveCfg = Release|Win32
+		{0A47F751-1F21-45A0-8F0B-C99998CFAB9C}.Debug|ARM.ActiveCfg = Debug|Win32
+		{0A47F751-1F21-45A0-8F0B-C99998CFAB9C}.Debug|Win32.ActiveCfg = Debug|Win32
+		{0A47F751-1F21-45A0-8F0B-C99998CFAB9C}.Debug|Win32.Build.0 = Debug|Win32
+		{0A47F751-1F21-45A0-8F0B-C99998CFAB9C}.Debug|x64.ActiveCfg = Debug|Win32
+		{0A47F751-1F21-45A0-8F0B-C99998CFAB9C}.Release|ARM.ActiveCfg = Release|Win32
+		{0A47F751-1F21-45A0-8F0B-C99998CFAB9C}.Release|Win32.ActiveCfg = Release|Win32
+		{0A47F751-1F21-45A0-8F0B-C99998CFAB9C}.Release|Win32.Build.0 = Release|Win32
+		{0A47F751-1F21-45A0-8F0B-C99998CFAB9C}.Release|x64.ActiveCfg = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
