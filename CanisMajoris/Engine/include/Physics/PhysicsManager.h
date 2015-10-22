@@ -6,6 +6,7 @@
 //! \todo Force Vector (ie. Gravity), PoorMan'sCollision(tm)
 //////////////////////////////////////////
 #include <EngineDllExport.h>
+#include <Events\EventClient.h>
 #include <vector>
 
 #ifndef PHYSICS_MANAGER_H
@@ -19,7 +20,7 @@ namespace Physics {
 	
 	class SPBody;
 
-	class CM_ENGINE_API PhysicsManager
+	class CM_ENGINE_API PhysicsManager : public EventSys::EventClient
 	{
 	public:
 		~PhysicsManager();
@@ -36,6 +37,8 @@ namespace Physics {
 		void ApplyUniversalForce(Vector3 a);
 
 		void Update();
+
+		void OnReceive(EventSys::Event const *event) override;
 
 	private:
 		PhysicsManager();

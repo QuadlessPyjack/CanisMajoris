@@ -164,7 +164,7 @@ namespace EventSys{
 		engine_event->eid = EID_ENGINE_TICK_EVENT;
 		engine_event->priority = Event::CRITICAL;
 		engine_event->id = -1;
-		engine_event->registeredIdsClients.push_back(INVALID_ID);
+		engine_event->registeredIdsClients.push_back(FREE_ID);
 
 		// physics engine update loop tick event setup
 		Event *phys_tick_event = new Event();
@@ -172,7 +172,7 @@ namespace EventSys{
 		phys_tick_event->eid = EID_PHYS_TICK_EVENT;
 		phys_tick_event->priority = Event::CRITICAL;
 		engine_event->id = -2;
-		engine_event->registeredIdsClients.push_back(INVALID_ID);
+		engine_event->registeredIdsClients.push_back(FREE_ID);
 
 		storeEventByPriorityOrder(engine_event);
 		storeEventByPriorityOrder(phys_tick_event);
@@ -290,22 +290,44 @@ namespace EventSys{
 		}
 	}
 
-	void EventManager::FireEvent(const int& eventID)
+	void EventManager::FireEvent(const int& eventID, const char dataParam[50])
 	{
 		if (!validateID(eventID, EVENT)) return;
+		if (dataParam)
+		{
+			strcpy_s(m_registeredEvents[eventID]->data, dataParam);
+		}
 		m_eventQueue.push_back(m_registeredEvents[eventID]);
 	}
 
-	void EventManager::FireEvent(const SystemEventID& sysEventID)
+	void EventManager::FireEvent(const int& eventID)
+	{
+		char null_c[50];
+		strcpy_s(null_c, "");
+		FireEvent(eventID, null_c);
+	}
+
+	void EventManager::FireEvent(const SystemEventID& sysEventID, const char dataParam[50])
 	{
 		for (int index = 0; index < m_persistentEventCache.size(); ++index)
 		{
 			if (m_persistentEventCache[index]->eid == sysEventID)
 			{
+				if (dataParam)
+				{
+					strcpy_s(m_registeredEvents[index]->data, dataParam);
+				}
 				m_eventQueue.push_front(m_persistentEventCache[index]);
 				return;
 			}
 		}
+	}
+
+	void EventManager::FireEvent(const SystemEventID& sysEventID)
+	{
+		char null_c[50];
+		strcpy_s(null_c, 50, "");
+		FireEvent(sysEventID, null_c);
 	}
 }
 }

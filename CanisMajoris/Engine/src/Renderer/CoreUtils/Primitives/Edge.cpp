@@ -53,10 +53,10 @@ void Edge::Draw()
 //				std::cout << "-----------------------------" << std::endl;
 //				std::cout << "[EDGE_DBG] STARTVERT: " << m_startVert->x << "," << m_startVert->y;
 //				std::cout << " ENDVERT: " << m_endVert->x << "," << m_endVert->y << std::endl;
- float x_screen1 = (CamRelStartV3.x / CamRelStartV3.z) * SCREEN_WIDTH + SCREEN_WIDTH / 2;// *SCREEN_WIDTH + SCREEN_WIDTH / 2;
+ float x_screen1 = (CamRelStartV3.x / CamRelStartV3.z) * SCREEN_WIDTH  + SCREEN_WIDTH  / 2;// *SCREEN_WIDTH + SCREEN_WIDTH / 2;
  float y_screen1 = (CamRelStartV3.y / CamRelStartV3.z) * SCREEN_HEIGHT + SCREEN_HEIGHT / 2;// *SCREEN_HEIGHT + SCREEN_HEIGHT / 2;
  
- float x_screen2 = (CamRelEndV3.x / CamRelEndV3.z) * SCREEN_WIDTH + SCREEN_WIDTH / 2;// *SCREEN_WIDTH + SCREEN_WIDTH / 2;
+ float x_screen2 = (CamRelEndV3.x / CamRelEndV3.z) * SCREEN_WIDTH  + SCREEN_WIDTH  / 2;// *SCREEN_WIDTH + SCREEN_WIDTH / 2;
  float y_screen2 = (CamRelEndV3.y / CamRelEndV3.z) * SCREEN_HEIGHT + SCREEN_HEIGHT / 2;// *SCREEN_HEIGHT + SCREEN_HEIGHT / 2;
  
  Vector2 screen_start(x_screen1, y_screen1);

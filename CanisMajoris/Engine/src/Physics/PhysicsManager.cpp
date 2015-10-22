@@ -5,8 +5,8 @@
 //! \date    25/05/2015
 //! \todo Force Vector (ie. Gravity), PoorMan'sCollision(tm)
 //////////////////////////////////////////
-#include <SDL_timer.h>
-#include <Utils/Constants.h>
+#include <time.h>
+
 #include <Utils/Math/Vector3.h>
 
 #include <Physics/PhysicsManager.h>
@@ -75,12 +75,20 @@ namespace Physics {
 			}
 		}
 
+		void PhysicsManager::OnReceive(EventSys::Event const *event)
+		{
+			double out = -666;
+			long range = sizeof(double);
+			memcpy(&out, &event->data, 10);
+			if (out > range || out < -range) out = 0;
+			std::cout << "[INFO] Physics engine received delta frame time: " << out / CLOCKS_PER_SEC << "\n";
+		}
+
 		void PhysicsManager::Update()
 		{
 			//TODO: Implement Timer System - Use SDL_Delay in main loop
 			//      to count the ticks for PHYS_TICK
 			//      otherwise two delays are being added - not what we want!
-			SDL_Delay(PHYS_TICK);
 		}
 
 } // Physics

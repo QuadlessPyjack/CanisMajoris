@@ -29,6 +29,7 @@ class CM_ENGINE_API EventClient
   void DisconnectFromEvent(SystemEventID sysId);
 
   void FireEvent(const int &eventID);
+  void FireEvent(const int &eventID, const char dataParam[10]);
 
   bool RegisterEvent(Event *event, int &outEventID);
   bool RegisterSystemEvent(const Event &sysEvent);

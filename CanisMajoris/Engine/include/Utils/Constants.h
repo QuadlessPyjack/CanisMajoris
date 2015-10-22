@@ -27,7 +27,7 @@ const int   TEMP_OFFSETY = 0;
 const float AMPLIFICATION_FACTOR = 1.2f;
 
 //Used by Camera
-const float CAM_SPEED = 10.5f;
+const float CAM_SPEED = 0.001f;
 
 //Used by PhysicsManager
 const Uint32 PHYS_TICK = 100;

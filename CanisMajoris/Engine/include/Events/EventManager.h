@@ -42,11 +42,14 @@ public:
 	bool RegisterClientToEvent(const SystemEventID sysId, const int clientId);
 	bool RegisterClientToEvent(const int eventId, const int clientId);
 
-	void DecrementEventReference(const int eventId, const int clientId);
 	void DecrementEventReference(const SystemEventID eventId, const int clientId);
+	void DecrementEventReference(const int eventId, const int clientId);
 
-	void FireEvent(const int &eventID);
+	void FireEvent(const SystemEventID &sysEventID, const char dataParam[10]);
+	void FireEvent(const int &eventID, const char dataParam[10]);
+
 	void FireEvent(const SystemEventID &sysEventID);
+	void FireEvent(const int &eventID);
 
 	void Update();
 
