@@ -61,7 +61,7 @@ struct Event
  std::vector<int> registeredIdsClients;
 
  //! Data associated with event
- char data[10];
+ char data[50];
 
  //! Sets event priority
  enum PriorityEnum

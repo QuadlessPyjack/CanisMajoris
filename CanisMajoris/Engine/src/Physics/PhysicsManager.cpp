@@ -17,6 +17,12 @@ namespace Physics {
 
 	    PhysicsManager *PhysicsManager::m_Physics = nullptr;
 
+		PhysicsManager::PhysicsManager()
+		: m_gravityScale(1.0f)
+		, m_physObjectsContainer()
+		{
+		}
+
 		void PhysicsManager::InitPhysics()
 		{
 			if (PhysicsManager::m_Physics)
@@ -40,11 +46,6 @@ namespace Physics {
 		{
 			delete m_Physics;
 			m_Physics = nullptr;
-		}
-
-		PhysicsManager::PhysicsManager()
-		{
-
 		}
 
 		void PhysicsManager::AddPhysObject(SPBody* physObject)
@@ -71,17 +72,20 @@ namespace Physics {
 		{
 			for (int index = 0; index < m_physObjectsContainer.capacity(); ++index)
 			{
-				m_physObjectsContainer[index]->AddForce(a);
+				if (m_physObjectsContainer[index]->GetAwakeState())
+				{
+					m_physObjectsContainer[index]->AddForce(a);
+				}
 			}
 		}
 
 		void PhysicsManager::OnReceive(EventSys::Event const *event)
 		{
 			double out = -666;
-			long range = sizeof(double);
-			memcpy(&out, &event->data, 10);
-			if (out > range || out < -range) out = 0;
-			std::cout << "[INFO] Physics engine received delta frame time: " << out / CLOCKS_PER_SEC << "\n";
+			int range = sizeof(double);
+			memcpy(&out, event->data, range);
+
+			ApplyUniversalForce(Vector3(0.0f, 0.0f, -0.0001f * out));
 		}
 
 		void PhysicsManager::Update()

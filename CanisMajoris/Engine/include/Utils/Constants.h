@@ -24,7 +24,7 @@ static const float RASTERIZER_GRANULARITY = 1.0f;
 //Used by IO_OBJLoader.cpp
 const int   TEMP_OFFSETX = 0;
 const int   TEMP_OFFSETY = 0;
-const float AMPLIFICATION_FACTOR = 1.2f;
+const float AMPLIFICATION_FACTOR = 1.0f;
 
 //Used by Camera
 const float CAM_SPEED = 0.001f;

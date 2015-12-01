@@ -32,8 +32,8 @@ namespace EventSys{
 	, m_clientIDPool(m_allowedNumberOfClients)
 	, m_eventIDPool(m_allowedNumberOfEvents)
 	, m_registeredClients(m_allowedNumberOfClients)
-	, m_registeredEvents(m_allowedNumberOfEvents)
 	, m_eventQueue()
+	, m_registeredEvents(m_allowedNumberOfEvents)
 	{
 		RegisterSystemEvents();
 	}
@@ -315,7 +315,7 @@ namespace EventSys{
 			{
 				if (dataParam)
 				{
-					strcpy_s(m_registeredEvents[index]->data, dataParam);
+					memcpy(m_persistentEventCache[index]->data, dataParam, sizeof(m_persistentEventCache[index]->data));
 				}
 				m_eventQueue.push_front(m_persistentEventCache[index]);
 				return;

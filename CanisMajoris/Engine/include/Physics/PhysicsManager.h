@@ -9,6 +9,8 @@
 #include <Events\EventClient.h>
 #include <vector>
 
+#include <Physics/SimplePhysBody.h>
+
 #ifndef PHYSICS_MANAGER_H
 #define PHYSICS_MANAGER_H
 
@@ -18,7 +20,7 @@ class Vector3;
 namespace Core    {
 namespace Physics {
 	
-	class SPBody;
+	//class SPBody;
 
 	class CM_ENGINE_API PhysicsManager : public EventSys::EventClient
 	{

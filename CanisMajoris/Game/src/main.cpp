@@ -23,6 +23,7 @@
 #include<Events/EventClient.h>
 #include<Events/TestEventClient.h>
 
+#include <Physics/SimplePhysBody.h>
 #include<Physics/PhysicsManager.h>
 
 #include<Editor/ProcyonServer/EditorServer.h>
@@ -164,20 +165,33 @@ int main(int argc, char* argv[])
 	SDL_Event event;
 
 	cout << "Initializing Physics Manager\n";
-	Core::Physics::PhysicsManager physManager = Core::Physics::PhysicsManager::GetInstance();
-	physManager.ConnectToEvent(Core::EventSys::EID_ENGINE_TICK_EVENT);
+
+	Core::Physics::SPBody *physCube = new Core::Physics::SPBody();
+	physCube->SetMesh(*MeshPool.GetMesh("DBG_CUBE"));
+	physCube->SetMass(1.0f);
+	physCube->SetAwakeState(false);
+
+	Core::Physics::PhysicsManager::GetInstance().ConnectToEvent(Core::EventSys::EID_ENGINE_TICK_EVENT);
+	Core::Physics::PhysicsManager::GetInstance().AddPhysObject(physCube);
+
 	double frame_delta = clock();
 
 	while (!shouldQuit)
 	{
 		frame_delta = (double)clock() - frame_delta;
 		
-		std::cout << "[INFO] Previous frame took " << frame_delta / CLOCKS_PER_SEC << " ticks to render\n";
+		//std::cout << "[INFO] Previous frame took " << frame_delta / CLOCKS_PER_SEC << " ticks to render\n";
 
 		SDL_PollEvent(&event);
 		if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_ESCAPE)
 			shouldQuit = true;
 		
+		if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_HOME)
+		{
+			bool state = Core::Physics::PhysicsManager::GetInstance().GetPhysObject(0)->GetAwakeState();
+			Core::Physics::PhysicsManager::GetInstance().GetPhysObject(0)->SetAwakeState(!state);
+		}
+
 		if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_w)
 		{
 			MainScene.GetCamera()->Move(Vector3(0, 0, CAM_SPEED) * frame_delta);
@@ -214,8 +228,8 @@ int main(int argc, char* argv[])
 		//SDL_Delay(ENGINE_TICK);
 		SDL_FillRect(screen, nullptr, 0x000000);
 
-		char eventData[10];
-		memcpy(&eventData, &frame_delta, 10);
+		char eventData[50] = "";
+		memcpy(eventData, &frame_delta, sizeof(double));
 
 		Core::EventSys::EventManager::GetInstance().FireEvent(Core::EventSys::EID_ENGINE_TICK_EVENT, eventData);
 	}
