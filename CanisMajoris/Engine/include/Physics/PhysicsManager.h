@@ -5,14 +5,14 @@
 //! \date    25/05/2015
 //! \todo Force Vector (ie. Gravity), PoorMan'sCollision(tm)
 //////////////////////////////////////////
+#ifndef PHYSICS_MANAGER_H
+#define PHYSICS_MANAGER_H
+
 #include <EngineDllExport.h>
 #include <Events\EventClient.h>
 #include <vector>
 
 #include <Physics/SimplePhysBody.h>
-
-#ifndef PHYSICS_MANAGER_H
-#define PHYSICS_MANAGER_H
 
 //forward declarations
 class Vector3;
