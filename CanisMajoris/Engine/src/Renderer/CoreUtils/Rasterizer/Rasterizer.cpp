@@ -11,9 +11,13 @@
 #include<Renderer/CoreUtils/Primitives/Triangle.h>
 #include<Renderer/CoreUtils/Rasterizer/Rasterizer.h>
 
+#include<Renderer/CoreUtils/Scene.h>
+#include<Renderer/CoreUtils/Camera.h>
+
 #include<Utils/MeshContainer.h>
 #include<Utils/Constants.h>
 #include<Utils/Validators.inl>
+#include<Utils/Math/ConverterUtils.inl>
 
 const int RASTERIZE_TRIANGLE_UP = 1;
 const int RASTERIZE_TRIANGLE_DOWN = -1;
@@ -69,46 +73,52 @@ namespace Core
 
 			void Rasterizer::fillHalfFlatTriangle(const Vertex &v1, const Vertex &v2, const Vertex &v3, int orientation, SDL_Surface* screen)
 			{
+				Vertex param1 = v1, param2 = v2, param3 = v3;
+
+				Vector2 sv1 = VertexToScreenCoords(param1);
+				Vector2 sv2 = VertexToScreenCoords(param2);
+				Vector2 sv3 = VertexToScreenCoords(param3);
+
 				if (orientation != RASTERIZER_BREAK)
 				{
-					Vertex vA, vB, vC;
+					Vector2 vA, vB, vC;
 
 					float invslope1;
 					float invslope2;
 
-					if ((int)v1.y == (int)v2.y)
+					if ((int)sv1.y == (int)sv2.y)
 					{
-						vA = v3;
-						vB = v1;
-						vC = v2;
+						vA = sv3;
+						vB = sv1;
+						vC = sv2;
 					}
 					else
-						if ((int)v1.y == (int)v3.y)
+						if ((int)sv1.y == (int)sv3.y)
 						{
-							vA = v2;
-							vB = v1;
-							vC = v3;
+							vA = sv2;
+							vB = sv1;
+							vC = sv3;
 
 						}
 						else
 						{
-							if (v1.y > v2.y && v1.y > v3.y)
+							if (sv1.y > sv2.y && sv1.y > sv3.y)
 							{
-								vA = v1;
-								vB = v2;
-								vC = v3;
+								vA = sv1;
+								vB = sv2;
+								vC = sv3;
 							}
-							else if (v2.y > v1.y && v2.y > v3.y)
+							else if (sv2.y > sv1.y && sv2.y > sv3.y)
 							{
-								vA = v2;
-								vB = v1;
-								vC = v3;
+								vA = sv2;
+								vB = sv1;
+								vC = sv3;
 							}
-							else if (v3.y > v1.y && v3.y > v2.y)
+							else if (sv3.y > sv1.y && sv3.y > sv2.y)
 							{
-								vA = v3;
-								vB = v1;
-								vC = v2;
+								vA = sv3;
+								vB = sv1;
+								vC = sv2;
 							}
 						}
 
@@ -167,6 +177,7 @@ namespace Core
 								lineY = 400;
 								break;
 							}*/
+
 							if (ValidateScreenCoord(lineX1, 0) &&
 								ValidateScreenCoord(lineX2, 0) &&
 								ValidateScreenCoord(lineY, 1))
