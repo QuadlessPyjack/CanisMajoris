@@ -13,20 +13,23 @@ namespace Core   {
 namespace Physics{
 
 	SPBody::SPBody()
-	: m_mass(1.0f)
+	: m_mesh()
+	, m_mass(1.0f)
 	, m_gravScale(1.0f)
 	, m_awake(false)
 	{};
 
 	SPBody::~SPBody()
-	{};
-
-	void SPBody::SetMesh(const Renderer::CoreUtils::Mesh &mesh)
 	{
-		*m_mesh = mesh;
+		
 	};
 
-	Renderer::CoreUtils::Mesh* SPBody::GetMesh()
+	void SPBody::SetMesh(Renderer::CoreUtils::Mesh &mesh)
+	{
+		m_mesh = &mesh;
+	};
+
+	const Renderer::CoreUtils::Mesh* SPBody::GetMesh()
 	{
 		return m_mesh;
 	};
@@ -36,7 +39,7 @@ namespace Physics{
 		m_mass = mass;
 	};
 
-	float SPBody::GetMass()
+	const float SPBody::GetMass()
 	{
 		return m_mass;
 	};
@@ -46,7 +49,7 @@ namespace Physics{
 		m_gravScale = gravScale;
 	};
 
-	float SPBody::GetGravityScale()
+	const float SPBody::GetGravityScale()
 	{
 		return m_gravScale;
 	};
@@ -56,7 +59,7 @@ namespace Physics{
 		m_awake = isAwake;
 	};
 
-	bool SPBody::GetAwakeState()
+	const bool SPBody::GetAwakeState()
 	{
 		return m_awake;
 	};

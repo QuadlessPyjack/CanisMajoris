@@ -5,6 +5,7 @@
 
 //For debug purposes only!
 #include<chrono>
+#include<time.h>
 
 //#include<boost/interprocess/windows_shared_memory.hpp>
 //#include<boost/interprocess/mapped_region.hpp>
@@ -21,6 +22,9 @@
 #include<Events/EventManager.h>
 #include<Events/EventClient.h>
 #include<Events/TestEventClient.h>
+
+#include <Physics/SimplePhysBody.h>
+#include<Physics/PhysicsManager.h>
 
 #include<Editor/ProcyonServer/EditorServer.h>
 #include<Editor/ProcyonServer/ProcyonConstants.h>
@@ -134,19 +138,14 @@ int main(int argc, char* argv[])
 	Mesh* grid = MeshPool2.GetMesh("GRID");
 
 	MeshPool.AddMesh(grid);
+	clock_t t;
+	t = clock();
 
 	end = std::chrono::system_clock::now();
 	std::chrono::duration<double> elapsed_seconds = end - start;
 	cout << "Finished Loading OBJ Model File. Elapsed time is: " << elapsed_seconds.count() << endl;
 	
 	start = std::chrono::system_clock::now();
-	//Core::Renderer::CoreUtils::Mesh* testMesh = new Core::Renderer::CoreUtils::Mesh("TEST_MESH", screen, VertexPool, EdgePool, TrianglePool);
-	//testMesh->Draw();
-	//! Proudly DEPRECATED :D
-	/*for (int i = 0; i < MeshPool.length(); i++)
-	{
-		MeshPool.GetMesh(i)->SetSurface(screen);
-	}*/
 
 	end = std::chrono::system_clock::now();
 	elapsed_seconds = end - start;
@@ -165,39 +164,53 @@ int main(int argc, char* argv[])
 	bool shouldQuit = false;
 	SDL_Event event;
 
-	/*for (int i = 0; i < MeshPool.length(); ++i)
-	{
-		MeshPool.GetMesh(i)->Rotate(Vector3(0.0f, 0.0f, 0.0f), Vector3(400.0f, 0.0f, 0.0f));
-	}*/
+	cout << "Initializing Physics Manager\n";
+
+	Core::Physics::SPBody *physCube = new Core::Physics::SPBody();
+	physCube->SetMesh(*MeshPool.GetMesh("DBG_CUBE"));
+	physCube->SetMass(1.0f);
+	physCube->SetAwakeState(false);
+
+	Core::Physics::PhysicsManager::GetInstance().ConnectToEvent(Core::EventSys::EID_ENGINE_TICK_EVENT);
+	Core::Physics::PhysicsManager::GetInstance().AddPhysObject(physCube);
+
+	double frame_delta = clock();
 
 	while (!shouldQuit)
 	{
+		frame_delta = (double)clock() - frame_delta;
+		
+		//std::cout << "[INFO] Previous frame took " << frame_delta / CLOCKS_PER_SEC << " ticks to render\n";
+
 		SDL_PollEvent(&event);
 		if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_ESCAPE)
 			shouldQuit = true;
 		
+		if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_HOME)
+		{
+			bool state = Core::Physics::PhysicsManager::GetInstance().GetPhysObject(0)->GetAwakeState();
+			Core::Physics::PhysicsManager::GetInstance().GetPhysObject(0)->SetAwakeState(!state);
+		}
+
 		if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_w)
 		{
-			Vector3 aux = Vector3(0, 0, CAM_SPEED);
-			MainScene.GetCamera()->Move(aux);
-			//std::cout << "W KEY FIRED!\n";
+			MainScene.GetCamera()->Move(Vector3(0, 0, CAM_SPEED) * frame_delta);
 		}
 		if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_s)
-			MainScene.GetCamera()->Move(Vector3(0, 0, -CAM_SPEED));
+			MainScene.GetCamera()->Move(Vector3(0, 0, -CAM_SPEED) * frame_delta);
 		if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_a)
-			MainScene.GetCamera()->Move(Vector3(-CAM_SPEED, 0, 0));
+			MainScene.GetCamera()->Move(Vector3(-CAM_SPEED, 0, 0) * frame_delta);
 		if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_d)
-			MainScene.GetCamera()->Move(Vector3(CAM_SPEED, 0, 0));
+			MainScene.GetCamera()->Move(Vector3(CAM_SPEED, 0, 0) * frame_delta);
 		if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_UP)
-			MainScene.GetCamera()->Move(Vector3(0, CAM_SPEED, 0));
+			MainScene.GetCamera()->Move(Vector3(0, CAM_SPEED, 0) * frame_delta);
 		if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_DOWN)
 		{
-			MainScene.GetCamera()->Move(Vector3(0, -CAM_SPEED, 0));
+			MainScene.GetCamera()->Move(Vector3(0, -CAM_SPEED, 0) * frame_delta);
 			evTest->FireEvent(eventID);
 		}
 
-		//
-		MeshPool.GetMesh("DBG_CUBE")->Rotate(Vector3(0.0f, 0.5f, 0.0f));
+		MeshPool.GetMesh("DBG_CUBE")->Rotate(Vector3(0.0f, 0.5f, 0.0f) * frame_delta);
 
 		Core::EventSys::EventManager::GetInstance().Update();
 
@@ -207,16 +220,18 @@ int main(int argc, char* argv[])
 		//testRasterizer->RasterizeScene();
 		for (int i = 0; i < MeshPool.length(); ++i)
 		{
-			MeshPool.GetMesh(i)->Translate(Vector3(0.0f, 0.0f, 0.0f));
-			//MeshPool.GetMesh("DBG_CUBE")->Draw();
+			MeshPool.GetMesh(i)->Translate(Vector3(0.0f, 0.0f, 0.0f) /** frame_delta*/);
 			//dbg_screen = TTF_RenderText_Solid(dbg_font, "FRAME TICK\n", color);
 		}
-		//int rVal = 100;
-		//rVal = SDL_BlitSurface(dbg_screen, NULL, screen, NULL);
+
 		SDL_Flip(screen);
-		SDL_Delay(ENGINE_TICK);
+		//SDL_Delay(ENGINE_TICK);
 		SDL_FillRect(screen, nullptr, 0x000000);
-		Core::EventSys::EventManager::GetInstance().FireEvent(Core::EventSys::EID_ENGINE_TICK_EVENT);
+
+		char eventData[50] = "";
+		memcpy(eventData, &frame_delta, sizeof(double));
+
+		Core::EventSys::EventManager::GetInstance().FireEvent(Core::EventSys::EID_ENGINE_TICK_EVENT, eventData);
 	}
 
 // emptying geometry pools

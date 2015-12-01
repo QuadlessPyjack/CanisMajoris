@@ -5,9 +5,10 @@
 //! \date    25/05/2015
 //! \todo Force Vector (ie. Gravity), PoorMan'sCollision(tm)
 //////////////////////////////////////////
-
 #ifndef SIMPLE_PHYS_BODY_H
 #define SIMPLE_PHYS_BODY_H
+
+#include <EngineDllExport.h>
 
 //forward declarations
 class Vector3;
@@ -23,7 +24,7 @@ class Mesh;
 
 namespace Core    {
 namespace Physics {
-	class SPBody
+	class CM_ENGINE_API SPBody
 	{
 	public:
 	SPBody();
@@ -31,17 +32,17 @@ namespace Physics {
 
 	void AddForce(Vector3 a);
 
-	void SetMesh(const Renderer::CoreUtils::Mesh &mesh);
-	Renderer::CoreUtils::Mesh* GetMesh();
+	void SetMesh(Renderer::CoreUtils::Mesh &mesh);
+	const Renderer::CoreUtils::Mesh* GetMesh();
 
 	void  SetMass(float mass);
-	float GetMass();
+	const float GetMass();
 
 	void  SetGravityScale(float gravScale);
-	float GetGravityScale();
+	const float GetGravityScale();
 
 	void  SetAwakeState(bool isAwake);
-	bool  GetAwakeState();
+	const bool  GetAwakeState();
 
 	private:
 	Renderer::CoreUtils::Mesh* m_mesh;

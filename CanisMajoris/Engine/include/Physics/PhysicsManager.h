@@ -5,11 +5,14 @@
 //! \date    25/05/2015
 //! \todo Force Vector (ie. Gravity), PoorMan'sCollision(tm)
 //////////////////////////////////////////
-#include <EngineDllExport.h>
-#include <vector>
-
 #ifndef PHYSICS_MANAGER_H
 #define PHYSICS_MANAGER_H
+
+#include <EngineDllExport.h>
+#include <Events\EventClient.h>
+#include <vector>
+
+#include <Physics/SimplePhysBody.h>
 
 //forward declarations
 class Vector3;
@@ -17,9 +20,9 @@ class Vector3;
 namespace Core    {
 namespace Physics {
 	
-	class SPBody;
+	//class SPBody;
 
-	class CM_ENGINE_API PhysicsManager
+	class CM_ENGINE_API PhysicsManager : public EventSys::EventClient
 	{
 	public:
 		~PhysicsManager();
@@ -36,6 +39,8 @@ namespace Physics {
 		void ApplyUniversalForce(Vector3 a);
 
 		void Update();
+
+		void OnReceive(EventSys::Event const *event) override;
 
 	private:
 		PhysicsManager();

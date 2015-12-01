@@ -71,6 +71,11 @@ void EventClient::FireEvent(const int& eventID)
 	EventManager::GetInstance().FireEvent(eventID);
 }
 
+void EventClient::FireEvent(const int& eventID, const char dataParam[10])
+{
+	EventManager::GetInstance().FireEvent(eventID, dataParam);
+}
+
 EventClient::~EventClient()
 {
 	for (int index = 0; index < m_trackedIdEvents.size(); ++index)

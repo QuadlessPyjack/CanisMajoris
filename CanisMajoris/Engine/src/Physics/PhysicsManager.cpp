@@ -5,8 +5,8 @@
 //! \date    25/05/2015
 //! \todo Force Vector (ie. Gravity), PoorMan'sCollision(tm)
 //////////////////////////////////////////
-#include <SDL_timer.h>
-#include <Utils/Constants.h>
+#include <time.h>
+
 #include <Utils/Math/Vector3.h>
 
 #include <Physics/PhysicsManager.h>
@@ -16,6 +16,12 @@ namespace Core    {
 namespace Physics {
 
 	    PhysicsManager *PhysicsManager::m_Physics = nullptr;
+
+		PhysicsManager::PhysicsManager()
+		: m_gravityScale(1.0f)
+		, m_physObjectsContainer()
+		{
+		}
 
 		void PhysicsManager::InitPhysics()
 		{
@@ -42,11 +48,6 @@ namespace Physics {
 			m_Physics = nullptr;
 		}
 
-		PhysicsManager::PhysicsManager()
-		{
-
-		}
-
 		void PhysicsManager::AddPhysObject(SPBody* physObject)
 		{
 			m_physObjectsContainer.push_back(physObject);
@@ -71,8 +72,20 @@ namespace Physics {
 		{
 			for (int index = 0; index < m_physObjectsContainer.capacity(); ++index)
 			{
-				m_physObjectsContainer[index]->AddForce(a);
+				if (m_physObjectsContainer[index]->GetAwakeState())
+				{
+					m_physObjectsContainer[index]->AddForce(a);
+				}
 			}
+		}
+
+		void PhysicsManager::OnReceive(EventSys::Event const *event)
+		{
+			double out = -666;
+			int range = sizeof(double);
+			memcpy(&out, event->data, range);
+
+			ApplyUniversalForce(Vector3(0.0f, 0.0f, -0.0001f * out));
 		}
 
 		void PhysicsManager::Update()
@@ -80,7 +93,6 @@ namespace Physics {
 			//TODO: Implement Timer System - Use SDL_Delay in main loop
 			//      to count the ticks for PHYS_TICK
 			//      otherwise two delays are being added - not what we want!
-			SDL_Delay(PHYS_TICK);
 		}
 
 } // Physics
