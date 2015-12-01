@@ -21,27 +21,27 @@ public:
 
 	inline static Vector2 Vector2::Zero() //!< vector2(0, 0)
 	{
-		return Vector2(0, 0);
+		return Vector2(0.0f, 0.0f);
 	};
 
 	inline static Vector2 Vector2::Up() //!< vector2(0,1)
 	{
-		return Vector2(0, 1);
+		return Vector2(0.0f, 1.0f);
 	};
 
 	inline static Vector2 Vector2::Down() //!< vector2(0, -1)
 	{
-		return Vector2(0, -1);
+		return Vector2(0.0f, -1.0f);
 	};
 
 	inline static Vector2 Vector2::Right() //!< vector2(1, 0)
 	{
-		return Vector2(1, 0);
+		return Vector2(1.0f, 0.0f);
 	};
 
 	inline static Vector2 Vector2::Left() //!< vector2(-1, 0)
 	{
-		return Vector2(-1, 0);
+		return Vector2(-1.0f, 0.0f);
 	};
 
 	void Normalize(); //!< maintains direction, flattens to 1

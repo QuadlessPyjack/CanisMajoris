@@ -86,7 +86,7 @@ void Vector3::ToSpherical() //! \todo Get Proper Cartesian - Spherical conversio
 
 std::ostream& operator<<(std::ostream &os, const Vector3 &vect3)
 {
-	os << vect3.x << ", " << vect3.y << ", " << vect3.z;
+	os << "(" << vect3.x << "f, " << vect3.y << "f, " << vect3.z << "f)";
 	return os;
 };
 

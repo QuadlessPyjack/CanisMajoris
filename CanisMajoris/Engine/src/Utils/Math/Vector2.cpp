@@ -83,13 +83,12 @@ std::ostream& operator<<(std::ostream &os, const Vector2 &vect2)
 
 bool& operator==(const Vector2& v1, const Vector2& v2)
 {
-	bool flag = true;
+	bool flag = false;
 	//!< Just in case they happen to be *numerically* identical
 	if (v1.isPolar == v2.isPolar)
 	{
-
-		if ((v1.x == v2.x) | (v1.y == v2.y))
-			flag = false;
+		if ((v1.x == v2.x) && (v1.y == v2.y))
+			flag = true;
 	}
 	return flag;
 };
