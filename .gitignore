@@ -1,6 +1,7 @@
-log_*.txt
+log_*
 *.suo
 *.opensdf
 *.sdf
 Debug/
+Release/
 bin/
