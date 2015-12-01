@@ -21,4 +21,5 @@ struct flags
 	const char* CS_OUTPUT = "-cs";
 	const char* H_OUTPUT = "-header";
 	const char* LOG = "-log";
+	const char* SCALE_FACTOR = "-scale ";
 } SUPPORTED_FLAGS;
