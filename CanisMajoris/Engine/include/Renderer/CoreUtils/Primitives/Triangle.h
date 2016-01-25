@@ -13,7 +13,7 @@
 namespace Core     {
 namespace Renderer {
 namespace CoreUtils{
- class Triangle
+ class CM_ENGINE_API Triangle
  {
  public:
  Triangle();

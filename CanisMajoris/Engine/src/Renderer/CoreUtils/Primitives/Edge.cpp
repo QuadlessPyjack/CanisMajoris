@@ -12,6 +12,24 @@
 
 #include<Utils/Validators.inl>
 #include<Utils/Math/ConverterUtils.inl>
+#include<string>
+
+namespace {
+	void DrawEdgeToScreen(const Vertex &startVert, const Vertex &endVert)
+	{
+		Vector2 uiStartVert(startVert.x, SCREEN_HEIGHT - startVert.y);
+		Vector2 uiEndVert(endVert.x, SCREEN_HEIGHT - endVert.y);
+
+		SDL_PixelFormat* fmt = Scene::GetInstance().GetViewport()->format;
+		if (ValidateScreenCoord(uiStartVert) && ValidateScreenCoord(uiEndVert))
+		{
+			Draw_Line(Scene::GetInstance().GetViewport(), uiStartVert.x, uiStartVert.y, uiEndVert.x, uiEndVert.y, SDL_MapRGB(fmt, 0, 255, 0));
+			fmt = nullptr;
+			delete fmt;
+		}
+	}
+}
+
 
 namespace Core      {
 namespace Renderer  {
@@ -45,19 +63,36 @@ if (index == 1)
 
 void Edge::Draw()
 {
+
+ if(m_startVert->GetOwner() != m_endVert->GetOwner())
+ {
+ 	// Uhm... we have a serious problem here
+ 	// Log and stop rendering this edge
+ 	std::string conflictingMesh1 = m_startVert->GetOwner();
+ 	std::string conflictingMesh2 = m_endVert->GetOwner();
+ 	//std::cout << "Malformed geometry detected between meshes " << conflictingMesh1 << " and " << conflictingMesh2 << std::endl;
+ 	return;
+ }
+
+
+ if (m_startVert->GetOwner().find("f_") == 0)
+ {
+	// Treat this 3D geometry as an interface font and render directly to screen surface
+	 DrawEdgeToScreen(*m_startVert, *m_endVert);
+ }
+
+// 3D World Space Projection Handling
  SDL_PixelFormat* fmt = m_SDLSurface->format;
 
  Vector3 CameraPoz = Scene::GetInstance().GetCamera()->Location();
  Vector3 CamRelStartV3 = WorldToCameraCoords(m_startVert->Location());
  Vector3 CamRelEndV3 = WorldToCameraCoords(m_endVert->Location());
-//				std::cout << "-----------------------------" << std::endl;
-//				std::cout << "[EDGE_DBG] STARTVERT: " << m_startVert->x << "," << m_startVert->y;
-//				std::cout << " ENDVERT: " << m_endVert->x << "," << m_endVert->y << std::endl;
- float x_screen1 = (CamRelStartV3.x / CamRelStartV3.z) * SCREEN_WIDTH  + SCREEN_WIDTH  / 2;// *SCREEN_WIDTH + SCREEN_WIDTH / 2;
- float y_screen1 = (CamRelStartV3.y / CamRelStartV3.z) * SCREEN_HEIGHT + SCREEN_HEIGHT / 2;// *SCREEN_HEIGHT + SCREEN_HEIGHT / 2;
+
+ float x_screen1 = (CamRelStartV3.x / CamRelStartV3.z) * SCREEN_WIDTH * 1.5f  + SCREEN_WIDTH  / 2.0f;// *SCREEN_WIDTH + SCREEN_WIDTH / 2;
+ float y_screen1 = (CamRelStartV3.y / CamRelStartV3.z) * SCREEN_HEIGHT * 1.5f + SCREEN_HEIGHT / 2.0f;// *SCREEN_HEIGHT + SCREEN_HEIGHT / 2;
  
- float x_screen2 = (CamRelEndV3.x / CamRelEndV3.z) * SCREEN_WIDTH  + SCREEN_WIDTH  / 2;// *SCREEN_WIDTH + SCREEN_WIDTH / 2;
- float y_screen2 = (CamRelEndV3.y / CamRelEndV3.z) * SCREEN_HEIGHT + SCREEN_HEIGHT / 2;// *SCREEN_HEIGHT + SCREEN_HEIGHT / 2;
+ float x_screen2 = (CamRelEndV3.x / CamRelEndV3.z) * SCREEN_WIDTH * 1.5f  + SCREEN_WIDTH  / 2.0f;// *SCREEN_WIDTH + SCREEN_WIDTH / 2;
+ float y_screen2 = (CamRelEndV3.y / CamRelEndV3.z) * SCREEN_HEIGHT * 1.5f + SCREEN_HEIGHT / 2.0f;// *SCREEN_HEIGHT + SCREEN_HEIGHT / 2;
  
  Vector2 screen_start(x_screen1, y_screen1);
  Vector2 screen_end(x_screen2, y_screen2);
@@ -65,29 +100,23 @@ void Edge::Draw()
 //				std::cout << "--------------------------" << std::endl;
  if (ValidateScreenCoord(screen_start) && ValidateScreenCoord(screen_end))
  {
- Draw_Line(m_SDLSurface, screen_start.x, screen_start.y, screen_end.x, screen_end.y, SDL_MapRGB(fmt, 255, 0, 0));
- fmt = nullptr;
- delete fmt;
+	 if (m_startVert->GetOwner().find("calibration_marker") == 0)
+	 {
+		 Draw_Line(m_SDLSurface, screen_start.x, screen_start.y, screen_end.x, screen_end.y, SDL_MapRGB(fmt, 255, 0, 255));
+		 fmt = nullptr;
+		 delete fmt;
+
+		 return;
+	 }
+
+	 Draw_Line(m_SDLSurface, screen_start.x, screen_start.y, screen_end.x, screen_end.y, SDL_MapRGB(fmt, 255, 0, 0));
+	 fmt = nullptr;
+	 delete fmt;
  }
 
-	//if (ValidateScreenCoord(*m_startVert) && ValidateScreenCoord(*m_endVert))
-	//{
-	//	Vector3 CameraPoz = Scene::GetInstance().GetCamera()->Location();
-	//	Vector3 CamRelStartV3 = WorldToCameraCoords(m_startVert->Location());
-	//	Vector3 CamRelEndV3 = WorldToCameraCoords(m_endVert->Location());
+ // UI Surface Projection Handling
 
-	//	float x_screen1 = (CamRelStartV3.x / CamRelStartV3.z) * SCREEN_WIDTH + SCREEN_WIDTH / 2;
-	//	float y_screen1 = (CamRelStartV3.y / CamRelStartV3.z) * SCREEN_HEIGHT + SCREEN_HEIGHT / 2;
 
-	//	float x_screen2 = (CamRelEndV3.x / CamRelEndV3.z) * SCREEN_WIDTH + SCREEN_WIDTH / 2;
-	//	float y_screen2 = (CamRelEndV3.y / CamRelEndV3.z) * SCREEN_HEIGHT + SCREEN_HEIGHT / 2;
-	//	
-	//	Draw_Line(m_SDLSurface, x_screen1, y_screen1, x_screen2, y_screen2, SDL_MapRGB(fmt, 255, 0, 0));
-	//	//Draw_Line(m_SDLSurface, m_startVert->x, m_startVert->y, m_endVert->x, m_endVert->y, SDL_MapRGB(fmt, 255, 0, 0));
-
-	//	fmt = nullptr;
-	//	delete fmt;
-	//}
 }
 
 void Edge::Translate(Vector3 offset)

@@ -10,6 +10,8 @@
 //#include<boost/interprocess/windows_shared_memory.hpp>
 //#include<boost/interprocess/mapped_region.hpp>
 
+#include<Renderer/CoreUtils/Primitives/Vertex.h>
+
 #include<Renderer/CoreUtils/Rasterizer/Rasterizer.h>
 #include<Renderer/CoreUtils/Camera.h>
 #include<Renderer/CoreUtils/Scene.h>
@@ -28,6 +30,8 @@
 
 #include<Editor/ProcyonServer/EditorServer.h>
 #include<Editor/ProcyonServer/ProcyonConstants.h>
+
+//#include<ScriptEngine.h>
 
 int main(int argc, char* argv[])
 {
@@ -73,12 +77,14 @@ int main(int argc, char* argv[])
 	cout << "Lets build a ModelFile and load our test model.\n";
 	ModelFile* testOBJ = new ModelFile();
 	ModelFile* testOBJ2 = new ModelFile();
+	ModelFile* alphabet = new ModelFile();
 	//testOBJ->ExtractVertexData();
 	dbgServer.InitializeEditorServer();
 	dbgServer.LogInfo("THIS IS A TEST MESSAGE\n");
 	//dbgServer.LogInfo(SHARED_MEMORY_CLEAR);
 
 	cout << "Lets test Vector2 in Polar and Cartesian systems.\n";
+	using namespace Math;
 	Vector2 testvect2(4, 12);
 	cout << "TESTVECT2(4, 12): " << testvect2 << endl;
 	testvect2.ToPolar();
@@ -98,12 +104,14 @@ int main(int argc, char* argv[])
 	cout << "(4,5,6) - (1,2,3) = " << dif << endl;
 
 	cout << "Lets spawn a Camera [currently just a Vector3 position in space]:";
-	Camera *SceneCamera = new Camera(Vector3(-200, 0, -30));
+	Camera *SceneCamera = new Camera(Vector3(-200.0f, 95.0f, -200.0f));
 
 	cout << " " << SceneCamera << endl;
 
 	cout << "Lets create our Vertex Pool.\n";
 	vector<Vertex*> VertexPool;
+	vector<Vertex*> VertexPool2;
+	vector<Vertex*> VertexPool3;
 	
 	cout << "Lets create our Edge Pool.\n";
 	vector<Edge*> EdgePool;
@@ -114,6 +122,7 @@ int main(int argc, char* argv[])
 	cout << "Lets create our Mesh Pool.\n";
 	MeshContainer MeshPool;
 	MeshContainer MeshPool2;
+	MeshContainer MeshPool3;
 	Rasterizer* testRasterizer = new Rasterizer(MeshPool, screen);
 
 	cout << "Lets create our Scene.\n";
@@ -126,17 +135,57 @@ int main(int argc, char* argv[])
 	std::chrono::time_point<std::chrono::system_clock> start, end;
 	start = std::chrono::system_clock::now();
 
+	//ScriptEngine::Instance().LoadScript();
+
+	//ScriptEngine::Instance().Execute();
+
 	cout << "Loading OBJ Model File.\n";
 	
 	testOBJ->Load(TEST_MODEL_FILENAME);
-	testOBJ2->Load("..\\DBG_GRID.obj");
+	testOBJ2->Load("..\\10m_cube.obj");
+	alphabet->Load("..\\alphabet.obj");
+
+	std::vector<Vertex*>   marker_vertices(6);
+	std::vector<Edge*>     marker_edges;
+	std::vector<Triangle*> marker_tris;
+	marker_vertices[0] = new Vertex(-10.0f, -10.0f, 0.0f);
+	marker_vertices[1] = new Vertex(  0.0f,   0.0f, 0.0f);
+	marker_vertices[2] = new Vertex( 10.0f,  10.0f, 0.0f);
+	marker_vertices[3] = new Vertex(-10.0f,  10.0f, 0.0f);
+	marker_vertices[4] = new Vertex(  0.0f,   0.0f, 0.0f);
+	marker_vertices[5] = new Vertex( 10.0f, -10.0f, 0.0f);
+
+	marker_edges.push_back(new Edge(*marker_vertices[0], *marker_vertices[1]));
+	marker_edges.push_back(new Edge(*marker_vertices[1], *marker_vertices[2]));
+	marker_edges.push_back(new Edge(*marker_vertices[0], *marker_vertices[2]));
+	
+	marker_edges.push_back(new Edge(*marker_vertices[3], *marker_vertices[4]));
+	marker_edges.push_back(new Edge(*marker_vertices[4], *marker_vertices[5]));
+	marker_edges.push_back(new Edge(*marker_vertices[3], *marker_vertices[5]));
+
+	marker_tris.push_back(new Triangle(*marker_edges.at(2), *marker_edges.at(1), *marker_edges.at(0)));
+	marker_tris.push_back(new Triangle(*marker_edges.at(5), *marker_edges.at(4), *marker_edges.at(3)));
+
+	Mesh* calibration_marker = new Mesh("f_calibration_marker", Scene::GetInstance().GetViewport(), marker_vertices, marker_edges, marker_tris);
+
+	calibration_marker->InitPivot();
+
+	Mesh* calibration_marker2 = calibration_marker;
+	calibration_marker2->InitPivot();
 
 	//VertexPool = testOBJ->ExtractVertexData(VERTEX_COUNT, MeshPool);
 	MeshPool = testOBJ->ExtractMeshData(VertexPool); //!>VertexPool is set up via reference
-	MeshPool2 = testOBJ2->ExtractMeshData(VertexPool);
+	MeshPool2 = testOBJ2->ExtractMeshData(VertexPool2);
+	MeshPool3 = alphabet->ExtractMeshData(VertexPool3);
 
 	Mesh* grid = MeshPool2.GetMesh("GRID");
 
+	for (auto i = 0; i < MeshPool3.length(); ++i)
+	{
+		MeshPool.AddMesh(MeshPool3.GetMesh(i));
+	}
+
+	MeshPool.AddMesh(MeshPool2.GetMesh(1));
 	MeshPool.AddMesh(grid);
 	clock_t t;
 	t = clock();
@@ -165,7 +214,7 @@ int main(int argc, char* argv[])
 	SDL_Event event;
 
 	cout << "Initializing Physics Manager\n";
-
+	cout << MeshPool.GetMesh("10M_CUBE")->Location() << endl;
 	Core::Physics::SPBody *physCube = new Core::Physics::SPBody();
 	physCube->SetMesh(*MeshPool.GetMesh("DBG_CUBE"));
 	physCube->SetMass(1.0f);
@@ -173,6 +222,16 @@ int main(int argc, char* argv[])
 
 	Core::Physics::PhysicsManager::GetInstance().ConnectToEvent(Core::EventSys::EID_ENGINE_TICK_EVENT);
 	Core::Physics::PhysicsManager::GetInstance().AddPhysObject(physCube);
+
+
+	MeshPool.GetMesh("10M_CUBE")->SetLocation(Vector3(-2.6f, 384.0f, 505.0f));
+	Vector3 markerLocationReference = MeshPool.GetMesh("10M_CUBE")->GetVertices()[0]->Location();
+	calibration_marker->SetLocation(markerLocationReference);
+	calibration_marker2->SetLocation(Vector3(markerLocationReference.x, markerLocationReference.y + 50.0f, markerLocationReference.z));
+
+	std::cout << "MarkerLocationReference: " << markerLocationReference << endl;
+	std::cout << "Secondary Location: " << MeshPool.GetMesh("10M_CUBE")->GetVertices()[1]->Location() << endl;
+	std::cout << "10m in model-space = " << MeshPool.GetMesh("10M_CUBE")->GetVertices()[1]->Location() - markerLocationReference << endl;
 
 	double frame_delta = clock();
 
@@ -211,11 +270,57 @@ int main(int argc, char* argv[])
 		}
 
 		MeshPool.GetMesh("DBG_CUBE")->Rotate(Vector3(0.0f, 0.5f, 0.0f) * frame_delta);
+		Vector3 cubeLoc = MeshPool.GetMesh("DBG_CUBE")->Location();
+
+
+		MeshPool.GetMesh(18)->Rotate(Vector3(0.0f, 0.5f, 0.0f) * frame_delta);
+
+		//MeshPool.GetMesh("y")->Rotate(Vector3(0.5f, 0.0f, 0.0f) * frame_delta);
+		//MeshPool.GetMesh("y")->SetLocation(cubeLoc);
+		//MeshPool.GetMesh("y")->Scale(2.0f * frame_delta);
 
 		Core::EventSys::EventManager::GetInstance().Update();
 
 		MeshPool.GetMesh("DBG_CUBE")->Draw();
 		MeshPool.GetMesh("DBG_GRID")->Draw();
+		MeshPool.GetMesh("a")->Draw();
+		MeshPool.GetMesh("b")->Draw();
+		MeshPool.GetMesh("c")->Draw();
+		MeshPool.GetMesh("d")->Draw();
+		MeshPool.GetMesh("e")->Draw();
+		MeshPool.GetMesh("f")->Draw();
+		MeshPool.GetMesh("0")->Draw();
+		MeshPool.GetMesh("1")->Draw();
+		MeshPool.GetMesh("2")->Draw();
+		MeshPool.GetMesh("3")->Draw();
+		MeshPool.GetMesh("4")->Draw();
+		MeshPool.GetMesh("5")->Draw();
+		MeshPool.GetMesh("6")->Draw();
+		MeshPool.GetMesh("9")->Draw();
+		MeshPool.GetMesh("8")->Draw();
+		MeshPool.GetMesh("y")->Draw();
+		for (int i = 0; i < MeshPool.length(); ++i)
+		{
+			MeshPool.GetMesh(i)->Draw();
+		}
+		MeshPool.GetMesh(20)->Rotate(Vector3(90.0f, 0.5f, 0.0f) * frame_delta);
+		MeshPool.GetMesh(20)->Translate(Vector3(0.0f, 0.0f, 1.0f) * frame_delta);
+		MeshPool.GetMesh(20)->Draw();
+
+		calibration_marker->Draw();
+		calibration_marker->Translate(Vector3(0.0f, 0.0f, 0.0f));
+		calibration_marker2->Draw();
+		calibration_marker2->Translate(Vector3(0.0f, 0.0f, 0.0f));
+		/*for (int i = 0; i < MeshPool.length(); ++i)
+		{
+			if (MeshPool.GetMesh(i)->GetID() == "ROOT" ||
+				MeshPool.GetMesh(i)->GetID() == "GRID")
+			{
+				continue;
+			}
+
+			MeshPool.GetMesh(i)->Draw();
+		}*/
 		dbgServer.LogInfo("THIS IS A TEST MESSAGE\n");
 		//testRasterizer->RasterizeScene();
 		for (int i = 0; i < MeshPool.length(); ++i)

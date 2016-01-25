@@ -17,13 +17,13 @@
 namespace Core     {
 namespace Renderer {
 namespace CoreUtils{
- class Vertex
+ class CM_ENGINE_API Vertex
  {
   public:
   Vertex(float pozX, float pozY, float pozZ);
-  Vertex(Vector3 v3);
-  explicit Vertex(float coordinates[3]);
   Vertex(); //!< \todo Should probably find a way to restrict this
+  explicit Vertex(Vector3 v3);
+  explicit Vertex(float coordinates[3]);
 
   void SetOwner(std::string ownerName);
   const std::string GetOwner();
@@ -31,6 +31,7 @@ namespace CoreUtils{
   void Draw();
 
   const Vector3 &Location();
+  void SetLocation(Vector3 location);
   void Translate(Vector3 offset);
   void Scale(const Vector3& centre, float scaleFactor);
   void Rotate(const Vector3& centre, Vector3 amount);

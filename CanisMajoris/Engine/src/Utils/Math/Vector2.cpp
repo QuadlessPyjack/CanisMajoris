@@ -8,6 +8,8 @@
 
 #include<Utils/Math/Vector2.h>
 
+using namespace Math;
+
 Vector2::Vector2():
 x(0.0f),
 y(0.0f)
@@ -75,13 +77,13 @@ void Vector2::ToPolar() //! \todo Get Proper Cartesian - Polar conversion going
 	isPolar = true;
 };
 
-std::ostream& operator<<(std::ostream &os, const Vector2 &vect2)
+std::ostream& Math::operator<<(std::ostream &os, const Vector2 &vect2)
 {
 	os << vect2.x << ", " << vect2.y;
 	return os;
 };
 
-bool& operator==(const Vector2& v1, const Vector2& v2)
+bool& Math::operator==(const Vector2& v1, const Vector2& v2)
 {
 	bool flag = true;
 	//!< Just in case they happen to be *numerically* identical
@@ -94,7 +96,7 @@ bool& operator==(const Vector2& v1, const Vector2& v2)
 	return flag;
 };
 
-bool& operator!=(const Vector2& v1, const Vector2& v2)
+bool& Math::operator!=(const Vector2& v1, const Vector2& v2)
 {
 	bool flag = false;
 	//!< Just in case they happen to be *numerically* identical

@@ -115,7 +115,7 @@ bool& operator!=(const Vector3& v1, const Vector3& v2)
 	return flag;
 };
 
-Vector3& operator+(const Vector3& v1, const Vector3& v2)
+Vector3 operator+(const Vector3& v1, const Vector3& v2)
 {
 	Vector3 sum;
 	sum.x = v1.x + v2.x;
@@ -125,7 +125,7 @@ Vector3& operator+(const Vector3& v1, const Vector3& v2)
 	return sum;
 }
 
-Vector3& operator-(const Vector3& v1, const Vector3& v2)
+Vector3 operator-(const Vector3& v1, const Vector3& v2)
 {
 	Vector3 diff;
 	diff.x = v1.x - v2.x;

@@ -48,6 +48,7 @@ namespace Core{
 				void SetPivot(Vector3 pivotCoords);
 				void InitPivot(); //!< determines mesh centroid and sets pivot
 				const Vector3 Location();
+				void SetLocation(Vector3 location);
 				void Translate(Vector3 offset);
 				void Scale(Vector3 centre, float scaleFactor);
 				void Scale(float scaleFactor);

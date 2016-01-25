@@ -12,6 +12,8 @@
 #include<Renderer/CoreUtils/Primitives/Vertex.h>
 #include<Utils/Math/Vector2.h>
 
+using namespace Math;
+
 //if a single value is given, check for bounds
 // axis - 0 for X, 1 for Y
 inline bool ValidateScreenCoord(float coord, int axis = 0)

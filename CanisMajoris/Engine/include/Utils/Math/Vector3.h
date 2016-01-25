@@ -73,8 +73,8 @@ public:
 	friend CM_ENGINE_API std::ostream& operator<<(std::ostream &os, const Vector3 &vect3);
 	friend CM_ENGINE_API bool& operator==(const Vector3& v1, const Vector3& v2);
 	friend CM_ENGINE_API bool& operator!=(const Vector3& v1, const Vector3& v2);
-	friend CM_ENGINE_API Vector3& operator+(const Vector3& v1, const Vector3& v2);
-	friend CM_ENGINE_API Vector3& operator-(const Vector3& v1, const Vector3& v2);
+	friend CM_ENGINE_API Vector3 operator+(const Vector3& v1, const Vector3& v2);
+	friend CM_ENGINE_API Vector3 operator-(const Vector3& v1, const Vector3& v2);
 	friend CM_ENGINE_API Vector3& operator*(const Vector3& v1, const Vector3& v2);
 	
 	friend CM_ENGINE_API Vector3& operator*(const float& f1, const Vector3& v2);

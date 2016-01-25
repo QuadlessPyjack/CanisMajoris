@@ -31,6 +31,14 @@ m_SDLSurface(nullptr),
 m_v3(Vector3(pozX, pozY, pozZ))
 {};
 
+Vertex::Vertex(Vector3 v3) :
+x(v3.x),
+y(v3.y),
+z(v3.z),
+m_SDLSurface(nullptr),
+m_v3(v3)
+{};
+
 Vertex::Vertex(float coordinates[3]) :
 x(coordinates[0]),
 y(coordinates[1]),
@@ -60,12 +68,21 @@ void Vertex::Draw()
   fmt = nullptr;
   delete fmt;
  }
-}
+};
 
 const Vector3& Vertex::Location()
 {
  return m_v3;
-}
+};
+
+void Vertex::SetLocation(Vector3 location)
+{
+	x = location.x;
+	y = location.y;
+	z = location.z;
+
+	m_v3 = location;
+};
 
 void Vertex::Translate(Vector3 offset)
 {
@@ -74,7 +91,7 @@ void Vertex::Translate(Vector3 offset)
  z += offset.z;
  
  m_v3 = Vector3(x, y, z);
-}
+};
 
 void Vertex::Scale(const Vector3& centre, float scaleFactor)
 {
@@ -124,7 +141,7 @@ void Vertex::Rotate(const Vector3& centre, Vector3 amount)
   y = centre.y + rotVect.y;
  }
  //End of Glorious Hack!
-}
+};
 
 Vertex::~Vertex()
 {};

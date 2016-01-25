@@ -13,7 +13,7 @@ namespace Core      {
 namespace Renderer  {
 namespace CoreUtils {
 
-class Edge
+class CM_ENGINE_API Edge
 {
 public:
  Edge();

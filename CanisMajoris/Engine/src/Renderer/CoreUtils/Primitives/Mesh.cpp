@@ -122,17 +122,17 @@ void Mesh::Draw()
   }
 }
 //! DEBUG ONLY - REMOVE WHEN DONE
-//if (meshID != "ROOT" && "NULL")
-//{
-//	SDL_PixelFormat* fmt = m_surface->format;
-//	if (ValidateScreenCoord(m_pivot.x, 0) && ValidateScreenCoord(m_pivot.y, 1))
-//	{
-//		Draw_FillCircle(Scene::GetInstance().GetViewport(), m_pivot.x, m_pivot.y, 2, SDL_MapRGB(fmt, 0, 0, 255));
-//		//std::cout << "Pivot is at: X: " << m_pivot.x << " Y: " << m_pivot.y << std::endl;
-//		fmt = nullptr;
-//		delete fmt;
-//	}
-//}
+if (meshID != "ROOT" && "NULL")
+{
+	SDL_PixelFormat* fmt = m_surface->format;
+	if (ValidateScreenCoord(m_pivot.x, 0) && ValidateScreenCoord(m_pivot.y, 1))
+	{
+		Draw_FillCircle(Scene::GetInstance().GetViewport(), m_pivot.x, m_pivot.y, 1, SDL_MapRGB(fmt, 0, 0, 255));
+		//std::cout << "Pivot is at: X: " << m_pivot.x << " Y: " << m_pivot.y << std::endl;
+		fmt = nullptr;
+		delete fmt;
+	}
+}
 };
 
 void Mesh::SetPivot(Vector3 pivotCoords)
@@ -162,6 +162,21 @@ m_pivot = rawCoords;
 const Vector3 Mesh::Location()
 {
  return m_pivot;
+}
+
+void Mesh::SetLocation(Vector3 location)
+{
+	if (m_vertCount > 0)
+	{
+		for (int i = 0; i < m_vertCount; ++i)
+		{
+			Vector3 prevLocation = m_localVerts[i]->Location();
+			Vector3 newLocation = location + prevLocation - m_pivot;
+			m_localVerts[i]->SetLocation(newLocation);
+		}
+	}
+
+	m_pivot = location;
 }
 
 void Mesh::Translate(Vector3 offset)
