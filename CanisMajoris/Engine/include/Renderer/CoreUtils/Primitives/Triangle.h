@@ -24,6 +24,10 @@ namespace CoreUtils{
  Triangle(Edge& edgeA, Edge& edgeB, Edge& edgeC);
  explicit Triangle(Edge* triangleEdges[3]);
  
+ void setEdges(Edge* triangleEdges[3]);
+ void setID(int id);
+ int ID() const;
+
  void Draw();
  
  std::vector<const Vertex*> GetVertices();
@@ -32,6 +36,7 @@ namespace CoreUtils{
  ~Triangle();
  
  private:
+ int m_id;
  Edge* m_edgeA;
  Edge* m_edgeB;
  Edge* m_edgeC;

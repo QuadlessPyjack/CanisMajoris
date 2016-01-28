@@ -128,9 +128,9 @@ namespace IO   {
  	  std::cout << "VertexPool Vertex MEM ADDR: " << vertexPoolVerts[1] << " [" << vertexPoolVerts[1]->x << ", " << vertexPoolVerts[1]->y << ", " << vertexPoolVerts[1]->z << '\n';
  	  std::cout << "VertexPool Vertex MEM ADDR: " << vertexPoolVerts[2] << " [" << vertexPoolVerts[2]->x << ", " << vertexPoolVerts[2]->y << ", " << vertexPoolVerts[2]->z << '\n';
  
- 	  EdgeData.push_back(new Renderer::CoreUtils::Edge(*vertexPoolVerts[0], *vertexPoolVerts[1]));
- 	  EdgeData.push_back(new Renderer::CoreUtils::Edge(*vertexPoolVerts[1], *vertexPoolVerts[2]));
-      EdgeData.push_back(new Renderer::CoreUtils::Edge(*vertexPoolVerts[2], *vertexPoolVerts[0]));
+ 	  EdgeData.push_back(new Renderer::CoreUtils::Edge(*vertexPoolVerts[0], *vertexPoolVerts[1], edgeCount - 2));
+ 	  EdgeData.push_back(new Renderer::CoreUtils::Edge(*vertexPoolVerts[1], *vertexPoolVerts[2], edgeCount - 1));
+      EdgeData.push_back(new Renderer::CoreUtils::Edge(*vertexPoolVerts[2], *vertexPoolVerts[0], edgeCount));
  	 } // raw_value.compare("f") != 0
    }   // while(line2 >> raw_value)
   } // if(line[0] == 'f') 
@@ -153,6 +153,10 @@ namespace IO   {
    MeshData.AddMesh(new Renderer::CoreUtils::Mesh(owningMesh));
    //std::vector<Core::Renderer::CoreUtils::Mesh*> MeshData;
    int meshIndex = 0;
+   int edgeIndex = 0;
+   int vertIndex = 0;
+   int triangleID = 0;
+   std::vector<int> visitedVerts;
  
    while (!m_input->eof())
    {
@@ -174,7 +178,8 @@ namespace IO   {
  		line2 >> raw_value;
  		owningMesh = raw_value;
  		meshIndex++;
- 
+		edgeIndex = 0;  // new object, reset edge index
+		triangleID = 0; // new object, reset tri index
  		MeshData.AddMesh(new Renderer::CoreUtils::Mesh(owningMesh));
  	   }
  	   break;
@@ -198,10 +203,12 @@ namespace IO   {
  
  	   //Begin Glorious Hack
  	   Renderer::CoreUtils::Vertex* vertex[1];
- 	   vertex[0] = new Renderer::CoreUtils::Vertex(raw_coordinates);
+ 	   vertex[0] = new Renderer::CoreUtils::Vertex(raw_coordinates, vertIndex);
  	   vertexPoolRef.push_back(vertex[0]);
+	   visitedVerts.push_back(0);
  	   MeshData.GetMesh(owningMesh)->AddVertices(vertex, 1);
  	   //End of Glorious Hack
+	   ++vertIndex;
  	   }
  	  }
  	}
@@ -211,8 +218,9 @@ namespace IO   {
    //!< we reached a new object. if a previous one existed,
    //!< its vert data is fully loaded now so compute pivot
    if (MeshData.length() > 0)
-   MeshData.GetMesh(owningMesh)->InitPivot();
- 
+   {
+     MeshData.GetMesh(owningMesh)->InitPivot();
+   }
    std::string raw_value;
    std::stringstream line2(line);
    while (line2 >> raw_value)
@@ -230,19 +238,101 @@ namespace IO   {
  	 vertexPoolVerts[0] = vertexPoolRef[raw_vertIndexes[0] - 1];
  	 vertexPoolVerts[1] = vertexPoolRef[raw_vertIndexes[1] - 1];
  	 vertexPoolVerts[2] = vertexPoolRef[raw_vertIndexes[2] - 1];
+
+	 bool generateNewEdge = true;
+	 int  currentTriangleID = triangleID;
+	 std::vector<Renderer::CoreUtils::Edge*>::const_iterator it;
  
  	 Renderer::CoreUtils::Edge* edgeArray[3];
- 	 edgeArray[0] = new Renderer::CoreUtils::Edge(*vertexPoolVerts[0], *vertexPoolVerts[1]);
- 	 edgeArray[1] = new Renderer::CoreUtils::Edge(*vertexPoolVerts[1], *vertexPoolVerts[2]);
- 	 edgeArray[2] = new Renderer::CoreUtils::Edge(*vertexPoolVerts[2], *vertexPoolVerts[0]);
- 	 
- 	 MeshData.GetMesh(owningMesh)->AddEdges(edgeArray, 3);
- 
- 	 //Begin Another Glorious Hack!
- 	 Renderer::CoreUtils::Triangle* triangle[1];
- 	 triangle[0] = new Renderer::CoreUtils::Triangle(edgeArray);
- 	 MeshData.GetMesh(owningMesh)->AddTriangles(triangle, 1);
- 	 //End of Another Glorious Hack
+	 //Begin Another Glorious Hack!
+	 Renderer::CoreUtils::Triangle* triangle[1];
+	 triangle[0] = new Renderer::CoreUtils::Triangle(edgeArray);
+	 triangle[0]->setID(triangleID);
+	 triangleID++;
+	 //End of Another Glorious Hack
+	 for (it = MeshData.GetMesh(owningMesh)->GetEdges().begin(); it != MeshData.GetMesh(owningMesh)->GetEdges().end(); ++it)
+	 {
+		 if ((*it)->GetEdgeVertex(0)->id() == vertexPoolVerts[0]->id() &&
+			 (*it)->GetEdgeVertex(1)->id() == vertexPoolVerts[1]->id())
+		 {
+			 edgeArray[0] = (*it);
+			 edgeArray[0]->setParentTriangle(currentTriangleID);
+			 generateNewEdge = false;
+			 break;
+		 }
+		 if ((*it)->GetEdgeVertex(1)->id() == vertexPoolVerts[0]->id() &&
+			 (*it)->GetEdgeVertex(0)->id() == vertexPoolVerts[1]->id())
+		 {
+			 edgeArray[0] = (*it);
+			 edgeArray[0]->setParentTriangle(currentTriangleID);
+			 generateNewEdge = false;
+			 break;
+		 }
+		 generateNewEdge = true;
+	 }
+	 if (generateNewEdge)
+	 {
+		edgeArray[0] = new Renderer::CoreUtils::Edge(*vertexPoolVerts[0], *vertexPoolVerts[1], edgeIndex);
+		edgeArray[0]->setParentTriangle(currentTriangleID);
+		MeshData.GetMesh(owningMesh)->AddEdge(edgeArray[0]);
+	 }
+	 
+	 for (it = MeshData.GetMesh(owningMesh)->GetEdges().begin(); it != MeshData.GetMesh(owningMesh)->GetEdges().end(); ++it)
+	 {
+		 if ((*it)->GetEdgeVertex(0)->id() == vertexPoolVerts[1]->id() &&
+			 (*it)->GetEdgeVertex(1)->id() == vertexPoolVerts[2]->id())
+		 {
+			 edgeArray[1] = (*it);
+			 edgeArray[1]->setParentTriangle(currentTriangleID);
+			 generateNewEdge = false;
+			 break;
+		 }
+		 if ((*it)->GetEdgeVertex(1)->id() == vertexPoolVerts[1]->id() &&
+			 (*it)->GetEdgeVertex(0)->id() == vertexPoolVerts[2]->id())
+		 {
+			 edgeArray[1] = (*it);
+			 edgeArray[1]->setParentTriangle(currentTriangleID);
+			 generateNewEdge = false;
+			 break;
+		 }
+		 generateNewEdge = true;
+	 }
+	 if (generateNewEdge)
+	 {
+		 edgeArray[1] = new Renderer::CoreUtils::Edge(*vertexPoolVerts[1], *vertexPoolVerts[2], ++edgeIndex);
+		 edgeArray[1]->setParentTriangle(currentTriangleID);
+		 MeshData.GetMesh(owningMesh)->AddEdge(edgeArray[1]);
+	 }
+
+	 for (it = MeshData.GetMesh(owningMesh)->GetEdges().begin(); it != MeshData.GetMesh(owningMesh)->GetEdges().end(); ++it)
+	 {
+		 if ((*it)->GetEdgeVertex(0)->id() == vertexPoolVerts[2]->id() &&
+			 (*it)->GetEdgeVertex(1)->id() == vertexPoolVerts[0]->id())
+		 {
+			 edgeArray[2] = (*it);
+			 edgeArray[2]->setParentTriangle(currentTriangleID);
+			 generateNewEdge = false;
+			 break;
+		 }
+		 if ((*it)->GetEdgeVertex(1)->id() == vertexPoolVerts[2]->id() &&
+			 (*it)->GetEdgeVertex(0)->id() == vertexPoolVerts[0]->id())
+		 {
+			 edgeArray[2] = (*it);
+			 edgeArray[2]->setParentTriangle(currentTriangleID);
+			 generateNewEdge = false;
+			 break;
+		 }
+		 generateNewEdge = true;
+	 }
+	 if (generateNewEdge)
+	 {
+		 edgeArray[2] = new Renderer::CoreUtils::Edge(*vertexPoolVerts[2], *vertexPoolVerts[0], ++edgeIndex);
+		 edgeArray[2]->setParentTriangle(currentTriangleID);
+		 MeshData.GetMesh(owningMesh)->AddEdge(edgeArray[2]);
+	 }
+	 triangle[0]->setEdges(edgeArray);
+	 MeshData.GetMesh(owningMesh)->AddTriangles(triangle, 1);
+	 edgeIndex++;
  	} // if (raw_value.compare("f") != 0)
  }    // while (line2 >> raw_value)
  }    // line[0] == 'f'

@@ -20,16 +20,19 @@ namespace CoreUtils{
  class CM_ENGINE_API Vertex
  {
   public:
-  Vertex(float pozX, float pozY, float pozZ);
+  Vertex(float pozX, float pozY, float pozZ, int id = 0);
   Vertex(); //!< \todo Should probably find a way to restrict this
-  explicit Vertex(Vector3 v3);
-  explicit Vertex(float coordinates[3]);
+  explicit Vertex(Vector3 v3, int id = 0);
+  explicit Vertex(float coordinates[3], int id = 0);
 
   void SetOwner(std::string ownerName);
   const std::string GetOwner();
 
   void Draw();
+  void ResetTransform();
 
+  int id() const;
+  void SetID(int vertexID);
   const Vector3 &Location();
   void SetLocation(Vector3 location);
   void Translate(Vector3 offset);
@@ -43,9 +46,11 @@ namespace CoreUtils{
   float z;
 
   private:
+  int m_id;
   SDL_Surface* m_SDLSurface;
   std::string m_meshOwnerName;
   Vector3 m_v3;
+  Vector3 m_wsTransform;
  };
 } // CoreUtils
 } // Renderer

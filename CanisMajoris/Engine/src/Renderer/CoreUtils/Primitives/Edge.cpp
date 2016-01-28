@@ -13,6 +13,9 @@
 #include<Utils/Validators.inl>
 #include<Utils/Math/ConverterUtils.inl>
 #include<string>
+#include<vector>
+#include<map>
+#include <list>
 
 namespace {
 	void DrawEdgeToScreen(const Vertex &startVert, const Vertex &endVert)
@@ -36,22 +39,41 @@ namespace Renderer  {
 namespace CoreUtils {
 
 Edge::Edge() :
- m_startVert(new Vertex()),
- m_endVert(new Vertex()),
- m_SDLSurface(Scene::GetInstance().GetViewport())
+m_index(0),
+m_mesh_owner(nullptr),
+m_startVert(new Vertex()),
+m_endVert(new Vertex()),
+m_SDLSurface(Scene::GetInstance().GetViewport())
 {};
 
 Edge::Edge(Vertex& startVert, Vertex& endVert) :
- m_startVert(&startVert),
- m_endVert(&endVert),
- m_SDLSurface(Scene::GetInstance().GetViewport())
+m_index(0),
+m_mesh_owner(nullptr),
+m_startVert(&startVert),
+m_endVert(&endVert),
+m_SDLSurface(Scene::GetInstance().GetViewport())
+{};
+
+Edge::Edge(Vertex& startVert, Vertex& endVert, int edgeIndex) :
+m_index(edgeIndex),
+m_mesh_owner(nullptr),
+m_startVert(&startVert),
+m_endVert(&endVert),
+m_SDLSurface(Scene::GetInstance().GetViewport())
 {};
 
 Edge::Edge(Vertex* edgeVerts[2]) :
- m_startVert(edgeVerts[0]),
- m_endVert(edgeVerts[1]),
- m_SDLSurface(Scene::GetInstance().GetViewport())
+m_index(0),
+m_mesh_owner(nullptr),
+m_startVert(edgeVerts[0]),
+m_endVert(edgeVerts[1]),
+m_SDLSurface(Scene::GetInstance().GetViewport())
 {};
+
+int Edge::index() const
+{
+	return m_index;
+}
 
 const Vertex* Edge::GetEdgeVertex(int index)
 {
@@ -59,9 +81,39 @@ if (index == 1)
  return m_endVert;
 
  return m_startVert;
-};
+}
 
-void Edge::Draw()
+const int Edge::GetEdgeOwner(int owner)
+{
+	if (owner < 0 || owner > 1)
+	{
+		return m_ownerTriangleIDs[0];
+	}
+
+	return m_ownerTriangleIDs[owner];
+}
+
+	void Edge::setIndex(int i)
+{
+	m_index = i;
+}
+
+//! @brief Sets the triangle IDs of the faces that share this edge
+//! @note  The laws of this Universe forbid edges from being shared by more than two faces
+//! @param triangleID The ID of the face that owns this edge
+void Edge::setParentTriangle(int triangleID)
+{
+	if (m_ownerTriangleIDs[0] == 0)
+	{
+		m_ownerTriangleIDs[0] = triangleID;
+		return;
+	}
+
+	m_ownerTriangleIDs[1] = triangleID;
+	return;
+}
+
+	void Edge::Draw()
 {
 
  if(m_startVert->GetOwner() != m_endVert->GetOwner())
@@ -79,6 +131,7 @@ void Edge::Draw()
  {
 	// Treat this 3D geometry as an interface font and render directly to screen surface
 	 DrawEdgeToScreen(*m_startVert, *m_endVert);
+	 return;
  }
 
 // 3D World Space Projection Handling
@@ -88,11 +141,11 @@ void Edge::Draw()
  Vector3 CamRelStartV3 = WorldToCameraCoords(m_startVert->Location());
  Vector3 CamRelEndV3 = WorldToCameraCoords(m_endVert->Location());
 
- float x_screen1 = (CamRelStartV3.x / CamRelStartV3.z) * SCREEN_WIDTH * 1.5f  + SCREEN_WIDTH  / 2.0f;// *SCREEN_WIDTH + SCREEN_WIDTH / 2;
- float y_screen1 = (CamRelStartV3.y / CamRelStartV3.z) * SCREEN_HEIGHT * 1.5f + SCREEN_HEIGHT / 2.0f;// *SCREEN_HEIGHT + SCREEN_HEIGHT / 2;
+ float x_screen1 = (CamRelStartV3.x / CamRelStartV3.z) * SCREEN_WIDTH /* 1.5f*/  + SCREEN_WIDTH  / 2.0f;// *SCREEN_WIDTH + SCREEN_WIDTH / 2;
+ float y_screen1 = (CamRelStartV3.y / CamRelStartV3.z) * SCREEN_HEIGHT /* 1.5f*/ + SCREEN_HEIGHT / 2.0f;// *SCREEN_HEIGHT + SCREEN_HEIGHT / 2;
  
- float x_screen2 = (CamRelEndV3.x / CamRelEndV3.z) * SCREEN_WIDTH * 1.5f  + SCREEN_WIDTH  / 2.0f;// *SCREEN_WIDTH + SCREEN_WIDTH / 2;
- float y_screen2 = (CamRelEndV3.y / CamRelEndV3.z) * SCREEN_HEIGHT * 1.5f + SCREEN_HEIGHT / 2.0f;// *SCREEN_HEIGHT + SCREEN_HEIGHT / 2;
+ float x_screen2 = (CamRelEndV3.x / CamRelEndV3.z) * SCREEN_WIDTH /* 1.5f*/  + SCREEN_WIDTH  / 2.0f;// *SCREEN_WIDTH + SCREEN_WIDTH / 2;
+ float y_screen2 = (CamRelEndV3.y / CamRelEndV3.z) * SCREEN_HEIGHT /* 1.5f*/ + SCREEN_HEIGHT / 2.0f;// *SCREEN_HEIGHT + SCREEN_HEIGHT / 2;
  
  Vector2 screen_start(x_screen1, y_screen1);
  Vector2 screen_end(x_screen2, y_screen2);

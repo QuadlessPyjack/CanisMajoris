@@ -214,7 +214,7 @@ int main(int argc, char* argv[])
 	SDL_Event event;
 
 	cout << "Initializing Physics Manager\n";
-	cout << MeshPool.GetMesh("10M_CUBE")->Location() << endl;
+	cout << MeshPool.GetMesh("DBG_CUBE")->Location() << endl;
 	Core::Physics::SPBody *physCube = new Core::Physics::SPBody();
 	physCube->SetMesh(*MeshPool.GetMesh("DBG_CUBE"));
 	physCube->SetMass(1.0f);
@@ -224,14 +224,14 @@ int main(int argc, char* argv[])
 	Core::Physics::PhysicsManager::GetInstance().AddPhysObject(physCube);
 
 
-	MeshPool.GetMesh("10M_CUBE")->SetLocation(Vector3(-2.6f, 384.0f, 505.0f));
-	Vector3 markerLocationReference = MeshPool.GetMesh("10M_CUBE")->GetVertices()[0]->Location();
-	calibration_marker->SetLocation(markerLocationReference);
-	calibration_marker2->SetLocation(Vector3(markerLocationReference.x, markerLocationReference.y + 50.0f, markerLocationReference.z));
+	//MeshPool.GetMesh("10M_CUBE")->SetLocation(Vector3(-2.6f, 384.0f, 505.0f));
+	//Vector3 markerLocationReference = MeshPool.GetMesh("10M_CUBE")->GetVertices()[0]->Location();
+	//calibration_marker->SetLocation(markerLocationReference);
+	//calibration_marker2->SetLocation(Vector3(markerLocationReference.x, markerLocationReference.y + 50.0f, markerLocationReference.z));
 
-	std::cout << "MarkerLocationReference: " << markerLocationReference << endl;
-	std::cout << "Secondary Location: " << MeshPool.GetMesh("10M_CUBE")->GetVertices()[1]->Location() << endl;
-	std::cout << "10m in model-space = " << MeshPool.GetMesh("10M_CUBE")->GetVertices()[1]->Location() - markerLocationReference << endl;
+	//std::cout << "MarkerLocationReference: " << markerLocationReference << endl;
+	//std::cout << "Secondary Location: " << MeshPool.GetMesh("10M_CUBE")->GetVertices()[1]->Location() << endl;
+	//std::cout << "10m in model-space = " << MeshPool.GetMesh("10M_CUBE")->GetVertices()[1]->Location() - markerLocationReference << endl;
 
 	double frame_delta = clock();
 
@@ -275,42 +275,24 @@ int main(int argc, char* argv[])
 
 		MeshPool.GetMesh(18)->Rotate(Vector3(0.0f, 0.5f, 0.0f) * frame_delta);
 
-		//MeshPool.GetMesh("y")->Rotate(Vector3(0.5f, 0.0f, 0.0f) * frame_delta);
-		//MeshPool.GetMesh("y")->SetLocation(cubeLoc);
-		//MeshPool.GetMesh("y")->Scale(2.0f * frame_delta);
+		MeshPool.GetMesh("y")->Rotate(Vector3(0.5f, 0.0f, 0.0f) * frame_delta);
+		MeshPool.GetMesh("y")->SetLocation(cubeLoc);
+		MeshPool.GetMesh("y")->Scale(2.0f * frame_delta);
 
 		Core::EventSys::EventManager::GetInstance().Update();
 
-		MeshPool.GetMesh("DBG_CUBE")->Draw();
-		MeshPool.GetMesh("DBG_GRID")->Draw();
-		MeshPool.GetMesh("a")->Draw();
-		MeshPool.GetMesh("b")->Draw();
-		MeshPool.GetMesh("c")->Draw();
-		MeshPool.GetMesh("d")->Draw();
-		MeshPool.GetMesh("e")->Draw();
-		MeshPool.GetMesh("f")->Draw();
-		MeshPool.GetMesh("0")->Draw();
-		MeshPool.GetMesh("1")->Draw();
-		MeshPool.GetMesh("2")->Draw();
-		MeshPool.GetMesh("3")->Draw();
-		MeshPool.GetMesh("4")->Draw();
-		MeshPool.GetMesh("5")->Draw();
-		MeshPool.GetMesh("6")->Draw();
-		MeshPool.GetMesh("9")->Draw();
-		MeshPool.GetMesh("8")->Draw();
-		MeshPool.GetMesh("y")->Draw();
 		for (int i = 0; i < MeshPool.length(); ++i)
 		{
 			MeshPool.GetMesh(i)->Draw();
 		}
-		MeshPool.GetMesh(20)->Rotate(Vector3(90.0f, 0.5f, 0.0f) * frame_delta);
+		/*MeshPool.GetMesh(20)->Rotate(Vector3(90.0f, 0.5f, 0.0f) * frame_delta);
 		MeshPool.GetMesh(20)->Translate(Vector3(0.0f, 0.0f, 1.0f) * frame_delta);
 		MeshPool.GetMesh(20)->Draw();
 
 		calibration_marker->Draw();
 		calibration_marker->Translate(Vector3(0.0f, 0.0f, 0.0f));
 		calibration_marker2->Draw();
-		calibration_marker2->Translate(Vector3(0.0f, 0.0f, 0.0f));
+		calibration_marker2->Translate(Vector3(0.0f, 0.0f, 0.0f));*/
 		/*for (int i = 0; i < MeshPool.length(); ++i)
 		{
 			if (MeshPool.GetMesh(i)->GetID() == "ROOT" ||

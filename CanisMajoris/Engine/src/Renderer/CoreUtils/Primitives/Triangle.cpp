@@ -41,7 +41,24 @@ Triangle::Triangle(Edge* triangleEdges[3]) :
  m_edgeA(triangleEdges[0]),
  m_edgeB(triangleEdges[1]),
  m_edgeC(triangleEdges[2])
-{};
+{}
+
+void Triangle::setEdges(Edge* triangleEdges[3])
+{
+	m_edgeA = triangleEdges[0];
+	m_edgeB = triangleEdges[1];
+	m_edgeC = triangleEdges[2];
+}
+
+	void Triangle::setID(int id)
+{
+	m_id = id;
+}
+
+int Triangle::ID() const
+{
+	return m_id;
+}
 
 std::vector<const Vertex*> Triangle::GetVertices()
 {

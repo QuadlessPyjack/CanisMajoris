@@ -232,6 +232,7 @@
     <ClCompile Include="src\Renderer\CoreUtils\Primitives\Vertex.cpp" />
     <ClCompile Include="src\Renderer\CoreUtils\Rasterizer\Rasterizer.cpp" />
     <ClCompile Include="src\Renderer\CoreUtils\Scene.cpp" />
+    <ClCompile Include="src\UI\UITextLabel.cpp" />
     <ClCompile Include="src\Utils\EngineTimer.cpp" />
     <ClCompile Include="src\Utils\Math\Vector2.cpp" />
     <ClCompile Include="src\Utils\Math\Vector3.cpp" />
@@ -255,6 +256,7 @@
     <ClInclude Include="include\Renderer\CoreUtils\Primitives\Vertex.h" />
     <ClInclude Include="include\Renderer\CoreUtils\Rasterizer\Rasterizer.h" />
     <ClInclude Include="include\Renderer\CoreUtils\Scene.h" />
+    <ClInclude Include="include\UI\UITextLabel.h" />
     <ClInclude Include="include\Utils\Constants.h" />
     <ClInclude Include="include\Utils\EngineTimer.h" />
     <ClInclude Include="include\Utils\Math\Vector2.h" />

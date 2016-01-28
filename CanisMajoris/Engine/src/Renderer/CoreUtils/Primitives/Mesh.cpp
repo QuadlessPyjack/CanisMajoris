@@ -11,10 +11,42 @@
 
 #include<Renderer/CoreUtils/Scene.h>
 #include<Utils/Validators.inl>
+#include <list>
+#include <map>
+
 
 namespace Core      {
 namespace Renderer  {
 namespace CoreUtils {
+
+namespace
+{
+	//! This is the embryonic form of the FXProcessor system
+	//! \todo Move these into the FXProcessor system
+	std::list<Edge*> FXContourEffect(std::vector<Edge*> edges/*, std::vector<Vertex*> positions*/)
+	{
+		std::list<Edge*> resultList;
+		std::vector<Edge*>::const_iterator it;
+		for (it = edges.begin(); it != edges.end(); ++it)
+		{
+			if((*it)->GetEdgeOwner(1) == 0 || (*it)->GetEdgeOwner(0) == 0)
+			{
+				resultList.push_front(*it);
+			}
+		}
+	return resultList;
+	}
+
+	void ProcessScreenEffects(std::vector<Edge*> targetEdges)
+	{
+		std::list<Edge*> preprocessedEdges = FXContourEffect(targetEdges);
+		for (std::list<Edge*>::const_iterator it = preprocessedEdges.begin(); it != preprocessedEdges.end(); ++it)
+		{
+			//! \todo Allow Specification of colour and thickness parameters
+			(*it)->Draw();
+		}
+	}
+}
 
 Mesh::Mesh() :
  meshID("NULL"),
@@ -52,7 +84,7 @@ Mesh::Mesh(const std::string& ID,
 {
  for (int i = 0; i < m_vertCount; ++i)
  {
-  m_localVerts[i]->SetOwner(meshID);
+	m_localVerts[i]->SetOwner(meshID);
  }
 };
 
@@ -81,6 +113,12 @@ void Mesh::AddVertices(Vertex* vertArray[], int vertCount)
  }
  m_vertCount += vertCount;
 };
+
+void Mesh::AddEdge(Edge* edge)
+{
+	m_localEdges.push_back(edge);
+};
+
 void Mesh::AddEdges(Edge* edgeArray[], int edgeCount)
 {
  for (int i = 0; i < edgeCount; ++i)
@@ -102,7 +140,7 @@ std::vector<Vertex*> Mesh::GetVertices()
  return m_localVerts;
 };
 
-std::vector<Edge*> Mesh::GetEdges()
+const std::vector<Edge*> &Mesh::GetEdges()
 {
  return m_localEdges;
 };
@@ -114,21 +152,29 @@ std::vector<Triangle*> Mesh::GetTriangles()
 
 void Mesh::Draw()
 {
- if (m_triCount > 0)
- {
-  for (int i = 0; i < m_triCount; ++i)
-  {
-   m_localTris[i]->Draw();
-  }
-}
+	//! \todo Move all of this into its own FXProcessor Manager class
+	// special rendering case, handled separately
+	if (meshID.find("f_") == 0)
+	{
+		ProcessScreenEffects(m_localEdges);
+		return;
+	}
+
+	if (m_triCount > 0)
+	{
+		for (int i = 0; i < m_triCount; ++i)
+		{
+			m_localTris[i]->Draw();
+		}
+	}
 //! DEBUG ONLY - REMOVE WHEN DONE
 if (meshID != "ROOT" && "NULL")
 {
 	SDL_PixelFormat* fmt = m_surface->format;
-	if (ValidateScreenCoord(m_pivot.x, 0) && ValidateScreenCoord(m_pivot.y, 1))
+	if (ValidateScreenCoord(m_wsPivot.x, 0) && ValidateScreenCoord(m_wsPivot.y, 1))
 	{
-		Draw_FillCircle(Scene::GetInstance().GetViewport(), m_pivot.x, m_pivot.y, 1, SDL_MapRGB(fmt, 0, 0, 255));
-		//std::cout << "Pivot is at: X: " << m_pivot.x << " Y: " << m_pivot.y << std::endl;
+		Draw_FillCircle(Scene::GetInstance().GetViewport(), m_wsPivot.x, m_wsPivot.y, 1, SDL_MapRGB(fmt, 0, 0, 255));
+		//std::cout << "Pivot is at: X: " << m_wsPivot.x << " Y: " << m_wsPivot.y << std::endl;
 		fmt = nullptr;
 		delete fmt;
 	}
@@ -137,7 +183,7 @@ if (meshID != "ROOT" && "NULL")
 
 void Mesh::SetPivot(Vector3 pivotCoords)
 {
- m_pivot = pivotCoords;
+ m_wsPivot = pivotCoords;
 };
 
 void Mesh::InitPivot() //!< determines mesh centroid and sets pivot
@@ -156,12 +202,13 @@ rawCoords.y /= m_vertCount;
 rawCoords.z /= m_vertCount;
 }
 
-m_pivot = rawCoords;
+m_wsPivot = rawCoords;
+m_pivot = m_wsPivot;
 };
 
 const Vector3 Mesh::Location()
 {
- return m_pivot;
+ return m_wsPivot;
 }
 
 void Mesh::SetLocation(Vector3 location)
@@ -171,12 +218,12 @@ void Mesh::SetLocation(Vector3 location)
 		for (int i = 0; i < m_vertCount; ++i)
 		{
 			Vector3 prevLocation = m_localVerts[i]->Location();
-			Vector3 newLocation = location + prevLocation - m_pivot;
+			Vector3 newLocation = location + prevLocation - m_wsPivot;
 			m_localVerts[i]->SetLocation(newLocation);
 		}
 	}
 
-	m_pivot = location;
+	m_wsPivot = location;
 }
 
 void Mesh::Translate(Vector3 offset)
@@ -207,7 +254,7 @@ if (m_vertCount > 0)
  {
  for (int i = 0; i < m_vertCount; ++i)
   {
-  m_localVerts[i]->Scale(m_pivot, scaleFactor);
+  m_localVerts[i]->Scale(m_wsPivot, scaleFactor);
   }
  }
 };
@@ -229,9 +276,20 @@ void Mesh::Rotate(Vector3 amount)
  {
   for (int i = 0; i < m_vertCount; ++i)
   {
-  m_localVerts[i]->Rotate(m_pivot, amount);
+  m_localVerts[i]->Rotate(m_wsPivot, amount);
   }
  }
+}
+
+void Mesh::ResetTransform()
+{
+	if (m_vertCount > 0)
+	{
+		for (int i = 0; i < m_vertCount; ++i)
+		{
+			m_localVerts[i]->ResetTransform();
+		}
+	}
 };
 
 Mesh::~Mesh()
