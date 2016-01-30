@@ -55,7 +55,8 @@ Mesh::Mesh() :
  m_localEdges(NULL),
  m_localTris(NULL),
  m_triCount(0),
- m_vertCount(0)
+ m_vertCount(0),
+ m_isLocked(false)
 {};
 
 Mesh::Mesh(const std::string& ID) :
@@ -65,7 +66,8 @@ Mesh::Mesh(const std::string& ID) :
  m_localEdges(NULL),
  m_localTris(NULL),
  m_triCount(0),
- m_vertCount(0)
+ m_vertCount(0),
+ m_isLocked(false)
 {};
 
 Mesh::Mesh(const std::string& ID,
@@ -80,7 +82,8 @@ Mesh::Mesh(const std::string& ID,
  m_localEdges(edgeArray),
  m_localTris(triArray),
  m_triCount(triArray.size()),
- m_vertCount(vertArray.size())
+ m_vertCount(vertArray.size()),
+ m_isLocked(false)
 {
  for (int i = 0; i < m_vertCount; ++i)
  {
@@ -96,6 +99,16 @@ const std::string& Mesh::GetID()
 void Mesh::SetID(const std::string& ID)
 {
  meshID = ID;
+}
+
+void Mesh::SetLocked(bool lockFlag)
+{
+	m_isLocked = lockFlag;
+}
+
+bool Mesh::IsLocked()
+{
+	return m_isLocked;
 };
 
 void Mesh::AddRawVertex(float coordArray[])
@@ -218,7 +231,7 @@ void Mesh::SetLocation(Vector3 location)
 		for (int i = 0; i < m_vertCount; ++i)
 		{
 			Vector3 prevLocation = m_localVerts[i]->Location();
-			Vector3 newLocation = location + prevLocation - m_wsPivot;
+			Vector3 newLocation = location + prevLocation - m_pivot;
 			m_localVerts[i]->SetLocation(newLocation);
 		}
 	}
@@ -290,6 +303,8 @@ void Mesh::ResetTransform()
 			m_localVerts[i]->ResetTransform();
 		}
 	}
+
+	m_wsPivot = m_pivot;
 };
 
 Mesh::~Mesh()

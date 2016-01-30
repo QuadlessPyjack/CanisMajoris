@@ -219,6 +219,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\Editor\ProcyonServer\EditorServer.cpp" />
+    <ClCompile Include="src\Entities\Object.cpp" />
+    <ClCompile Include="src\Entities\StaticObject.cpp" />
     <ClCompile Include="src\Events\EventClient.cpp" />
     <ClCompile Include="src\Events\EventManager.cpp" />
     <ClCompile Include="src\Events\TestEventClient.cpp" />
@@ -242,6 +244,8 @@
     <ClInclude Include="include\Editor\ProcyonServer\EditorServer.h" />
     <ClInclude Include="include\Editor\ProcyonServer\ProcyonConstants.h" />
     <ClInclude Include="include\EngineDllExport.h" />
+    <ClInclude Include="include\Entities\Object.h" />
+    <ClInclude Include="include\Entities\StaticObject.h" />
     <ClInclude Include="include\Events\EngineEvents.h" />
     <ClInclude Include="include\Events\EventClient.h" />
     <ClInclude Include="include\Events\EventManager.h" />

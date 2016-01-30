@@ -25,6 +25,8 @@
 #include<Events/EventClient.h>
 #include<Events/TestEventClient.h>
 
+#include<Entities/Object.h>
+
 #include <Physics/SimplePhysBody.h>
 #include<Physics/PhysicsManager.h>
 
@@ -235,6 +237,9 @@ int main(int argc, char* argv[])
 
 	double frame_delta = clock();
 
+	Core::Game::Entities::Object test_object =  Core::Game::Entities::Object(MeshPool.GetMesh("DBG_CUBE"), Vector3(-100.0f, 50.0f, -200.0f));
+	Core::Game::Entities::Object test_object2 = Core::Game::Entities::Object(MeshPool.GetMesh("DBG_CUBE"), Vector3(-100.0f, 20.0f, -200.0f));
+
 	while (!shouldQuit)
 	{
 		frame_delta = (double)clock() - frame_delta;
@@ -269,9 +274,17 @@ int main(int argc, char* argv[])
 			evTest->FireEvent(eventID);
 		}
 
-		MeshPool.GetMesh("DBG_CUBE")->Rotate(Vector3(0.0f, 0.5f, 0.0f) * frame_delta);
+		//MeshPool.GetMesh("DBG_CUBE")->Rotate(Vector3(0.0f, 0.5f, 0.0f) * frame_delta);
 		Vector3 cubeLoc = MeshPool.GetMesh("DBG_CUBE")->Location();
 
+		test_object.Draw();
+		test_object.Translate(Vector3(-10.0f, +10.25f, 0.0f));
+
+
+		test_object2.Translate(Vector3(10.0f, -10.0f, 0.0f));
+
+		test_object2.Draw();
+		test_object.Rotate(Vector3(0.5f, 0.0f, 0.5f));
 
 		MeshPool.GetMesh(18)->Rotate(Vector3(0.0f, 0.5f, 0.0f) * frame_delta);
 
@@ -283,6 +296,10 @@ int main(int argc, char* argv[])
 
 		for (int i = 0; i < MeshPool.length(); ++i)
 		{
+			if (MeshPool.GetMesh(i)->GetID() == "DBG_CUBE")
+			{
+				continue;
+			}
 			MeshPool.GetMesh(i)->Draw();
 		}
 		/*MeshPool.GetMesh(20)->Rotate(Vector3(90.0f, 0.5f, 0.0f) * frame_delta);

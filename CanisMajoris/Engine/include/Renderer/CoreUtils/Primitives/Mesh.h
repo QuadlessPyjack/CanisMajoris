@@ -31,6 +31,9 @@ public:
 	const std::string& GetID();
 	void SetID(const std::string& ID);
 	
+	void SetLocked(bool lockFlag);
+	bool IsLocked();
+
 	void AddRawVertex(float coordArray[]);
 	
 	void AddVertices(Vertex* vertArray[], int vertCount);
@@ -68,6 +71,8 @@ private:
 	int m_vertCount;
 	Vector3 m_wsPivot;
 	Vector3 m_pivot;
+
+	bool m_isLocked;
 };
 } // namespace CoreUtils
 } // namespace Renderer
