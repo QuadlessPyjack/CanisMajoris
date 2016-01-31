@@ -37,13 +37,13 @@ namespace
 	return resultList;
 	}
 
-	void ProcessScreenEffects(std::vector<Edge*> targetEdges)
+	void ProcessScreenEffects(std::vector<Edge*> targetEdges, Vector3 colour)
 	{
 		std::list<Edge*> preprocessedEdges = FXContourEffect(targetEdges);
 		for (std::list<Edge*>::const_iterator it = preprocessedEdges.begin(); it != preprocessedEdges.end(); ++it)
 		{
 			//! \todo Allow Specification of colour and thickness parameters
-			(*it)->Draw();
+			(*it)->Draw(colour);
 		}
 	}
 }
@@ -56,8 +56,10 @@ Mesh::Mesh() :
  m_localTris(NULL),
  m_triCount(0),
  m_vertCount(0),
+ m_colour(Vector3::Zero()),
  m_isLocked(false)
-{};
+{
+};
 
 Mesh::Mesh(const std::string& ID) :
  meshID(ID),
@@ -67,8 +69,10 @@ Mesh::Mesh(const std::string& ID) :
  m_localTris(NULL),
  m_triCount(0),
  m_vertCount(0),
+ m_colour(Vector3::Zero()),
  m_isLocked(false)
-{};
+{
+};
 
 Mesh::Mesh(const std::string& ID,
  SDL_Surface* surface, //! DEPRECATED
@@ -83,12 +87,15 @@ Mesh::Mesh(const std::string& ID,
  m_localTris(triArray),
  m_triCount(triArray.size()),
  m_vertCount(vertArray.size()),
+ m_colour(Vector3::Zero()),
  m_isLocked(false)
 {
  for (int i = 0; i < m_vertCount; ++i)
  {
 	m_localVerts[i]->SetOwner(meshID);
  }
+
+ InitPivot();
 };
 
 const std::string& Mesh::GetID()
@@ -163,13 +170,14 @@ std::vector<Triangle*> Mesh::GetTriangles()
  return m_localTris;
 };
 
-void Mesh::Draw()
+void Mesh::Draw(Vector3 colour)
 {
+	m_colour = colour;
 	//! \todo Move all of this into its own FXProcessor Manager class
 	// special rendering case, handled separately
 	if (meshID.find("f_") == 0)
 	{
-		ProcessScreenEffects(m_localEdges);
+		ProcessScreenEffects(m_localEdges, colour);
 		return;
 	}
 
@@ -177,7 +185,7 @@ void Mesh::Draw()
 	{
 		for (int i = 0; i < m_triCount; ++i)
 		{
-			m_localTris[i]->Draw();
+			m_localTris[i]->Draw(colour);
 		}
 	}
 //! DEBUG ONLY - REMOVE WHEN DONE
@@ -214,6 +222,8 @@ rawCoords.x /= m_vertCount;
 rawCoords.y /= m_vertCount;
 rawCoords.z /= m_vertCount;
 }
+
+computeBoundingBox();
 
 m_wsPivot = rawCoords;
 m_pivot = m_wsPivot;
@@ -311,6 +321,27 @@ Mesh::~Mesh()
 {
  m_surface = nullptr;
  delete m_surface;
+}
+
+void Mesh::computeBoundingBox()
+{
+	std::vector<Vertex*>::const_iterator it;
+	Vector3 minBound = m_localVerts[0]->Location();
+	Vector3 maxBound = minBound;
+	for (it = m_localVerts.begin(); it != m_localVerts.end(); ++it)
+	{
+		if ((*it)->Location() >= maxBound)
+		{
+			maxBound = (*it)->Location();
+		}
+
+		if ((*it)->Location() <= minBound)
+		{
+			minBound = (*it)->Location();
+		}
+	}
+
+	m_boundingBox = { minBound, maxBound };
 };
 
 } // CoreUtils

@@ -45,7 +45,7 @@ public:
 	const std::vector<Edge*> &GetEdges();
 	std::vector<Triangle*> GetTriangles();
 	
-	void Draw();
+	void Draw(Vector3 colour = Vector3(255.0f, 255.0f, 255.0f));
 	
 	void SetPivot(Vector3 pivotCoords);
 	void InitPivot(); //!< determines mesh centroid and sets pivot
@@ -61,6 +61,8 @@ public:
 	
 	~Mesh();
 private:
+	void computeBoundingBox();
+
 	std::string meshID;
 	SDL_Surface* m_surface;
 	std::vector<Vertex*> m_localVerts;
@@ -71,6 +73,8 @@ private:
 	int m_vertCount;
 	Vector3 m_wsPivot;
 	Vector3 m_pivot;
+	Vector3 m_colour;
+	Bounds m_boundingBox;
 
 	bool m_isLocked;
 };

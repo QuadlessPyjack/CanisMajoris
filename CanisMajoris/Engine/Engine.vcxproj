@@ -221,10 +221,12 @@
     <ClCompile Include="src\Editor\ProcyonServer\EditorServer.cpp" />
     <ClCompile Include="src\Entities\Object.cpp" />
     <ClCompile Include="src\Entities\StaticObject.cpp" />
+    <ClCompile Include="src\Entities\UIObject.cpp" />
     <ClCompile Include="src\Events\EventClient.cpp" />
     <ClCompile Include="src\Events\EventManager.cpp" />
     <ClCompile Include="src\Events\TestEventClient.cpp" />
     <ClCompile Include="src\FileIO\OBJImpex\Reader\IO_OBJLoader.cpp" />
+    <ClCompile Include="src\Init\FontLoader.cpp" />
     <ClCompile Include="src\Physics\PhysicsManager.cpp" />
     <ClCompile Include="src\Physics\SimplePhysBody.cpp" />
     <ClCompile Include="src\Renderer\CoreUtils\Camera.cpp" />
@@ -246,11 +248,13 @@
     <ClInclude Include="include\EngineDllExport.h" />
     <ClInclude Include="include\Entities\Object.h" />
     <ClInclude Include="include\Entities\StaticObject.h" />
+    <ClInclude Include="include\Entities\UIObject.h" />
     <ClInclude Include="include\Events\EngineEvents.h" />
     <ClInclude Include="include\Events\EventClient.h" />
     <ClInclude Include="include\Events\EventManager.h" />
     <ClInclude Include="include\Events\TestEventClient.h" />
     <ClInclude Include="include\FileIO\OBJImpex\Reader\IO_OBJLoader.h" />
+    <ClInclude Include="include\Init\FontLoader.h" />
     <ClInclude Include="include\Physics\PhysicsManager.h" />
     <ClInclude Include="include\Physics\SimplePhysBody.h" />
     <ClInclude Include="include\Renderer\CoreUtils\Camera.h" />
@@ -270,6 +274,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="include\Events\Event.inl" />
+    <None Include="include\Utils\Colours.inl" />
     <None Include="include\Utils\Math\ConverterUtils.inl" />
     <None Include="include\Utils\Validators.inl" />
   </ItemGroup>

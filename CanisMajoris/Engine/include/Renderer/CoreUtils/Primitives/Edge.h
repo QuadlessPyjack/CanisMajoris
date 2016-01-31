@@ -29,7 +29,7 @@ public:
  // warning! once both owner triangles are set, THAT'S IT
  // if you DO want to change the edge owners, you're either insane or working on OpenRedFaction
  void setParentTriangle(int triangleID);
- void Draw();
+ void Draw(Vector3 colour = Vector3::Zero());
  void Translate(Vector3 offset);
 
  const Vertex* GetEdgeVertex(int index);

@@ -28,7 +28,7 @@ namespace CoreUtils{
  void setID(int id);
  int ID() const;
 
- void Draw();
+ void Draw(Vector3 colour = Vector3::Zero());
  
  std::vector<const Vertex*> GetVertices();
  void Translate(Vector3 offset);

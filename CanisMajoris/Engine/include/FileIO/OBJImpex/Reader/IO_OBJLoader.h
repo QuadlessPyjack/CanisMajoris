@@ -32,9 +32,14 @@ namespace Core
 		{
 		public:
 			ModelFile();
+			~ModelFile();
+
+			ModelFile(const std::string filePath);
 
 			void Load(const std::string filePath);
 			void Save(const std::string filePath);
+
+			bool IsValid();
 
 			std::vector<Renderer::CoreUtils::Vertex*> ExtractVertexData(int& vertCount, MeshContainer& MeshData);
 			std::vector<Renderer::CoreUtils::Edge*> ExtractEdgeData(int& edgeCount, std::vector<Renderer::CoreUtils::Vertex*>& vertexPoolRef);
@@ -43,8 +48,6 @@ namespace Core
 		private:
 			std::ifstream* m_input;
 			std::string m_filename;
-
-			~ModelFile();
 		};
 	}
 }

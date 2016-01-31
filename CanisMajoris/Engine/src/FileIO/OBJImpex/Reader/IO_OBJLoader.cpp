@@ -18,13 +18,18 @@
 namespace Core {
 namespace IO   {
  ModelFile::ModelFile()
- {};
+ {}
+
+ModelFile::ModelFile(const std::string filePath)
+{
+	Load(filePath);
+};
  
  void ModelFile::Load(const std::string filePath)
  {
   m_input = new std::ifstream(filePath);
   m_filename = filePath;
- 	
+
   if (!m_input || !*m_input)
    std::cout << "[OBJ LOAD DBG] Incorrect Path or Missing File Error! (" << filePath << ")\n";
   else
@@ -33,7 +38,12 @@ namespace IO   {
  };
  
  void ModelFile::Save(std::string filePath)
- {};
+ {}
+
+	bool ModelFile::IsValid()
+ {
+	 return m_input->good();
+ };
  
  std::vector<Renderer::CoreUtils::Vertex*> ModelFile::ExtractVertexData(int& vertCount, MeshContainer& MeshData)
  {

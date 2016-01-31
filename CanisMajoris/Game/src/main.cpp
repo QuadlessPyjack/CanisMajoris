@@ -32,6 +32,8 @@
 
 #include<Editor/ProcyonServer/EditorServer.h>
 #include<Editor/ProcyonServer/ProcyonConstants.h>
+#include <Entities/UIObject.h>
+#include <Init/FontLoader.h>
 
 //#include<ScriptEngine.h>
 
@@ -56,6 +58,8 @@ int main(int argc, char* argv[])
 	using namespace Core::Renderer::CoreUtils;
 	using namespace Core::IO;
 	using namespace boost::interprocess;
+
+	Core::Init::FontLoader fontLoader;
 
 	EventClientTest *evTest = new EventClientTest();
 	EventClientTest *evReceiver = new EventClientTest();
@@ -239,7 +243,7 @@ int main(int argc, char* argv[])
 
 	Core::Game::Entities::Object test_object =  Core::Game::Entities::Object(MeshPool.GetMesh("DBG_CUBE"), Vector3(-100.0f, 50.0f, -200.0f));
 	Core::Game::Entities::Object test_object2 = Core::Game::Entities::Object(MeshPool.GetMesh("DBG_CUBE"), Vector3(-100.0f, 20.0f, -200.0f));
-
+	Core::Game::Entities::UIObject uiTextTest = Core::Game::Entities::UIObject(MeshPool.GetMesh("f_a"), Vector3(100.0f, 100.0f, -200.0f));
 	while (!shouldQuit)
 	{
 		frame_delta = (double)clock() - frame_delta;
@@ -286,6 +290,8 @@ int main(int argc, char* argv[])
 		test_object2.Draw();
 		test_object.Rotate(Vector3(0.5f, 0.0f, 0.5f));
 
+		uiTextTest.Draw();
+
 		MeshPool.GetMesh(18)->Rotate(Vector3(0.0f, 0.5f, 0.0f) * frame_delta);
 
 		MeshPool.GetMesh("y")->Rotate(Vector3(0.5f, 0.0f, 0.0f) * frame_delta);
@@ -300,7 +306,7 @@ int main(int argc, char* argv[])
 			{
 				continue;
 			}
-			MeshPool.GetMesh(i)->Draw();
+			/*MeshPool.GetMesh(i)->Draw();*/
 		}
 		/*MeshPool.GetMesh(20)->Rotate(Vector3(90.0f, 0.5f, 0.0f) * frame_delta);
 		MeshPool.GetMesh(20)->Translate(Vector3(0.0f, 0.0f, 1.0f) * frame_delta);

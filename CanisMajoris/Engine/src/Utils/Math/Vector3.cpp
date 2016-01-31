@@ -7,6 +7,7 @@
 //////////////////////////////////////////
 
 #include<Utils/Math/Vector3.h>
+#include<Utils/Math/Vector2.h>
 
 Vector3::Vector3():
 x(0.0f),
@@ -113,7 +114,87 @@ bool& operator!=(const Vector3& v1, const Vector3& v2)
 			flag = true;
 	}
 	return flag;
+}
+
+bool operator<(const Vector3& v1, const Vector3& v2)
+{
+	if (v1.x >= v2.x)
+	{
+		return false;
+	}
+
+	if (v1.y >= v2.y)
+	{
+		return false;
+	}
+
+	if (v1.z >= v2.z)
+	{
+		return false;
+	}
+
+	return true;
+}
+
+bool operator<=(const Vector3& v1, const Vector3& v2)
+{
+	if (v1.x > v2.x)
+	{
+		return false;
+	}
+
+	if (v1.y > v2.y)
+	{
+		return false;
+	}
+
+	if (v1.z > v2.z)
+	{
+		return false;
+	}
+
+	return true;
+}
+
+bool operator>(const Vector3& v1, const Vector3& v2)
+{
+	if (v1.x <= v2.x)
+	{
+		return false;
+	}
+
+	if (v1.y <= v2.y)
+	{
+		return false;
+	}
+
+	if (v1.z <= v2.z)
+	{
+		return false;
+	}
+
+	return true;
 };
+
+bool operator>=(const Vector3& v1, const Vector3& v2)
+{
+	if (v1.x < v2.x)
+	{
+		return false;
+	}
+
+	if (v1.y < v2.y)
+	{
+		return false;
+	}
+
+	if (v1.z < v2.z)
+	{
+		return false;
+	}
+
+	return true;
+}
 
 Vector3 operator+(const Vector3& v1, const Vector3& v2)
 {
@@ -172,6 +253,11 @@ Vector3& operator/(const Vector3& v1, const float& f2)
 	div.z = v1.z / f2;
 
 	return div;
+};
+
+Vector3::operator Math::Vector2()
+{
+	return Math::Vector2(x, y);
 };
 
 Vector3::~Vector3()

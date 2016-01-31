@@ -1,13 +1,16 @@
 #ifndef UITEXTLABEL_H
 #define UITEXTLABEL_H
 /////////////////////////////////////////////////////////////////////// 
-//! \brief   Scene - Canis Majoris Renderer
+//! \brief   UITextLabel - Canis Majoris UI
 //! \author  Bogdan Vitel
-//! \details Container Header for all common, vital, Scene Components
-//! \date    14/02/2015
-//! \todo    17/02/2015 - Created Singleton Class, added methods for Camera and SDL_Surface
+//! \details UI Label container for 3D text
+//! \date    31/01/2016
+//! \todo    
 //////////////////////////////////////////////////
 #include<EngineDllExport.h>
+#include <string>
+#include <vector>
+#include <Entities/UIObject.h>
 
 // forward declarations
 namespace Math 
@@ -24,6 +27,12 @@ class UITextLabel
 public:
 	UITextLabel();
 	UITextLabel(Math::Vector2 position, float width = 0.0f, float height = 0.0f);
+	UITextLabel(Bounds bounds);
+
+private:
+	Bounds m_labelBounds;
+	std::string m_text;
+	std::vector<Core::Game::Entities::UIObject> m_UIText;
 };
 
 } // namespace UI

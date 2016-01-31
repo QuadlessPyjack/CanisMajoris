@@ -5,11 +5,14 @@
 //!	\author  Bogdan Vitel
 //! \details Vector3 header - A 3D Vector Utility Class
 //! \date    12/11/2014
-//! \todo	 Add Spherical Coordinate Support (overload, conversion methods)
+//! \todo	 Vector2 should derive from Vector3 because they're fucking identical
 //////////////////////////////////////////
 #include<EngineDllExport.h>
 
 #include<iostream>
+
+// forward declaration
+namespace Math { class Vector2; }
 
 class CM_ENGINE_API Vector3
 {
@@ -73,6 +76,12 @@ public:
 	friend CM_ENGINE_API std::ostream& operator<<(std::ostream &os, const Vector3 &vect3);
 	friend CM_ENGINE_API bool& operator==(const Vector3& v1, const Vector3& v2);
 	friend CM_ENGINE_API bool& operator!=(const Vector3& v1, const Vector3& v2);
+
+	friend CM_ENGINE_API bool operator<(const Vector3& v1, const Vector3& v2);
+	friend CM_ENGINE_API bool operator<=(const Vector3& v1, const Vector3& v2);
+	friend CM_ENGINE_API bool operator>(const Vector3& v1, const Vector3& v2);
+	friend CM_ENGINE_API bool operator>=(const Vector3& v1, const Vector3& v2);
+	
 	friend CM_ENGINE_API Vector3 operator+(const Vector3& v1, const Vector3& v2);
 	friend CM_ENGINE_API Vector3 operator-(const Vector3& v1, const Vector3& v2);
 	friend CM_ENGINE_API Vector3& operator*(const Vector3& v1, const Vector3& v2);
@@ -82,9 +91,24 @@ public:
 
 	friend CM_ENGINE_API Vector3& operator/(const Vector3& v1, const float& f2);
 
+	//! this is a horrible hack, please see class todo
+	operator Math::Vector2();
+
 	void operator=(const Vector3& v1) {	x = v1.x; y = v1.y; z = v1.z; };
 
 	~Vector3();
+};
+
+struct Bounds
+{
+	Bounds(Vector3 min, Vector3 max) { minCorner = min; maxCorner = max; };
+	Bounds()
+		: minCorner(Vector3::Zero())
+		, maxCorner(Vector3::Zero())
+	{}
+
+	Vector3 minCorner;
+	Vector3 maxCorner;
 };
 
 #endif

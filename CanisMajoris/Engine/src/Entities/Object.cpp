@@ -16,12 +16,14 @@ namespace Entities {
 	Object::Object()
 	: m_mesh(nullptr)
 	, m_location(Vector3::Zero())
+	, m_scaleFactor(1.0f)
 	{
 	}
 
 	Object::Object(Renderer::CoreUtils::Mesh* mesh, Vector3 location)
 	: m_mesh(mesh)
 	, m_location(location)
+	, m_scaleFactor(1.0f)
 	{
 	}
 
@@ -30,10 +32,17 @@ namespace Entities {
 		//! \todo implement reference counter for mesh?
 	}
 
-	void Object::Draw()
+	void Object::Draw(Vector3 colour)
 	{
+		if (m_scaleFactor != 1.0f)
+		{
+			Scale(m_scaleFactor);
+			m_mesh->Draw(colour);
+			return;
+		}
+
 		updateMeshTransform();
-		m_mesh->Draw();
+		m_mesh->Draw(colour);
 	}
 
 	Vector3 Object::Location() const
@@ -66,6 +75,7 @@ namespace Entities {
 
 	void Object::Scale(Vector3 centre, float scaleFactor)
 	{
+		m_scaleFactor = scaleFactor;
 		updateMeshTransform();
 		m_mesh->Scale(centre, scaleFactor);
 		m_mesh->SetLocked(false);
@@ -73,6 +83,7 @@ namespace Entities {
 
 	void Object::Scale(float scaleFactor)
 	{
+		m_scaleFactor = scaleFactor;
 		updateMeshTransform();
 		m_mesh->Scale(scaleFactor);
 		m_mesh->SetLocked(false);

@@ -36,4 +36,9 @@ const Uint32 PHYS_TICK = 100;
 //Used by Engine
 const Uint32 ENGINE_TICK = 50;
 
+const char* const DEFAULT_FONT_MODEL_FILENAME = "../alphabet.obj";
+const char* const DEFAULT_ENGINE_SYMBOLS_FILENAME = "../symbols.obj";
+const char* const DEFAULT_FONT_NAME = "SystemFont";
+const char* const DEFAULT_ENGINE_SYMBOLS_NAME = "EngineGlyphs";
+
 #endif // CONSTANTS_H

@@ -18,7 +18,7 @@
 #include <list>
 
 namespace {
-	void DrawEdgeToScreen(const Vertex &startVert, const Vertex &endVert)
+	void DrawEdgeToScreen(const Vertex &startVert, const Vertex &endVert, Vector3 colour = Vector3::Zero())
 	{
 		Vector2 uiStartVert(startVert.x, SCREEN_HEIGHT - startVert.y);
 		Vector2 uiEndVert(endVert.x, SCREEN_HEIGHT - endVert.y);
@@ -26,7 +26,7 @@ namespace {
 		SDL_PixelFormat* fmt = Scene::GetInstance().GetViewport()->format;
 		if (ValidateScreenCoord(uiStartVert) && ValidateScreenCoord(uiEndVert))
 		{
-			Draw_Line(Scene::GetInstance().GetViewport(), uiStartVert.x, uiStartVert.y, uiEndVert.x, uiEndVert.y, SDL_MapRGB(fmt, 0, 255, 0));
+			Draw_Line(Scene::GetInstance().GetViewport(), uiStartVert.x, uiStartVert.y, uiEndVert.x, uiEndVert.y, SDL_MapRGB(fmt, colour.x, colour.y, colour.z));
 			fmt = nullptr;
 			delete fmt;
 		}
@@ -113,7 +113,7 @@ void Edge::setParentTriangle(int triangleID)
 	return;
 }
 
-	void Edge::Draw()
+void Edge::Draw(Vector3 colour)
 {
 
  if(m_startVert->GetOwner() != m_endVert->GetOwner())
@@ -130,7 +130,7 @@ void Edge::setParentTriangle(int triangleID)
  if (m_startVert->GetOwner().find("f_") == 0)
  {
 	// Treat this 3D geometry as an interface font and render directly to screen surface
-	 DrawEdgeToScreen(*m_startVert, *m_endVert);
+	 DrawEdgeToScreen(*m_startVert, *m_endVert, colour);
 	 return;
  }
 
@@ -162,7 +162,7 @@ void Edge::setParentTriangle(int triangleID)
 		 return;
 	 }
 
-	 Draw_Line(m_SDLSurface, screen_start.x, screen_start.y, screen_end.x, screen_end.y, SDL_MapRGB(fmt, 255, 0, 0));
+	 Draw_Line(m_SDLSurface, screen_start.x, screen_start.y, screen_end.x, screen_end.y, SDL_MapRGB(fmt, colour.x, colour.y, colour.z));
 	 fmt = nullptr;
 	 delete fmt;
  }

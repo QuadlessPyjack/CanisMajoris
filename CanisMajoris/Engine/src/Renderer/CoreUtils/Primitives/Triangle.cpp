@@ -70,11 +70,11 @@ std::vector<const Vertex*> Triangle::GetVertices()
  return tri_verts;
 }
 
-void Triangle::Draw()
+void Triangle::Draw(Vector3 colour)
 {
- m_edgeA->Draw();
- m_edgeB->Draw();
- m_edgeC->Draw();
+ m_edgeA->Draw(colour);
+ m_edgeB->Draw(colour);
+ m_edgeC->Draw(colour);
 }
 
 void Triangle::Translate(Vector3 offset)

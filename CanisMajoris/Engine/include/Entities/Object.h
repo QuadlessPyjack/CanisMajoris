@@ -31,7 +31,7 @@ namespace Core
 				Object();
 				Object(Renderer::CoreUtils::Mesh *mesh, Vector3 location);
 				virtual ~Object();
-				virtual void Draw();
+				virtual void Draw(Vector3 colour = Vector3(255.0f, 255.0f, 255.0f));
 
 				virtual Vector3 Location() const;
 				virtual void  SetLocation(Vector3 location);
@@ -45,10 +45,11 @@ namespace Core
 				virtual void Rotate(Vector3 centre, Vector3 amount);
 				virtual void Rotate(Vector3 amount);
 
-			private:
+			protected:
 				void updateMeshTransform();
 				Renderer::CoreUtils::Mesh *m_mesh;
 				Vector3 m_location;
+				float m_scaleFactor;
 			};
 		}
 	}
