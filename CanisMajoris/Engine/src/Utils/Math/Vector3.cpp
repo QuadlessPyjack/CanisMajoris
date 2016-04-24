@@ -93,25 +93,25 @@ std::ostream& operator<<(std::ostream &os, const Vector3 &vect3)
 
 bool& operator==(const Vector3& v1, const Vector3& v2)
 {
-	bool flag = true;
+	bool flag = false;
 	//!< Just in case they happen to be *numerically* identical
 	if (v1.isPolar == v2.isPolar)
 	{
 		
-		if ((v1.x == v2.x) | (v1.y == v2.y) | (v1.z == v2.z))
-			flag = false;
+		if ((v1.x == v2.x) && (v1.y == v2.y) && (v1.z == v2.z))
+			flag = true;
 	}
 	return flag;
 };
 
 bool& operator!=(const Vector3& v1, const Vector3& v2)
 {
-	bool flag = false;
+	bool flag = true;
 	//!< Just in case they happen to be *numerically* identical
 	if (v1.isPolar == v2.isPolar)
 	{
-		if ((v1.x == v2.x) | (v1.y == v2.y) | (v1.z == v2.z))
-			flag = true;
+		if ((v1.x == v2.x) && (v1.y == v2.y) && (v1.z == v2.z))
+			flag = false;
 	}
 	return flag;
 }

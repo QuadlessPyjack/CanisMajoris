@@ -34,6 +34,7 @@
 #include<Editor/ProcyonServer/ProcyonConstants.h>
 #include <Entities/UIObject.h>
 #include <Init/FontLoader.h>
+#include <Init/InitStatusIndicator.h>
 
 //#include<ScriptEngine.h>
 
@@ -50,7 +51,7 @@ int main(int argc, char* argv[])
 	//dbg_screen = TTF_RenderText_Solid(dbg_font, "Canis Majoris On-Screen Debug Text", color);
 
 	//TTF_RenderText_Solid
-
+	SDL_putenv("SDL_VIDEO_WINDOW_POS=center");
 	SDL_Surface* screen = SDL_SetVideoMode(800, 600, 32, SDL_HWSURFACE);
 	SDL_WM_SetCaption("CANIS MAJORIS 3D PERSPECTIVE", nullptr);
 
@@ -59,8 +60,17 @@ int main(int argc, char* argv[])
 	using namespace Core::IO;
 	using namespace boost::interprocess;
 
+	cout << "Lets spawn a Camera [currently just a Vector3 position in space]:";
+	Camera *SceneCamera = new Camera(Vector3(-200.0f, 95.0f, -200.0f));
+
+	cout << "Lets create our Scene.\n";
+	Scene MainScene = Scene::GetInstance();
+	cout << "Initializing Main Scene.\n";
+	MainScene.InitScene(SceneCamera);
+
 	Core::Init::FontLoader fontLoader;
 
+	Core::Init::StatusIndicator::GetInstance().DisplayProgressSpinner();
 	EventClientTest *evTest = new EventClientTest();
 	EventClientTest *evReceiver = new EventClientTest();
 	Core::EventSys::Event *testEvent = new Core::EventSys::Event();
@@ -77,7 +87,7 @@ int main(int argc, char* argv[])
 	mapped_region region(shm, read_write);
 	std::memset(region.get_address(), 'X', region.get_size());*/
 
-
+	Core::Init::StatusIndicator::GetInstance().DisplayProgressSpinner();
 	Editor::ProcyonServer dbgServer = Editor::ProcyonServer::GetInstance();
 
 	cout << "Lets build a ModelFile and load our test model.\n";
@@ -109,11 +119,8 @@ int main(int argc, char* argv[])
 	Vector3 dif = testvect4 - testvect3;
 	cout << "(4,5,6) - (1,2,3) = " << dif << endl;
 
-	cout << "Lets spawn a Camera [currently just a Vector3 position in space]:";
-	Camera *SceneCamera = new Camera(Vector3(-200.0f, 95.0f, -200.0f));
-
 	cout << " " << SceneCamera << endl;
-
+	Core::Init::StatusIndicator::GetInstance().DisplayProgressSpinner();
 	cout << "Lets create our Vertex Pool.\n";
 	vector<Vertex*> VertexPool;
 	vector<Vertex*> VertexPool2;
@@ -131,11 +138,6 @@ int main(int argc, char* argv[])
 	MeshContainer MeshPool3;
 	Rasterizer* testRasterizer = new Rasterizer(MeshPool, screen);
 
-	cout << "Lets create our Scene.\n";
-	Scene MainScene = Scene::GetInstance();
-	cout << "Initializing Main Scene.\n";
-	MainScene.InitScene(SceneCamera);
-
 	cout << "Main Scene Camera: " << MainScene.GetCamera() << endl;
 
 	std::chrono::time_point<std::chrono::system_clock> start, end;
@@ -146,7 +148,7 @@ int main(int argc, char* argv[])
 	//ScriptEngine::Instance().Execute();
 
 	cout << "Loading OBJ Model File.\n";
-	
+	Core::Init::StatusIndicator::GetInstance().DisplayProgressSpinner();
 	testOBJ->Load(TEST_MODEL_FILENAME);
 	testOBJ2->Load("..\\10m_cube.obj");
 	alphabet->Load("..\\alphabet.obj");
@@ -199,7 +201,7 @@ int main(int argc, char* argv[])
 	end = std::chrono::system_clock::now();
 	std::chrono::duration<double> elapsed_seconds = end - start;
 	cout << "Finished Loading OBJ Model File. Elapsed time is: " << elapsed_seconds.count() << endl;
-	
+	Core::Init::StatusIndicator::GetInstance().DisplayProgressSpinner();
 	start = std::chrono::system_clock::now();
 
 	end = std::chrono::system_clock::now();
@@ -207,18 +209,12 @@ int main(int argc, char* argv[])
 
 	cout << "Total rendered tri count is: " << EDGE_COUNT / 3 << " Render time: "<< elapsed_seconds.count() << endl;
 
-	SDL_Flip(screen);
-
-	SDL_Delay(5000);
-	SDL_FillRect(screen, nullptr, 0x000000);
-	SDL_Flip(screen);
-
 	cout << "Mesh[" << MeshPool.GetMesh(0)->GetID().c_str() << "] World Coordinates: " << MeshPool.GetMesh(0)->Location() << " Camera-Relative: " << WorldToCameraCoords(MeshPool.GetMesh(0)->Location()) << endl;
 
 	Uint8 *keystates = SDL_GetKeyState(nullptr);
 	bool shouldQuit = false;
 	SDL_Event event;
-
+	Core::Init::StatusIndicator::GetInstance().DisplayProgressSpinner();
 	cout << "Initializing Physics Manager\n";
 	cout << MeshPool.GetMesh("DBG_CUBE")->Location() << endl;
 	Core::Physics::SPBody *physCube = new Core::Physics::SPBody();
@@ -240,9 +236,9 @@ int main(int argc, char* argv[])
 	//std::cout << "10m in model-space = " << MeshPool.GetMesh("10M_CUBE")->GetVertices()[1]->Location() - markerLocationReference << endl;
 
 	double frame_delta = clock();
-
+	Core::Init::StatusIndicator::GetInstance().DisplayProgressSpinner();
 	Core::Game::Entities::Object test_object =  Core::Game::Entities::Object(MeshPool.GetMesh("DBG_CUBE"), Vector3(-100.0f, 50.0f, -200.0f));
-	Core::Game::Entities::Object test_object2 = Core::Game::Entities::Object(MeshPool.GetMesh("DBG_CUBE"), Vector3(-100.0f, 20.0f, -200.0f));
+	Core::Game::Entities::Object test_object2 = Core::Game::Entities::Object(MeshPool.GetMesh("DBG_CUBE"), Vector3(-50.0f, 20.0f, -200.0f));
 	Core::Game::Entities::UIObject uiTextTest = Core::Game::Entities::UIObject(MeshPool.GetMesh("f_a"), Vector3(100.0f, 100.0f, -200.0f));
 	while (!shouldQuit)
 	{
@@ -282,57 +278,28 @@ int main(int argc, char* argv[])
 		Vector3 cubeLoc = MeshPool.GetMesh("DBG_CUBE")->Location();
 
 		test_object.Draw();
-		test_object.Translate(Vector3(-10.0f, +10.25f, 0.0f));
+		
+		//test_object.Translate(Vector3(0.0f, 0.0f, 0.0f));
+		test_object.Scale(0.5f);
+		test_object.Rotate(Vector3(0.0f, 0.5f, 1.0f));
 
-
-		test_object2.Translate(Vector3(10.0f, -10.0f, 0.0f));
+		test_object2.Rotate(Vector3(4.0f, 0.25f, 0.0f));
 
 		test_object2.Draw();
-		test_object.Rotate(Vector3(0.5f, 0.0f, 0.5f));
+		//test_object.Scale(1.2f);
 
+		uiTextTest.Rotate(Vector3(2.0f, 0.5f, 0.5f));
 		uiTextTest.Draw();
-
-		MeshPool.GetMesh(18)->Rotate(Vector3(0.0f, 0.5f, 0.0f) * frame_delta);
-
-		MeshPool.GetMesh("y")->Rotate(Vector3(0.5f, 0.0f, 0.0f) * frame_delta);
-		MeshPool.GetMesh("y")->SetLocation(cubeLoc);
-		MeshPool.GetMesh("y")->Scale(2.0f * frame_delta);
 
 		Core::EventSys::EventManager::GetInstance().Update();
 
-		for (int i = 0; i < MeshPool.length(); ++i)
-		{
-			if (MeshPool.GetMesh(i)->GetID() == "DBG_CUBE")
-			{
-				continue;
-			}
-			/*MeshPool.GetMesh(i)->Draw();*/
-		}
-		/*MeshPool.GetMesh(20)->Rotate(Vector3(90.0f, 0.5f, 0.0f) * frame_delta);
-		MeshPool.GetMesh(20)->Translate(Vector3(0.0f, 0.0f, 1.0f) * frame_delta);
-		MeshPool.GetMesh(20)->Draw();
-
-		calibration_marker->Draw();
-		calibration_marker->Translate(Vector3(0.0f, 0.0f, 0.0f));
-		calibration_marker2->Draw();
-		calibration_marker2->Translate(Vector3(0.0f, 0.0f, 0.0f));*/
-		/*for (int i = 0; i < MeshPool.length(); ++i)
-		{
-			if (MeshPool.GetMesh(i)->GetID() == "ROOT" ||
-				MeshPool.GetMesh(i)->GetID() == "GRID")
-			{
-				continue;
-			}
-
-			MeshPool.GetMesh(i)->Draw();
-		}*/
 		dbgServer.LogInfo("THIS IS A TEST MESSAGE\n");
 		//testRasterizer->RasterizeScene();
-		for (int i = 0; i < MeshPool.length(); ++i)
-		{
-			MeshPool.GetMesh(i)->Translate(Vector3(0.0f, 0.0f, 0.0f) /** frame_delta*/);
-			//dbg_screen = TTF_RenderText_Solid(dbg_font, "FRAME TICK\n", color);
-		}
+		//for (int i = 0; i < MeshPool.length(); ++i)
+		//{
+		//	MeshPool.GetMesh(i)->Translate(Vector3(0.0f, 0.0f, 0.0f) /** frame_delta*/);
+		//	//dbg_screen = TTF_RenderText_Solid(dbg_font, "FRAME TICK\n", color);
+		//}
 
 		SDL_Flip(screen);
 		//SDL_Delay(ENGINE_TICK);

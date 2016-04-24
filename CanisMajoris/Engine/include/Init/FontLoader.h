@@ -17,7 +17,7 @@
 
 namespace Core {
 namespace Init {
-	class FontLoader
+	class CM_ENGINE_API FontLoader
 	{
 	public:
 		FontLoader();

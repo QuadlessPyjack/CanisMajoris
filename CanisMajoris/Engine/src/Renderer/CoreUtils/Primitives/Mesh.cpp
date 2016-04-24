@@ -56,8 +56,10 @@ Mesh::Mesh() :
  m_localTris(NULL),
  m_triCount(0),
  m_vertCount(0),
+ m_scaleFactor(1.0f),
+ m_wsRotation(Vector3::Zero()),
  m_colour(Vector3::Zero()),
- m_isLocked(false)
+ m_dirtyFlag(false)
 {
 };
 
@@ -69,8 +71,10 @@ Mesh::Mesh(const std::string& ID) :
  m_localTris(NULL),
  m_triCount(0),
  m_vertCount(0),
+ m_scaleFactor(1.0f),
+ m_wsRotation(Vector3::Zero()),
  m_colour(Vector3::Zero()),
- m_isLocked(false)
+ m_dirtyFlag(false)
 {
 };
 
@@ -87,8 +91,10 @@ Mesh::Mesh(const std::string& ID,
  m_localTris(triArray),
  m_triCount(triArray.size()),
  m_vertCount(vertArray.size()),
+ m_scaleFactor(1.0f),
+ m_wsRotation(Vector3::Zero()),
  m_colour(Vector3::Zero()),
- m_isLocked(false)
+ m_dirtyFlag(false)
 {
  for (int i = 0; i < m_vertCount; ++i)
  {
@@ -108,15 +114,10 @@ void Mesh::SetID(const std::string& ID)
  meshID = ID;
 }
 
-void Mesh::SetLocked(bool lockFlag)
+bool Mesh::IsDirty()
 {
-	m_isLocked = lockFlag;
+	return m_dirtyFlag;
 }
-
-bool Mesh::IsLocked()
-{
-	return m_isLocked;
-};
 
 void Mesh::AddRawVertex(float coordArray[])
 {
@@ -175,11 +176,11 @@ void Mesh::Draw(Vector3 colour)
 	m_colour = colour;
 	//! \todo Move all of this into its own FXProcessor Manager class
 	// special rendering case, handled separately
-	if (meshID.find("f_") == 0)
-	{
-		ProcessScreenEffects(m_localEdges, colour);
-		return;
-	}
+	//if (meshID.find("f_") == 0)
+	//{
+	//	ProcessScreenEffects(m_localEdges, colour);
+	//	return;
+	//}
 
 	if (m_triCount > 0)
 	{
@@ -205,6 +206,7 @@ if (meshID != "ROOT" && "NULL")
 void Mesh::SetPivot(Vector3 pivotCoords)
 {
  m_wsPivot = pivotCoords;
+ m_dirtyFlag = true;
 };
 
 void Mesh::InitPivot() //!< determines mesh centroid and sets pivot
@@ -227,6 +229,7 @@ computeBoundingBox();
 
 m_wsPivot = rawCoords;
 m_pivot = m_wsPivot;
+m_dirtyFlag = false;
 };
 
 const Vector3 Mesh::Location()
@@ -247,6 +250,21 @@ void Mesh::SetLocation(Vector3 location)
 	}
 
 	m_wsPivot = location;
+	m_dirtyFlag = true;
+}
+
+void Mesh::SetRotation(Vector3 rotation)
+{
+	m_wsRotation = rotation;
+	Rotate(m_wsRotation);
+	m_dirtyFlag = true;
+}
+
+void Mesh::SetScale(float scale)
+{
+	m_scaleFactor = scale;
+	Scale(m_scaleFactor);
+	m_dirtyFlag = true;
 }
 
 void Mesh::Translate(Vector3 offset)
@@ -304,17 +322,28 @@ void Mesh::Rotate(Vector3 amount)
  }
 }
 
-void Mesh::ResetTransform()
+bool Mesh::ResetTransform()
 {
 	if (m_vertCount > 0)
 	{
+		if (!m_localVerts[0]->IsDirty())
+		{
+			// nothing to do here folks, bail out
+			return false;
+		}
 		for (int i = 0; i < m_vertCount; ++i)
 		{
 			m_localVerts[i]->ResetTransform();
+			/*m_localVerts[i]->Scale(m_pivot, 1 / m_scaleFactor);
+			m_localVerts[i]->Rotate(m_pivot, Vector3(-m_wsRotation.x, -m_wsRotation.y, -m_wsRotation.z));*/
 		}
 	}
-
+	m_scaleFactor = 1.0f;
+	m_wsRotation = Vector3::Zero();
 	m_wsPivot = m_pivot;
+	m_dirtyFlag = false;
+	return true;
+
 };
 
 Mesh::~Mesh()

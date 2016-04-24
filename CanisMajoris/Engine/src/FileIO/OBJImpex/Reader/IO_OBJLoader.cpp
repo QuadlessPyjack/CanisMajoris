@@ -14,6 +14,7 @@
 
 #include <FileIO\OBJImpex\Reader\IO_OBJLoader.h>
 #include <Utils\Constants.h>
+#include <Init/InitStatusIndicator.h>
 
 namespace Core {
 namespace IO   {
@@ -27,11 +28,15 @@ ModelFile::ModelFile(const std::string filePath)
  
  void ModelFile::Load(const std::string filePath)
  {
+  Init::StatusIndicator::GetInstance().DisplayProgressSpinner();
   m_input = new std::ifstream(filePath);
   m_filename = filePath;
 
   if (!m_input || !*m_input)
-   std::cout << "[OBJ LOAD DBG] Incorrect Path or Missing File Error! (" << filePath << ")\n";
+  {
+	Init::StatusIndicator::GetInstance().DisplayGuruMeditation();
+	std::cout << "[OBJ LOAD DBG] Incorrect Path or Missing File Error! (" << filePath << ")\n";
+  }
   else
    ;
    //m_input->open(filePath);
@@ -155,7 +160,7 @@ ModelFile::ModelFile(const std::string filePath)
  {
   MeshContainer MeshData;
   std::string line;
- 
+  Init::StatusIndicator::GetInstance().DisplayProgressSpinner();
   if (m_input && *m_input)
   {
    //std::cout << "FILE DUMP: " << m_input->rdbuf()<<'\n';
@@ -173,6 +178,7 @@ ModelFile::ModelFile(const std::string filePath)
  	if (!getline(*m_input, line))
  	{
  	 std::cout << "END_OF_FILE" << std::endl;
+	 Init::StatusIndicator::GetInstance().DisplayProgressSpinner();
  	}
  	else
  	{
@@ -237,6 +243,7 @@ ModelFile::ModelFile(const std::string filePath)
    {
  	if (raw_value.compare("f") != 0)
  	{
+	 Init::StatusIndicator::GetInstance().DisplayProgressSpinner();
  	 int raw_vertIndexes[3];
  	 raw_vertIndexes[0] = stoi(raw_value);
  	 line2 >> raw_value;

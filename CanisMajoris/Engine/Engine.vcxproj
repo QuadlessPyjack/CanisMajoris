@@ -227,6 +227,7 @@
     <ClCompile Include="src\Events\TestEventClient.cpp" />
     <ClCompile Include="src\FileIO\OBJImpex\Reader\IO_OBJLoader.cpp" />
     <ClCompile Include="src\Init\FontLoader.cpp" />
+    <ClCompile Include="src\Init\InitStatusIndicator.cpp" />
     <ClCompile Include="src\Physics\PhysicsManager.cpp" />
     <ClCompile Include="src\Physics\SimplePhysBody.cpp" />
     <ClCompile Include="src\Renderer\CoreUtils\Camera.cpp" />
@@ -255,6 +256,7 @@
     <ClInclude Include="include\Events\TestEventClient.h" />
     <ClInclude Include="include\FileIO\OBJImpex\Reader\IO_OBJLoader.h" />
     <ClInclude Include="include\Init\FontLoader.h" />
+    <ClInclude Include="include\Init\InitStatusIndicator.h" />
     <ClInclude Include="include\Physics\PhysicsManager.h" />
     <ClInclude Include="include\Physics\SimplePhysBody.h" />
     <ClInclude Include="include\Renderer\CoreUtils\Camera.h" />

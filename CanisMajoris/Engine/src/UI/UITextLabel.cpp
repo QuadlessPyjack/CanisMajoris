@@ -7,6 +7,8 @@
 //////////////////////////////////////////////////
 
 #include<UI/UITextLabel.h>
+#include <list>
+#include <Renderer/CoreUtils/Primitives/Mesh.h>
 
 namespace Renderer {
 namespace UI       {
@@ -32,6 +34,25 @@ namespace UI       {
 	UITextLabel::UITextLabel(Bounds bounds)
 	{
 		
+	}
+
+	void UITextLabel::setStringToUIText(std::string text)
+	{
+		//std::list<Core::Game::Entities::UIObject> font = FontLoader::GetInstance()::GetFont();
+		std::list<Core::Game::Entities::UIObject> font;
+		std::list<Core::Game::Entities::UIObject>::iterator it;
+
+		for (int index = 0; index < text.size(); ++index)
+		{
+			for (it = font.begin(); it != font.end(); ++it)
+			{
+				if ((*it).GetMesh().GetID()[0] == text[index])
+				{
+					m_UIText.push_back(*it);
+					break;
+				}
+			}
+		}
 	}
 } // namespace UI
 } // namespace Renderer

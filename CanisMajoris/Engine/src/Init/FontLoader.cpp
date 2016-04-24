@@ -6,6 +6,7 @@
 //! \todo    this MUST be a SINGLETON or else all that mesh data could go to hell
 //////////////////////////////////////////////////
 #include<Init/FontLoader.h>
+#include<Init/InitStatusIndicator.h>
 
 namespace Core {
 namespace Init {
@@ -53,15 +54,33 @@ namespace Init {
 
 	void FontLoader::generateFontObjects(std::string fontName, bool shouldLoadGlyphs)
 	{
-		if (m_fontModel.IsValid())
-		{
 			MeshContainer tempMeshStorage;
 			if (!shouldLoadGlyphs)
 			{
+				if (!m_fontModel.IsValid())
+				{
+					return;
+				}
 				tempMeshStorage = m_fontModel.ExtractMeshData(m_fontVertexPool);
 			}
 			else
 			{
+				int fontArrayLength = m_fontArray.size();
+				std::list<Game::Entities::UIObject>::const_iterator it;
+				it = m_fontArray.end();
+				--it;
+				std::vector<Game::Entities::UIObject> loadSymbols;
+				loadSymbols.push_back(*it);
+				loadSymbols.push_back(*(--it));
+				loadSymbols.push_back(*(--it));
+
+				StatusIndicator::GetInstance().LoadInitSymbols(loadSymbols);
+				StatusIndicator::GetInstance().DisplayStartupSplash();
+				if (!m_engineGlyphsModel.IsValid())
+				{
+					StatusIndicator::GetInstance().DisplayGuruMeditation();
+					return;
+				}
 				tempMeshStorage = m_engineGlyphsModel.ExtractMeshData(m_glyphsVertexPool);
 			}
 
@@ -76,11 +95,10 @@ namespace Init {
 			{
 				Game::Entities::UIObject charObject;
 				charObject.SetMesh(m_fontMeshes.GetMesh(meshIndex));
-				m_fontArray.push_front(charObject);
+				m_fontArray.push_back(charObject);
 			}
 			FontPair newFontPair(fontName, m_fontArray);
 			m_fontMap.insert(newFontPair);
-		}
 	}
 } // namespace Init
 } // namespace Core

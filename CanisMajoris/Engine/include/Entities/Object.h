@@ -29,26 +29,29 @@ namespace Core
 			{
 			public:
 				Object();
-				Object(Renderer::CoreUtils::Mesh *mesh, Vector3 location);
+				Object(Renderer::CoreUtils::Mesh *mesh, Vector3 location, Vector3 rotation = Vector3::Zero());
 				virtual ~Object();
 				virtual void Draw(Vector3 colour = Vector3(255.0f, 255.0f, 255.0f));
 
 				virtual Vector3 Location() const;
-				virtual void  SetLocation(Vector3 location);
+				virtual void SetLocation(Vector3 location);
 				virtual Renderer::CoreUtils::Mesh &GetMesh();
 				virtual void SetMesh(Renderer::CoreUtils::Mesh *mesh);
 				
 				virtual void Translate(Vector3 offset);
 				virtual void Scale(Vector3 centre, float scaleFactor);
 				virtual void Scale(float scaleFactor);
+				virtual void SetScale(float scaleFactor);
 				
 				virtual void Rotate(Vector3 centre, Vector3 amount);
 				virtual void Rotate(Vector3 amount);
+				virtual void SetRotation(Vector3 rotation);
 
 			protected:
 				void updateMeshTransform();
 				Renderer::CoreUtils::Mesh *m_mesh;
 				Vector3 m_location;
+				Vector3 m_rotation;
 				float m_scaleFactor;
 			};
 		}

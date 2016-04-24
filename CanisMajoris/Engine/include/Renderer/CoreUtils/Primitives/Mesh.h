@@ -31,8 +31,7 @@ public:
 	const std::string& GetID();
 	void SetID(const std::string& ID);
 	
-	void SetLocked(bool lockFlag);
-	bool IsLocked();
+	bool IsDirty();
 
 	void AddRawVertex(float coordArray[]);
 	
@@ -51,13 +50,15 @@ public:
 	void InitPivot(); //!< determines mesh centroid and sets pivot
 	const Vector3 Location();
 	void SetLocation(Vector3 location);
+	void SetRotation(Vector3 rotation);
+	void SetScale(float scale);
 	void Translate(Vector3 offset);
 	void Scale(Vector3 centre, float scaleFactor);
 	void Scale(float scaleFactor);
 	void Rotate(Vector3 centre, Vector3 amount);
 	void Rotate(Vector3 amount);
 	
-	void ResetTransform();
+	bool ResetTransform();
 	
 	~Mesh();
 private:
@@ -71,12 +72,14 @@ private:
 
 	int m_triCount;
 	int m_vertCount;
+	float m_scaleFactor;
+	Vector3 m_wsRotation;
 	Vector3 m_wsPivot;
 	Vector3 m_pivot;
 	Vector3 m_colour;
 	Bounds m_boundingBox;
 
-	bool m_isLocked;
+	bool m_dirtyFlag;
 };
 } // namespace CoreUtils
 } // namespace Renderer

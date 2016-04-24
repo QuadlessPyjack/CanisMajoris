@@ -21,6 +21,7 @@ x(0.0f),
 y(0.0f),
 z(0.0f),
 m_id(0),
+m_dirtyFlag(false),
 m_SDLSurface(nullptr),
 m_v3(Vector3(x, y, z)),
 m_wsTransform(m_v3)
@@ -31,6 +32,7 @@ x(pozX),
 y(pozY),
 z(pozZ),
 m_id(id),
+m_dirtyFlag(false),
 m_SDLSurface(nullptr),
 m_v3(Vector3(pozX, pozY, pozZ)),
 m_wsTransform(m_v3)
@@ -41,6 +43,7 @@ x(v3.x),
 y(v3.y),
 z(v3.z),
 m_id(id),
+m_dirtyFlag(false),
 m_SDLSurface(nullptr),
 m_v3(v3),
 m_wsTransform(m_v3)
@@ -51,6 +54,7 @@ x(coordinates[0]),
 y(coordinates[1]),
 z(coordinates[2]),
 m_id(id),
+m_dirtyFlag(false),
 m_SDLSurface(nullptr),
 m_v3(Vector3(coordinates[0], coordinates[1], coordinates[2])),
 m_wsTransform(m_v3)
@@ -82,6 +86,18 @@ void Vertex::Draw()
 void Vertex::ResetTransform()
 {
 	m_wsTransform = m_v3;
+	// these three are fucking redundant
+	// you have a Vector3 class, use it!
+	x = m_v3.x;
+	y = m_v3.y;
+	z = m_v3.z;
+	//////////////
+	m_dirtyFlag = false;
+}
+
+bool Vertex::IsDirty() const
+{
+	return m_dirtyFlag;
 }
 
 	int Vertex::id() const
@@ -108,6 +124,7 @@ void Vertex::SetLocation(Vector3 location)
 	//m_v3 = location;
 
 	m_wsTransform = location;
+	m_dirtyFlag = true;
 };
 
 void Vertex::Translate(Vector3 offset)
@@ -117,6 +134,7 @@ void Vertex::Translate(Vector3 offset)
  z += offset.z;
  
  m_wsTransform = Vector3(x, y, z);
+ m_dirtyFlag = true;
 };
 
 void Vertex::Scale(const Vector3& centre, float scaleFactor)
@@ -128,6 +146,7 @@ void Vertex::Scale(const Vector3& centre, float scaleFactor)
  z = (z - centre.z) * scaleFactor + centre.z;
 
  m_wsTransform = Vector3(x, y, z);
+ m_dirtyFlag = true;
  //!>Get those damn pivot coordinates first before implementing this!
  //!>And find a humane way to pass them over to the Vertex class!
 };
@@ -171,6 +190,7 @@ void Vertex::Rotate(const Vector3& centre, Vector3 amount)
  //End of Glorious Hack!
 
  m_wsTransform = Vector3(x, y, z);
+ m_dirtyFlag = true;
 };
 
 Vertex::~Vertex()

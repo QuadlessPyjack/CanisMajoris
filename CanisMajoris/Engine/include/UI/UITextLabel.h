@@ -30,6 +30,9 @@ public:
 	UITextLabel(Bounds bounds);
 
 private:
+
+	void setStringToUIText(std::string text);
+
 	Bounds m_labelBounds;
 	std::string m_text;
 	std::vector<Core::Game::Entities::UIObject> m_UIText;

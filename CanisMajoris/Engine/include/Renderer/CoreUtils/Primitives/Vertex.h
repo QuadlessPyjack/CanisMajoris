@@ -30,6 +30,7 @@ namespace CoreUtils{
 
   void Draw();
   void ResetTransform();
+  bool IsDirty() const;
 
   int id() const;
   void SetID(int vertexID);
@@ -47,6 +48,7 @@ namespace CoreUtils{
 
   private:
   int m_id;
+  bool m_dirtyFlag;
   SDL_Surface* m_SDLSurface;
   std::string m_meshOwnerName;
   Vector3 m_v3;

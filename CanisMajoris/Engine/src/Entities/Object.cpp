@@ -16,13 +16,15 @@ namespace Entities {
 	Object::Object()
 	: m_mesh(nullptr)
 	, m_location(Vector3::Zero())
+	, m_rotation(Vector3::Zero())
 	, m_scaleFactor(1.0f)
 	{
 	}
 
-	Object::Object(Renderer::CoreUtils::Mesh* mesh, Vector3 location)
+	Object::Object(Renderer::CoreUtils::Mesh* mesh, Vector3 location, Vector3 rotation)
 	: m_mesh(mesh)
 	, m_location(location)
+	, m_rotation(rotation)
 	, m_scaleFactor(1.0f)
 	{
 	}
@@ -34,6 +36,7 @@ namespace Entities {
 
 	void Object::Draw(Vector3 colour)
 	{
+		updateMeshTransform();
 		if (m_scaleFactor != 1.0f)
 		{
 			Scale(m_scaleFactor);
@@ -41,8 +44,8 @@ namespace Entities {
 			return;
 		}
 
-		updateMeshTransform();
 		m_mesh->Draw(colour);
+		m_mesh->ResetTransform();
 	}
 
 	Vector3 Object::Location() const
@@ -70,48 +73,62 @@ namespace Entities {
 		m_location = m_location + offset;
 		updateMeshTransform();
 		m_mesh->Translate(offset);
-		m_mesh->SetLocked(false);
+//		m_mesh->SetLocked(false);
 	}
 
 	void Object::Scale(Vector3 centre, float scaleFactor)
 	{
-		m_scaleFactor = scaleFactor;
+		m_scaleFactor += scaleFactor;
 		updateMeshTransform();
 		m_mesh->Scale(centre, scaleFactor);
-		m_mesh->SetLocked(false);
+//		m_mesh->SetLocked(false);
 	}
 
 	void Object::Scale(float scaleFactor)
 	{
-		m_scaleFactor = scaleFactor;
+		m_scaleFactor += scaleFactor;
 		updateMeshTransform();
 		m_mesh->Scale(scaleFactor);
-		m_mesh->SetLocked(false);
+//		m_mesh->SetLocked(false);
+	}
+
+	void Object::SetScale(float scaleFactor)
+	{
+		m_scaleFactor = scaleFactor;
 	}
 
 	void Object::Rotate(Vector3 centre, Vector3 amount)
 	{
+		m_rotation = m_rotation + amount;
 		updateMeshTransform();
 		m_mesh->Rotate(centre, amount);
-		m_mesh->SetLocked(false);
+//		m_mesh->SetLocked(false);
 	}
 
 	void Object::Rotate(Vector3 amount)
 	{
+		m_rotation = m_rotation + amount;
 		updateMeshTransform();
 		m_mesh->Rotate(amount);
-		m_mesh->SetLocked(false);
+//		m_mesh->SetLocked(false);
+	}
+
+	void Object::SetRotation(Vector3 rotation)
+	{
+		m_rotation = rotation;
 	}
 
 	//! @brief Checks if mesh was previously used by other objects and resets its transform accordingly
 	void Object::updateMeshTransform()
 	{
-		if (!m_mesh->IsLocked())
+		if (m_mesh->Location() != m_location)
 		{
 			m_mesh->ResetTransform();
 			m_mesh->SetPivot(m_location);
+			m_mesh->SetScale(m_scaleFactor);
 			m_mesh->SetLocation(m_location);
-			m_mesh->SetLocked(true);
+			m_mesh->SetRotation(m_rotation);
+//			m_mesh->SetLocked(true);
 		}
 	}
 } // namespace Entities
