@@ -56,7 +56,8 @@ namespace Init {
 		m_initSymbols[0].setPosition(Math::Vector2(600.0f, 200.0f));
 		m_initSymbols[0].Draw(Colour::Green);
 		SDL_Flip(m_screen);
-		SDL_Delay(1000);
+		std::cout << "Showing splash screen!" << std::endl;
+		SDL_Delay(5000);
 
 		clearScreen();
 	}
@@ -77,6 +78,13 @@ namespace Init {
 		}
 		m_frame_delta = (double)clock() - m_frame_delta;
 		m_initSymbols[1].Rotate(Vector3(0.0f, 0.0f, 0.15f) * m_frame_delta);
+		//float scale_factor = 0.5f;
+		//if ((int)m_frame_delta % 2 == 0)
+		//{
+		//	scale_factor = 1.5f;
+		//}
+
+		//m_initSymbols[1].Scale(scale_factor);
 		m_initSymbols[1].Draw();
 
 		clearScreen();

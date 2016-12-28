@@ -27,6 +27,7 @@ namespace CoreUtils{
  void setEdges(Edge* triangleEdges[3]);
  void setID(int id);
  int ID() const;
+ Vector3 Normal();
 
  void Draw(Vector3 colour = Vector3::Zero());
  
@@ -40,6 +41,10 @@ namespace CoreUtils{
  Edge* m_edgeA;
  Edge* m_edgeB;
  Edge* m_edgeC;
+
+ mutable Vector3 m_normal;
+ void reorderEdges();
+
  };
 } // CoreUtils
 } // Renderer 

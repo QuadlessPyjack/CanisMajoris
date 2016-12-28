@@ -34,7 +34,7 @@ namespace CoreUtils{
 
   int id() const;
   void SetID(int vertexID);
-  const Vector3 &Location();
+  const Vector3 &Location() const;
   void SetLocation(Vector3 location);
   void Translate(Vector3 offset);
   void Scale(const Vector3& centre, float scaleFactor);
@@ -42,14 +42,14 @@ namespace CoreUtils{
 
   ~Vertex();
 
-  float x;
-  float y;
-  float z;
+  //float x;
+  //float y;
+  //float z;
 
   private:
   int m_id;
   bool m_dirtyFlag;
-  SDL_Surface* m_SDLSurface;
+  //SDL_Surface* m_SDLSurface;
   std::string m_meshOwnerName;
   Vector3 m_v3;
   Vector3 m_wsTransform;

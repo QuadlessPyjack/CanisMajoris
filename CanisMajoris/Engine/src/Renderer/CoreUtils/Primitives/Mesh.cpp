@@ -59,7 +59,8 @@ Mesh::Mesh() :
  m_scaleFactor(1.0f),
  m_wsRotation(Vector3::Zero()),
  m_colour(Vector3::Zero()),
- m_dirtyFlag(false)
+ m_dirtyFlag(false),
+ m_lock(false)
 {
 };
 
@@ -74,7 +75,8 @@ Mesh::Mesh(const std::string& ID) :
  m_scaleFactor(1.0f),
  m_wsRotation(Vector3::Zero()),
  m_colour(Vector3::Zero()),
- m_dirtyFlag(false)
+ m_dirtyFlag(false),
+ m_lock(false)
 {
 };
 
@@ -94,7 +96,8 @@ Mesh::Mesh(const std::string& ID,
  m_scaleFactor(1.0f),
  m_wsRotation(Vector3::Zero()),
  m_colour(Vector3::Zero()),
- m_dirtyFlag(false)
+ m_dirtyFlag(false),
+ m_lock(false)
 {
  for (int i = 0; i < m_vertCount; ++i)
  {
@@ -216,9 +219,9 @@ if (m_vertCount > 0)
 {
  for (int i = 0; i < m_vertCount; ++i)
  {
-  rawCoords.x += m_localVerts[i]->x;
-  rawCoords.y += m_localVerts[i]->y;
-  rawCoords.z += abs(m_localVerts[i]->z);
+	 rawCoords.x += m_localVerts[i]->Location().x;
+	 rawCoords.y += m_localVerts[i]->Location().y;
+	 rawCoords.z += abs(m_localVerts[i]->Location().z);
  }
 rawCoords.x /= m_vertCount;
 rawCoords.y /= m_vertCount;
@@ -342,6 +345,7 @@ bool Mesh::ResetTransform()
 	m_wsRotation = Vector3::Zero();
 	m_wsPivot = m_pivot;
 	m_dirtyFlag = false;
+	m_lock = false;
 	return true;
 
 };
@@ -352,7 +356,20 @@ Mesh::~Mesh()
  delete m_surface;
 }
 
-void Mesh::computeBoundingBox()
+
+// set this to inform the rasterizer that it can process this mesh
+void Mesh::SetLocked(bool isLocked)
+{
+	m_lock = isLocked;
+}
+
+// used by the rasterizer to know when to read the transform data
+bool Mesh::GetLockStatus()
+{
+	return m_lock;
+}
+
+	void Mesh::computeBoundingBox()
 {
 	std::vector<Vertex*>::const_iterator it;
 	Vector3 minBound = m_localVerts[0]->Location();

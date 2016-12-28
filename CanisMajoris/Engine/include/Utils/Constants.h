@@ -27,16 +27,16 @@ const int   TEMP_OFFSETY = 0;
 const float AMPLIFICATION_FACTOR = 1.0f; // 1 meter in 3ds max = 15.7 world units
 
 //Used by Camera
-const float CAM_SPEED = 0.01f;
+const float CAM_SPEED = 0.0001f;
 const float ORIGIN_OFFSET = 50000.0f;
 
 //Used by PhysicsManager
-const Uint32 PHYS_TICK = 100;
+const unsigned int PHYS_TICK = 100;
 
 //Used by Engine
-const Uint32 ENGINE_TICK = 50;
+const unsigned int ENGINE_TICK = 50;
 
-const char* const DEFAULT_FONT_MODEL_FILENAME = "../alphabet.obj";
+const char* const DEFAULT_FONT_MODEL_FILENAME = "../alphabet.obj"; //was alphabet.obj
 const char* const DEFAULT_ENGINE_SYMBOLS_FILENAME = "../symbols.obj";
 const char* const DEFAULT_FONT_NAME = "SystemFont";
 const char* const DEFAULT_ENGINE_SYMBOLS_NAME = "EngineGlyphs";

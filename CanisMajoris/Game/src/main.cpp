@@ -61,7 +61,7 @@ int main(int argc, char* argv[])
 	using namespace boost::interprocess;
 
 	cout << "Lets spawn a Camera [currently just a Vector3 position in space]:";
-	Camera *SceneCamera = new Camera(Vector3(-200.0f, 95.0f, -200.0f));
+	Camera *SceneCamera = new Camera(Vector3(-200.0f, 95.0f, -1000.0f));
 
 	cout << "Lets create our Scene.\n";
 	Scene MainScene = Scene::GetInstance();
@@ -101,23 +101,6 @@ int main(int argc, char* argv[])
 
 	cout << "Lets test Vector2 in Polar and Cartesian systems.\n";
 	using namespace Math;
-	Vector2 testvect2(4, 12);
-	cout << "TESTVECT2(4, 12): " << testvect2 << endl;
-	testvect2.ToPolar();
-	cout << "Polar Conversion: " << testvect2 << endl;
-	testvect2.ToCartesian();
-	cout << "Now back to Cartesian: " << testvect2 << endl;
-
-	cout << "Lets test Vector3 Addition.\n";
-	Vector3 testvect3(1, 2, 3);
-	Vector3 testvect4(4, 5, 6);
-	Vector3 sum = testvect3 + testvect4;
-	cout << "(1,2,3) + (4,5,6) = " << sum << endl;
-	
-	cout << "Lets test Vector3 Substraction.\n";
-	
-	Vector3 dif = testvect4 - testvect3;
-	cout << "(4,5,6) - (1,2,3) = " << dif << endl;
 
 	cout << " " << SceneCamera << endl;
 	Core::Init::StatusIndicator::GetInstance().DisplayProgressSpinner();
@@ -152,34 +135,6 @@ int main(int argc, char* argv[])
 	testOBJ->Load(TEST_MODEL_FILENAME);
 	testOBJ2->Load("..\\10m_cube.obj");
 	alphabet->Load("..\\alphabet.obj");
-
-	std::vector<Vertex*>   marker_vertices(6);
-	std::vector<Edge*>     marker_edges;
-	std::vector<Triangle*> marker_tris;
-	marker_vertices[0] = new Vertex(-10.0f, -10.0f, 0.0f);
-	marker_vertices[1] = new Vertex(  0.0f,   0.0f, 0.0f);
-	marker_vertices[2] = new Vertex( 10.0f,  10.0f, 0.0f);
-	marker_vertices[3] = new Vertex(-10.0f,  10.0f, 0.0f);
-	marker_vertices[4] = new Vertex(  0.0f,   0.0f, 0.0f);
-	marker_vertices[5] = new Vertex( 10.0f, -10.0f, 0.0f);
-
-	marker_edges.push_back(new Edge(*marker_vertices[0], *marker_vertices[1]));
-	marker_edges.push_back(new Edge(*marker_vertices[1], *marker_vertices[2]));
-	marker_edges.push_back(new Edge(*marker_vertices[0], *marker_vertices[2]));
-	
-	marker_edges.push_back(new Edge(*marker_vertices[3], *marker_vertices[4]));
-	marker_edges.push_back(new Edge(*marker_vertices[4], *marker_vertices[5]));
-	marker_edges.push_back(new Edge(*marker_vertices[3], *marker_vertices[5]));
-
-	marker_tris.push_back(new Triangle(*marker_edges.at(2), *marker_edges.at(1), *marker_edges.at(0)));
-	marker_tris.push_back(new Triangle(*marker_edges.at(5), *marker_edges.at(4), *marker_edges.at(3)));
-
-	Mesh* calibration_marker = new Mesh("f_calibration_marker", Scene::GetInstance().GetViewport(), marker_vertices, marker_edges, marker_tris);
-
-	calibration_marker->InitPivot();
-
-	Mesh* calibration_marker2 = calibration_marker;
-	calibration_marker2->InitPivot();
 
 	//VertexPool = testOBJ->ExtractVertexData(VERTEX_COUNT, MeshPool);
 	MeshPool = testOBJ->ExtractMeshData(VertexPool); //!>VertexPool is set up via reference
@@ -225,7 +180,7 @@ int main(int argc, char* argv[])
 	Core::Physics::PhysicsManager::GetInstance().ConnectToEvent(Core::EventSys::EID_ENGINE_TICK_EVENT);
 	Core::Physics::PhysicsManager::GetInstance().AddPhysObject(physCube);
 
-
+#pragma region comments
 	//MeshPool.GetMesh("10M_CUBE")->SetLocation(Vector3(-2.6f, 384.0f, 505.0f));
 	//Vector3 markerLocationReference = MeshPool.GetMesh("10M_CUBE")->GetVertices()[0]->Location();
 	//calibration_marker->SetLocation(markerLocationReference);
@@ -234,16 +189,27 @@ int main(int argc, char* argv[])
 	//std::cout << "MarkerLocationReference: " << markerLocationReference << endl;
 	//std::cout << "Secondary Location: " << MeshPool.GetMesh("10M_CUBE")->GetVertices()[1]->Location() << endl;
 	//std::cout << "10m in model-space = " << MeshPool.GetMesh("10M_CUBE")->GetVertices()[1]->Location() - markerLocationReference << endl;
+#pragma endregion 
+
+	cout << "Creating a new L3D Loader" << endl;
+
+	//L3D_TEST newFileLoaderTest;
+
+	cout << "Attempting to save test geometry to .L3D" << endl;
+
+	//newFileLoaderTest.
+
+	cout << "Operations performed successfully" << endl;
 
 	double frame_delta = clock();
 	Core::Init::StatusIndicator::GetInstance().DisplayProgressSpinner();
 	Core::Game::Entities::Object test_object =  Core::Game::Entities::Object(MeshPool.GetMesh("DBG_CUBE"), Vector3(-100.0f, 50.0f, -200.0f));
-	Core::Game::Entities::Object test_object2 = Core::Game::Entities::Object(MeshPool.GetMesh("DBG_CUBE"), Vector3(-50.0f, 20.0f, -200.0f));
+	Core::Game::Entities::Object test_object2 = Core::Game::Entities::Object(MeshPool.GetMesh("Line02"), Vector3(-50.0f, 20.0f, -230.0f));
 	Core::Game::Entities::UIObject uiTextTest = Core::Game::Entities::UIObject(MeshPool.GetMesh("f_a"), Vector3(100.0f, 100.0f, -200.0f));
 	while (!shouldQuit)
 	{
 		frame_delta = (double)clock() - frame_delta;
-		
+
 		//std::cout << "[INFO] Previous frame took " << frame_delta / CLOCKS_PER_SEC << " ticks to render\n";
 
 		SDL_PollEvent(&event);
@@ -261,7 +227,11 @@ int main(int argc, char* argv[])
 			MainScene.GetCamera()->Move(Vector3(0, 0, CAM_SPEED) * frame_delta);
 		}
 		if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_s)
+		{
 			MainScene.GetCamera()->Move(Vector3(0, 0, -CAM_SPEED) * frame_delta);
+			std:cout << MainScene.GetCamera()->Location() << std::endl;
+		}
+			
 		if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_a)
 			MainScene.GetCamera()->Move(Vector3(-CAM_SPEED, 0, 0) * frame_delta);
 		if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_d)
@@ -275,26 +245,26 @@ int main(int argc, char* argv[])
 		}
 
 		//MeshPool.GetMesh("DBG_CUBE")->Rotate(Vector3(0.0f, 0.5f, 0.0f) * frame_delta);
-		Vector3 cubeLoc = MeshPool.GetMesh("DBG_CUBE")->Location();
+		//Vector3 cubeLoc = MeshPool.GetMesh("DBG_CUBE")->Location();
 
 		test_object.Draw();
 		
 		//test_object.Translate(Vector3(0.0f, 0.0f, 0.0f));
-		test_object.Scale(0.5f);
-		test_object.Rotate(Vector3(0.0f, 0.5f, 1.0f));
+		//test_object.Scale(0.5f);
+		//test_object.Rotate(Vector3(0.0f, 0.5f, 1.0f));
 
-		test_object2.Rotate(Vector3(4.0f, 0.25f, 0.0f));
+		//test_object2.Rotate(Vector3(4.0f, 0.25f, 0.0f));
 
 		test_object2.Draw();
 		//test_object.Scale(1.2f);
 
-		uiTextTest.Rotate(Vector3(2.0f, 0.5f, 0.5f));
+		//uiTextTest.Rotate(Vector3(2.0f, 0.5f, 0.5f));
 		uiTextTest.Draw();
 
 		Core::EventSys::EventManager::GetInstance().Update();
 
 		dbgServer.LogInfo("THIS IS A TEST MESSAGE\n");
-		//testRasterizer->RasterizeScene();
+		//testRasterizer->RasterizeScene(test_object.GetMesh());
 		//for (int i = 0; i < MeshPool.length(); ++i)
 		//{
 		//	MeshPool.GetMesh(i)->Translate(Vector3(0.0f, 0.0f, 0.0f) /** frame_delta*/);

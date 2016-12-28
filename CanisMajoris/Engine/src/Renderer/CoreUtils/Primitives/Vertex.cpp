@@ -17,45 +17,45 @@ namespace Renderer  {
 namespace CoreUtils {
 
 Vertex::Vertex() :
-x(0.0f),
-y(0.0f),
-z(0.0f),
+//x(0.0f),
+//y(0.0f),
+//z(0.0f),
 m_id(0),
 m_dirtyFlag(false),
-m_SDLSurface(nullptr),
-m_v3(Vector3(x, y, z)),
+//m_SDLSurface(nullptr),
+m_v3(Vector3(0.0f, 0.0f, 0.0f)),
 m_wsTransform(m_v3)
 {};
 
 Vertex::Vertex(float pozX, float pozY, float pozZ, int id) :
-x(pozX),
-y(pozY),
-z(pozZ),
+//x(pozX),
+//y(pozY),
+//z(pozZ),
 m_id(id),
 m_dirtyFlag(false),
-m_SDLSurface(nullptr),
+//m_SDLSurface(nullptr),
 m_v3(Vector3(pozX, pozY, pozZ)),
 m_wsTransform(m_v3)
 {};
 
 Vertex::Vertex(Vector3 v3, int id) :
-x(v3.x),
-y(v3.y),
-z(v3.z),
+//x(v3.x),
+//y(v3.y),
+//z(v3.z),
 m_id(id),
 m_dirtyFlag(false),
-m_SDLSurface(nullptr),
+//m_SDLSurface(nullptr),
 m_v3(v3),
 m_wsTransform(m_v3)
 {};
 
 Vertex::Vertex(float coordinates[3], int id) :
-x(coordinates[0]),
-y(coordinates[1]),
-z(coordinates[2]),
+//x(coordinates[0]),
+//y(coordinates[1]),
+//z(coordinates[2]),
 m_id(id),
 m_dirtyFlag(false),
-m_SDLSurface(nullptr),
+//m_SDLSurface(nullptr),
 m_v3(Vector3(coordinates[0], coordinates[1], coordinates[2])),
 m_wsTransform(m_v3)
 {};
@@ -74,9 +74,9 @@ void Vertex::Draw()
 {
  SDL_Surface* surface = Scene::GetInstance().GetViewport();
  SDL_PixelFormat* fmt = surface->format;
- if (ValidateScreenCoord(x, 0) && ValidateScreenCoord(y, 1))
+ if (ValidateScreenCoord(m_v3.x, 0) && ValidateScreenCoord(m_v3.y, 1))
  {
-  Draw_FillCircle(surface, x, y, 2, SDL_MapRGB(fmt, 255, 0, 0));
+  Draw_FillCircle(surface, m_v3.x, m_v3.y, 2, SDL_MapRGB(fmt, 255, 0, 0));
   
   fmt = nullptr;
   delete fmt;
@@ -88,9 +88,9 @@ void Vertex::ResetTransform()
 	m_wsTransform = m_v3;
 	// these three are fucking redundant
 	// you have a Vector3 class, use it!
-	x = m_v3.x;
-	y = m_v3.y;
-	z = m_v3.z;
+	//x = m_v3.x;
+	//y = m_v3.y;
+	//z = m_v3.z;
 	//////////////
 	m_dirtyFlag = false;
 }
@@ -110,16 +110,16 @@ void Vertex::SetID(int vertexID)
 	m_id = vertexID;
 };
 
-const Vector3& Vertex::Location()
+const Vector3& Vertex::Location() const
 {
  return m_wsTransform;
 };
 
 void Vertex::SetLocation(Vector3 location)
 {
-	x = location.x;
-	y = location.y;
-	z = location.z;
+	/*m_wsTransform.x = location.x;
+	m_wsTransform.y = location.y;
+	m_wsTransform.z = location.z;*/
 
 	//m_v3 = location;
 
@@ -129,11 +129,11 @@ void Vertex::SetLocation(Vector3 location)
 
 void Vertex::Translate(Vector3 offset)
 {
- x += offset.x;
- y += offset.y;
- z += offset.z;
+	m_wsTransform.x += offset.x;
+	m_wsTransform.y += offset.y;
+	m_wsTransform.z += offset.z;
  
- m_wsTransform = Vector3(x, y, z);
+ //m_wsTransform = m_v3;
  m_dirtyFlag = true;
 };
 
@@ -141,11 +141,11 @@ void Vertex::Scale(const Vector3& centre, float scaleFactor)
 {
  Vector3 newCoords = centre;
  
- x = (x - centre.x) * scaleFactor + centre.x;
- y = (y - centre.y) * scaleFactor + centre.y;
- z = (z - centre.z) * scaleFactor + centre.z;
+ m_wsTransform.x = (m_wsTransform.x - centre.x) * scaleFactor + centre.x;
+ m_wsTransform.y = (m_wsTransform.y - centre.y) * scaleFactor + centre.y;
+ m_wsTransform.z = (m_wsTransform.z - centre.z) * scaleFactor + centre.z;
 
- m_wsTransform = Vector3(x, y, z);
+ //m_wsTransform = m_v3;
  m_dirtyFlag = true;
  //!>Get those damn pivot coordinates first before implementing this!
  //!>And find a humane way to pass them over to the Vertex class!
@@ -157,39 +157,39 @@ void Vertex::Rotate(const Vector3& centre, Vector3 amount)
  //Apply changes for rotation around Z
  if (amount.z != 0.0f)
  {
-  Vector2 rotVect(x - centre.x, y - centre.y);
+	 Vector2 rotVect(m_wsTransform.x - centre.x, m_wsTransform.y - centre.y);
   rotVect.ToPolar();
   rotVect.x += amount.z;
   rotVect.ToCartesian();
   
-  x = centre.x + rotVect.x;
-  y = centre.y + rotVect.y;
+  m_wsTransform.x = centre.x + rotVect.x;
+  m_wsTransform.y = centre.y + rotVect.y;
  }
  //Apply changes for rotation around Y
  if (amount.y != 0.0f)
  {
-  Vector2 rotVect(x - centre.x, z - centre.z);
+	 Vector2 rotVect(m_wsTransform.x - centre.x, m_wsTransform.z - centre.z);
   rotVect.ToPolar();
   rotVect.x += amount.y;
   rotVect.ToCartesian();
-  x = centre.x + rotVect.x;
-  z = centre.z + rotVect.y; //which is actually the vertex's Z coordinate
+  m_wsTransform.x = centre.x + rotVect.x;
+  m_wsTransform.z = centre.z + rotVect.y; //which is actually the vertex's Z coordinate
  }
  
  //Apply changes for rotation around X
  if (amount.x != 0.0f)
  {
-  Vector2 rotVect(z - centre.z, y - centre.y);
+	 Vector2 rotVect(m_wsTransform.z - centre.z, m_wsTransform.y - centre.y);
   rotVect.ToPolar();
   rotVect.x += amount.x;
   rotVect.ToCartesian();
   
-  z = centre.z + rotVect.x;
-  y = centre.y + rotVect.y;
+  m_wsTransform.z = centre.z + rotVect.x;
+  m_wsTransform.y = centre.y + rotVect.y;
  }
  //End of Glorious Hack!
 
- m_wsTransform = Vector3(x, y, z);
+ //m_wsTransform = m_v3;
  m_dirtyFlag = true;
 };
 

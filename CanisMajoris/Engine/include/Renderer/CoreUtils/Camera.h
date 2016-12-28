@@ -21,9 +21,10 @@ namespace Core
 			class CM_ENGINE_API Camera
 			{
 			public:
-				Camera(Vector3 pozition );
+				Camera(Vector3 position );
 				~Camera();
 				const Vector3 Location() { return m_location; };
+				const Vector3 Direction() { return m_direction; };
 				void Move(Vector3 amount) {
 				m_location.x = m_location.x + amount.x;
 				m_location.y = m_location.y + amount.y;
@@ -32,6 +33,7 @@ namespace Core
 
 			private:
 				Vector3 m_location;
+				Vector3 m_direction;
 			};
 		}
 	}

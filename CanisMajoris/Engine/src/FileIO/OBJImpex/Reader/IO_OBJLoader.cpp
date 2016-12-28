@@ -8,6 +8,7 @@
 //////////////////////////////////////////
 
 #include<sstream>
+#include<fstream>
 #include<string>
 //For debug purposes only. Remove when done
 #include<iostream>
@@ -29,15 +30,19 @@ ModelFile::ModelFile(const std::string filePath)
  void ModelFile::Load(const std::string filePath)
  {
   Init::StatusIndicator::GetInstance().DisplayProgressSpinner();
-  m_input = new std::ifstream(filePath);
+  m_input = std::ifstream(filePath);
   m_filename = filePath;
 
-  if (!m_input || !*m_input)
+  if (!m_input || !m_input)
   {
 	Init::StatusIndicator::GetInstance().DisplayGuruMeditation();
 	std::cout << "[OBJ LOAD DBG] Incorrect Path or Missing File Error! (" << filePath << ")\n";
   }
   else
+  {
+	  m_memoryInput << m_input.rdbuf();
+	  m_input.close();
+  }
    ;
    //m_input->open(filePath);
  };
@@ -47,7 +52,7 @@ ModelFile::ModelFile(const std::string filePath)
 
 	bool ModelFile::IsValid()
  {
-	 return m_input->good();
+	 return m_input.good();
  };
  
  std::vector<Renderer::CoreUtils::Vertex*> ModelFile::ExtractVertexData(int& vertCount, MeshContainer& MeshData)
@@ -55,15 +60,15 @@ ModelFile::ModelFile(const std::string filePath)
   std::vector<Renderer::CoreUtils::Vertex*> VertexData;
   std::string line;
 
-  if (m_input && *m_input)
+  if (m_memoryInput /*&& m_input*/)
   {
    //std::cout << "FILE DUMP: " << m_input->rdbuf()<<'\n';
    std::string owningMesh = "ROOT";
    int meshIndex = 0;
  
-   while (!m_input->eof())
+   while (!m_memoryInput.eof())
    {
- 	if (!std::getline(*m_input, line))
+ 	if (!std::getline(m_memoryInput, line))
  	{
  	 std::cout << "END_OF_FILE" << std::endl;
  	}
@@ -95,7 +100,7 @@ ModelFile::ModelFile(const std::string filePath)
   } // while not eof
   } // while input buffer
 
- m_input->close();
+ //m_memoryInput.close();
  return VertexData;
  };
  
@@ -104,14 +109,14 @@ ModelFile::ModelFile(const std::string filePath)
   std::vector<Renderer::CoreUtils::Edge*> EdgeData;
   std::string line;
  
-  m_input->open(m_filename);
+  //m_input->open(m_filename);
   std::cout << "OBJ FILE REOPENED\n";
-  if (m_input && *m_input)
+  if (m_memoryInput/* && *m_input*/)
   {
    // std::cout << "FILE DUMP: " << m_input->rdbuf()<<'\n';
-   while (!m_input->eof())
+   while (!m_memoryInput.eof())
    {
- 	if (!getline(*m_input, line))
+ 	if (!getline(m_memoryInput, line))
  	{
  	 std::cout << "END_OF_FILE" << std::endl;
  	}
@@ -139,9 +144,9 @@ ModelFile::ModelFile(const std::string filePath)
  	  vertexPoolVerts[1] = vertexPoolRef[raw_vertIndexes[1] - 1];
  	  vertexPoolVerts[2] = vertexPoolRef[raw_vertIndexes[2] - 1];
  
- 	  std::cout << "VertexPool Vertex MEM ADDR: " << vertexPoolVerts[0] << " [" << vertexPoolVerts[0]->x << ", " << vertexPoolVerts[0]->y << ", " << vertexPoolVerts[0]->z << '\n';
+ 	  /*std::cout << "VertexPool Vertex MEM ADDR: " << vertexPoolVerts[0] << " [" << vertexPoolVerts[0]->x << ", " << vertexPoolVerts[0]->y << ", " << vertexPoolVerts[0]->z << '\n';
  	  std::cout << "VertexPool Vertex MEM ADDR: " << vertexPoolVerts[1] << " [" << vertexPoolVerts[1]->x << ", " << vertexPoolVerts[1]->y << ", " << vertexPoolVerts[1]->z << '\n';
- 	  std::cout << "VertexPool Vertex MEM ADDR: " << vertexPoolVerts[2] << " [" << vertexPoolVerts[2]->x << ", " << vertexPoolVerts[2]->y << ", " << vertexPoolVerts[2]->z << '\n';
+ 	  std::cout << "VertexPool Vertex MEM ADDR: " << vertexPoolVerts[2] << " [" << vertexPoolVerts[2]->x << ", " << vertexPoolVerts[2]->y << ", " << vertexPoolVerts[2]->z << '\n';*/
  
  	  EdgeData.push_back(new Renderer::CoreUtils::Edge(*vertexPoolVerts[0], *vertexPoolVerts[1], edgeCount - 2));
  	  EdgeData.push_back(new Renderer::CoreUtils::Edge(*vertexPoolVerts[1], *vertexPoolVerts[2], edgeCount - 1));
@@ -152,7 +157,7 @@ ModelFile::ModelFile(const std::string filePath)
   } // if (!std::getline(*m_input, line)) else
   } // while not eof
   } // while input buffer
- m_input->close();
+ //m_input->close();
  return EdgeData;
  };
  
@@ -161,11 +166,12 @@ ModelFile::ModelFile(const std::string filePath)
   MeshContainer MeshData;
   std::string line;
   Init::StatusIndicator::GetInstance().DisplayProgressSpinner();
-  if (m_input && *m_input)
+  if (m_memoryInput /*&& *m_input*/)
   {
    //std::cout << "FILE DUMP: " << m_input->rdbuf()<<'\n';
    std::string owningMesh = "ROOT";
    MeshData.AddMesh(new Renderer::CoreUtils::Mesh(owningMesh));
+   Renderer::CoreUtils::Mesh *pOwningMesh = MeshData.GetMesh(owningMesh);
    //std::vector<Core::Renderer::CoreUtils::Mesh*> MeshData;
    int meshIndex = 0;
    int edgeIndex = 0;
@@ -173,9 +179,10 @@ ModelFile::ModelFile(const std::string filePath)
    int triangleID = 0;
    std::vector<int> visitedVerts;
  
-   while (!m_input->eof())
+   while (!m_memoryInput.eof())
    {
- 	if (!getline(*m_input, line))
+	   Init::StatusIndicator::GetInstance().DisplayProgressSpinner();
+ 	if (!getline(m_memoryInput, line))
  	{
  	 std::cout << "END_OF_FILE" << std::endl;
 	 Init::StatusIndicator::GetInstance().DisplayProgressSpinner();
@@ -197,6 +204,7 @@ ModelFile::ModelFile(const std::string filePath)
 		edgeIndex = 0;  // new object, reset edge index
 		triangleID = 0; // new object, reset tri index
  		MeshData.AddMesh(new Renderer::CoreUtils::Mesh(owningMesh));
+		pOwningMesh = MeshData.GetMesh(owningMesh);
  	   }
  	   break;
  	  }
@@ -208,6 +216,7 @@ ModelFile::ModelFile(const std::string filePath)
  	 std::stringstream line2(line);
  	 while (line2 >> raw_value)
  	 {
+		 Init::StatusIndicator::GetInstance().DisplayProgressSpinner();
  	  if (raw_value.compare("v") != 0)
  	  {
  	   float raw_coordinates[3];
@@ -222,7 +231,8 @@ ModelFile::ModelFile(const std::string filePath)
  	   vertex[0] = new Renderer::CoreUtils::Vertex(raw_coordinates, vertIndex);
  	   vertexPoolRef.push_back(vertex[0]);
 	   visitedVerts.push_back(0);
- 	   MeshData.GetMesh(owningMesh)->AddVertices(vertex, 1);
+ 	   //MeshData.GetMesh(owningMesh)->AddVertices(vertex, 1);
+	   pOwningMesh->AddVertices(vertex, 1);
  	   //End of Glorious Hack
 	   ++vertIndex;
  	   }
@@ -235,7 +245,8 @@ ModelFile::ModelFile(const std::string filePath)
    //!< its vert data is fully loaded now so compute pivot
    if (MeshData.length() > 0)
    {
-     MeshData.GetMesh(owningMesh)->InitPivot();
+     //MeshData.GetMesh(owningMesh)->InitPivot();
+	 pOwningMesh->InitPivot();
    }
    std::string raw_value;
    std::stringstream line2(line);
@@ -267,8 +278,116 @@ ModelFile::ModelFile(const std::string filePath)
 	 triangle[0]->setID(triangleID);
 	 triangleID++;
 	 //End of Another Glorious Hack
-	 for (it = MeshData.GetMesh(owningMesh)->GetEdges().begin(); it != MeshData.GetMesh(owningMesh)->GetEdges().end(); ++it)
+
+	 //it = pOwningMesh->GetEdges().begin();
+	 //bool generateNewEdge0 = true;
+	 //bool generateNewEdge1 = true;
+	 //bool generateNewEdge2 = true;
+
+	 //do
+	 //{
+		// Init::StatusIndicator::GetInstance().DisplayProgressSpinner();
+		// // Edge0 check and generation block
+		// if (generateNewEdge0 && it != pOwningMesh->GetEdges().end())
+		// {
+		//	 if ((*it)->GetEdgeVertex(0)->id() == vertexPoolVerts[0]->id() &&
+		//		 (*it)->GetEdgeVertex(1)->id() == vertexPoolVerts[1]->id())
+		//	 {
+		//		 edgeArray[0] = (*it);
+		//		 edgeArray[0]->setParentTriangle(currentTriangleID);
+		//		 generateNewEdge0 = false;
+		//	 }
+		//	 else
+		//	 {
+		//		 if ((*it)->GetEdgeVertex(1)->id() == vertexPoolVerts[0]->id() &&
+		//			 (*it)->GetEdgeVertex(0)->id() == vertexPoolVerts[1]->id())
+		//		 {
+		//			 edgeArray[0] = (*it);
+		//			 edgeArray[0]->setParentTriangle(currentTriangleID);
+		//			 generateNewEdge0 = false;
+		//		 }
+		//	 }
+		// }
+		// if ((generateNewEdge0  && it == pOwningMesh->GetEdges().end()) || pOwningMesh->GetEdges().size() <= 1)
+		// {
+		//	 edgeArray[0] = new Renderer::CoreUtils::Edge(*vertexPoolVerts[0], *vertexPoolVerts[1], edgeIndex);
+		//	 edgeArray[0]->setParentTriangle(currentTriangleID);
+		//	 pOwningMesh->AddEdge(edgeArray[0]);
+
+		//	 generateNewEdge0 = false;
+		//	 it = pOwningMesh->GetEdges().begin();
+		// }
+
+		// // Edge1 check and generation block
+		// if (generateNewEdge1)
+		// {
+		//	 Init::StatusIndicator::GetInstance().DisplayProgressSpinner();
+		//	 if ((*it)->GetEdgeVertex(0)->id() == vertexPoolVerts[1]->id() &&
+		//		 (*it)->GetEdgeVertex(1)->id() == vertexPoolVerts[2]->id())
+		//	 {
+		//		 edgeArray[1] = (*it);
+		//		 edgeArray[1]->setParentTriangle(currentTriangleID);
+		//		 generateNewEdge1 = false;
+		//	 }
+		//	 else
+		//	 {
+		//		 if ((*it)->GetEdgeVertex(1)->id() == vertexPoolVerts[1]->id() &&
+		//			 (*it)->GetEdgeVertex(0)->id() == vertexPoolVerts[2]->id())
+		//		 {
+		//			 edgeArray[1] = (*it);
+		//			 edgeArray[1]->setParentTriangle(currentTriangleID);
+		//			 generateNewEdge1 = false;
+		//		 }
+		//	 }
+		// }
+		// if ((generateNewEdge1 && it == pOwningMesh->GetEdges().end()) || pOwningMesh->GetEdges().size() <= 1)
+		// {
+		//	 edgeArray[1] = new Renderer::CoreUtils::Edge(*vertexPoolVerts[1], *vertexPoolVerts[2], edgeIndex);
+		//	 edgeArray[1]->setParentTriangle(currentTriangleID);
+		//	 pOwningMesh->AddEdge(edgeArray[1]);
+
+		//	 generateNewEdge1 = false;
+		//	 it = pOwningMesh->GetEdges().begin();
+		// }
+
+		// // Edge2 check and generation block
+		// if (generateNewEdge2)
+		// {
+		//	 Init::StatusIndicator::GetInstance().DisplayProgressSpinner();
+		//	 if ((*it)->GetEdgeVertex(0)->id() == vertexPoolVerts[2]->id() &&
+		//		 (*it)->GetEdgeVertex(1)->id() == vertexPoolVerts[0]->id())
+		//	 {
+		//		 edgeArray[2] = (*it);
+		//		 edgeArray[2]->setParentTriangle(currentTriangleID);
+		//		 generateNewEdge2 = false;
+		//	 }
+		//	 else
+		//	 {
+		//		 if ((*it)->GetEdgeVertex(1)->id() == vertexPoolVerts[2]->id() &&
+		//			 (*it)->GetEdgeVertex(0)->id() == vertexPoolVerts[0]->id())
+		//		 {
+		//			 edgeArray[2] = (*it);
+		//			 edgeArray[2]->setParentTriangle(currentTriangleID);
+		//			 generateNewEdge2 = false;
+		//		 }
+		//	 }
+		// }
+		// ++it;
+		// if (generateNewEdge2  && it == pOwningMesh->GetEdges().end())
+		// {
+		//	 edgeArray[2] = new Renderer::CoreUtils::Edge(*vertexPoolVerts[2], *vertexPoolVerts[0], edgeIndex);
+		//	 edgeArray[2]->setParentTriangle(currentTriangleID);
+		//	 pOwningMesh->AddEdge(edgeArray[2]);
+
+		//	 generateNewEdge2 = false;
+		//	 it = pOwningMesh->GetEdges().end();
+		//	 --it;
+		// }
+	 //} while (it != pOwningMesh->GetEdges().end());
+
+	 for (it = pOwningMesh->GetEdges().begin(); it != pOwningMesh->GetEdges().end(); ++it)
 	 {
+		 Init::StatusIndicator::GetInstance().DisplayProgressSpinner();
 		 if ((*it)->GetEdgeVertex(0)->id() == vertexPoolVerts[0]->id() &&
 			 (*it)->GetEdgeVertex(1)->id() == vertexPoolVerts[1]->id())
 		 {
@@ -291,10 +410,10 @@ ModelFile::ModelFile(const std::string filePath)
 	 {
 		edgeArray[0] = new Renderer::CoreUtils::Edge(*vertexPoolVerts[0], *vertexPoolVerts[1], edgeIndex);
 		edgeArray[0]->setParentTriangle(currentTriangleID);
-		MeshData.GetMesh(owningMesh)->AddEdge(edgeArray[0]);
+		pOwningMesh->AddEdge(edgeArray[0]);
 	 }
 	 
-	 for (it = MeshData.GetMesh(owningMesh)->GetEdges().begin(); it != MeshData.GetMesh(owningMesh)->GetEdges().end(); ++it)
+	 for (it = pOwningMesh->GetEdges().begin(); it != pOwningMesh->GetEdges().end(); ++it)
 	 {
 		 if ((*it)->GetEdgeVertex(0)->id() == vertexPoolVerts[1]->id() &&
 			 (*it)->GetEdgeVertex(1)->id() == vertexPoolVerts[2]->id())
@@ -318,10 +437,10 @@ ModelFile::ModelFile(const std::string filePath)
 	 {
 		 edgeArray[1] = new Renderer::CoreUtils::Edge(*vertexPoolVerts[1], *vertexPoolVerts[2], ++edgeIndex);
 		 edgeArray[1]->setParentTriangle(currentTriangleID);
-		 MeshData.GetMesh(owningMesh)->AddEdge(edgeArray[1]);
+		 pOwningMesh->AddEdge(edgeArray[1]);
 	 }
 
-	 for (it = MeshData.GetMesh(owningMesh)->GetEdges().begin(); it != MeshData.GetMesh(owningMesh)->GetEdges().end(); ++it)
+	 for (it = pOwningMesh->GetEdges().begin(); it != pOwningMesh->GetEdges().end(); ++it)
 	 {
 		 if ((*it)->GetEdgeVertex(0)->id() == vertexPoolVerts[2]->id() &&
 			 (*it)->GetEdgeVertex(1)->id() == vertexPoolVerts[0]->id())
@@ -345,10 +464,10 @@ ModelFile::ModelFile(const std::string filePath)
 	 {
 		 edgeArray[2] = new Renderer::CoreUtils::Edge(*vertexPoolVerts[2], *vertexPoolVerts[0], ++edgeIndex);
 		 edgeArray[2]->setParentTriangle(currentTriangleID);
-		 MeshData.GetMesh(owningMesh)->AddEdge(edgeArray[2]);
+		 pOwningMesh->AddEdge(edgeArray[2]);
 	 }
 	 triangle[0]->setEdges(edgeArray);
-	 MeshData.GetMesh(owningMesh)->AddTriangles(triangle, 1);
+	 pOwningMesh->AddTriangles(triangle, 1);
 	 edgeIndex++;
  	} // if (raw_value.compare("f") != 0)
  }    // while (line2 >> raw_value)
@@ -356,14 +475,14 @@ ModelFile::ModelFile(const std::string filePath)
  }    // if not getline
 }     // while not eof
 }     // while input buffer
- m_input->close();
+ //m_input.close();
  return MeshData;
  };
  
  ModelFile::~ModelFile()
  {
-  delete m_input;
-  m_input = nullptr;
+  //delete m_input;
+  //m_input = nullptr;
  };
 
 } // IO

@@ -61,6 +61,8 @@ public:
 	bool ResetTransform();
 	
 	~Mesh();
+	void SetLocked(bool isLocked);
+	bool GetLockStatus();
 private:
 	void computeBoundingBox();
 
@@ -80,6 +82,7 @@ private:
 	Bounds m_boundingBox;
 
 	bool m_dirtyFlag;
+	bool m_lock;
 };
 } // namespace CoreUtils
 } // namespace Renderer

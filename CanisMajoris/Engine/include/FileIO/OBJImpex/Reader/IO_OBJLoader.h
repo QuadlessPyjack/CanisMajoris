@@ -9,6 +9,7 @@
 //////////////////////////////////////////
 #include<EngineDllExport.h>
 
+#include<sstream> 
 #include<fstream>
 #include<vector>
 
@@ -46,7 +47,8 @@ namespace Core
 			MeshContainer ExtractMeshData(std::vector<Renderer::CoreUtils::Vertex*>& vertexPoolRef);
 
 		private:
-			std::ifstream* m_input;
+			std::ifstream m_input;
+			std::stringstream m_memoryInput;
 			std::string m_filename;
 		};
 	}

@@ -8,6 +8,8 @@
 
 #include<Entities/Object.h>
 #include<Renderer/CoreUtils/Primitives/Mesh.h>
+#include <Renderer/CoreUtils/Rasterizer/Rasterizer.h>
+#include <Renderer/CoreUtils/Scene.h>
 
 namespace Core     {
 namespace Game     {
@@ -40,10 +42,13 @@ namespace Entities {
 		if (m_scaleFactor != 1.0f)
 		{
 			Scale(m_scaleFactor);
-			m_mesh->Draw(colour);
-			return;
+			//m_mesh->Draw(colour);
+			//return;
 		}
 
+		// we do this so we don't get conflicting draw calls between the rasterizer and the line renderer
+		Renderer::CoreUtils::Scene::GetInstance().GetRasterizer()->RasterizeMesh(*m_mesh);
+		m_mesh->SetLocked(false);
 		m_mesh->Draw(colour);
 		m_mesh->ResetTransform();
 	}
@@ -78,7 +83,7 @@ namespace Entities {
 
 	void Object::Scale(Vector3 centre, float scaleFactor)
 	{
-		m_scaleFactor += scaleFactor;
+		m_scaleFactor = scaleFactor;
 		updateMeshTransform();
 		m_mesh->Scale(centre, scaleFactor);
 //		m_mesh->SetLocked(false);
@@ -86,7 +91,7 @@ namespace Entities {
 
 	void Object::Scale(float scaleFactor)
 	{
-		m_scaleFactor += scaleFactor;
+		m_scaleFactor = scaleFactor;
 		updateMeshTransform();
 		m_mesh->Scale(scaleFactor);
 //		m_mesh->SetLocked(false);
@@ -128,7 +133,7 @@ namespace Entities {
 			m_mesh->SetScale(m_scaleFactor);
 			m_mesh->SetLocation(m_location);
 			m_mesh->SetRotation(m_rotation);
-//			m_mesh->SetLocked(true);
+			m_mesh->SetLocked(true);
 		}
 	}
 } // namespace Entities

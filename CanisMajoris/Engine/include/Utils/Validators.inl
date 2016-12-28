@@ -38,16 +38,39 @@ if (coords.y < 0 || coords.y > SCREEN_HEIGHT)
 return true;
 }
 
+inline void ValidateAndCapScreenCoordinates(Vector2 &coords)
+{
+	if (coords.x > SCREEN_WIDTH)
+	{
+		coords.x = SCREEN_WIDTH - 1;
+	}
+
+	if (coords.x < 0)
+	{
+		coords.x = 1;
+	}
+
+	if (coords.y > SCREEN_HEIGHT)
+	{
+		coords.y = SCREEN_HEIGHT - 1;
+	}
+
+	if (coords.y < 0)
+	{
+		coords.y = 1;
+	}
+}
+
 inline bool ValidateScreenCoord(Core::Renderer::CoreUtils::Vertex &vert)
 {
-if (vert.x < 0 || vert.y < 0)
- return false;
-if (vert.x > SCREEN_WIDTH)
- return false;
-if (vert.y > SCREEN_HEIGHT)
- return false;
+	if (vert.Location().x < 0 || vert.Location().y < 0)
+	   return false;
+	if (vert.Location().x > SCREEN_WIDTH)
+	   return false;
+	if (vert.Location().y > SCREEN_HEIGHT)
+	   return false;
 
-return true;
+	return true;
 }
 
 #endif // VALIDATORS_INL

@@ -16,7 +16,7 @@ namespace Init {
 	, m_engineGlyphsModel(DEFAULT_ENGINE_SYMBOLS_FILENAME)
 	{
 		generateFontObjects(DEFAULT_FONT_NAME);
-		generateFontObjects(DEFAULT_ENGINE_SYMBOLS_NAME, true);
+		//generateFontObjects(DEFAULT_ENGINE_SYMBOLS_NAME, true);
 	}
 
 	FontLoader::FontLoader(std::string fontModelFilename)

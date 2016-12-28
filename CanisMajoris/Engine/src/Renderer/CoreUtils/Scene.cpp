@@ -16,47 +16,62 @@
 namespace Core      {
 namespace Renderer  {
 namespace CoreUtils	{
- Scene *Scene::m_Scene = nullptr;
- void Scene::InitScene(Camera *camera)
- {
- 	if (m_Scene)
- 	{
- 		m_Scene->m_MainCamera = camera;
- 		std::cout << "InitScene m_Scene: " << m_Scene << std::endl;
- 	}
- };
- Scene &Scene::GetInstance()
- {
- 	if (m_Scene == nullptr)
- 	{
- 		m_Scene = new Scene();
- 		std::cout << "GetInstance m_Scene: " << m_Scene << std::endl;
- 		return *m_Scene;
- 	}
- 	return *m_Scene;
- };
- 
- Camera *Scene::GetCamera()
- {
- 	assert(m_Scene);
- 	return m_Scene->m_MainCamera;
- }
- 
- SDL_Surface *Scene::GetViewport()
- {
- 	assert(m_Scene);
- 	return m_Scene->m_SceneViewport;
- }
- 
- Scene::Scene()
- {
- 	m_SceneViewport = SDL_GetVideoSurface();
- };
- Scene::~Scene()
- {
- 	delete m_Scene;
- 	m_Scene = nullptr;
- };	
+
+	Scene *Scene::m_Scene = nullptr;
+	
+	void Scene::InitScene(Camera *camera)
+	{
+		if (m_Scene)
+		{
+			m_Scene->m_MainCamera = camera;
+			std::cout << "InitScene m_Scene: " << m_Scene << std::endl;
+		}
+	};
+	Scene &Scene::GetInstance()
+	{
+		if (m_Scene == nullptr)
+		{
+			m_Scene = new Scene();
+			std::cout << "GetInstance m_Scene: " << m_Scene << std::endl;
+			return *m_Scene;
+		}
+		return *m_Scene;
+	};
+	
+	Camera *Scene::GetCamera()
+	{
+		assert(m_Scene);
+		return m_Scene->m_MainCamera;
+	}
+	
+	SDL_Surface *Scene::GetViewport()
+	{
+		assert(m_Scene);
+		return m_Scene->m_SceneViewport;
+	}
+	
+	Rasterizer* Scene::GetRasterizer()
+	{
+		assert(m_Scene);
+		return m_Scene->m_Rasterizer;
+	}
+	
+	Scene::Scene()
+	: m_Rasterizer(new Rasterizer())
+	{
+		m_SceneViewport = SDL_GetVideoSurface();
+	};
+	Scene::~Scene()
+	{
+		delete m_MainCamera;
+		m_MainCamera = nullptr;
+	
+		delete m_Rasterizer;
+		m_Rasterizer = nullptr;
+	
+		delete m_Scene;
+		m_Scene = nullptr;
+	};	
 } // CoreUtils
 } // Renderer
 } // Core

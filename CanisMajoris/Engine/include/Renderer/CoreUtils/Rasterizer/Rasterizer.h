@@ -28,9 +28,9 @@ namespace Core
 			{
 			public:
 				Rasterizer(MeshContainer &meshPool, SDL_Surface* screen);
+				Rasterizer();
 				~Rasterizer();
-				void RasterizeScene();
-				void RasterizeMesh(Mesh &mesh);
+				void RasterizeMesh(Mesh& mesh);
 				void RasterizeTriangle(Triangle &tri);
 				void RasterizeByMeshID(std::string ID);
 				void RasterizeByTriangleID(std::string ID);
@@ -40,7 +40,11 @@ namespace Core
 				Mesh *m_mesh;
 				Triangle *m_tri;
 				SDL_Surface *m_screen;
-				void fillHalfFlatTriangle(const Vertex &v1, const Vertex &v2, const Vertex &v3, int orientation, SDL_Surface* screen);
+				
+				void fillFlatTriangle(Bounds rasterBounds, bool mirrorX, bool mirrorY, SDL_Surface* screen);
+				void fillTriangle(Bounds rasterBounds, Math::Vector2 thirdCorner, SDL_Surface* screen);
+				int* matchTriangleOnBounds(Math::Vector2* trianglePoints, Bounds &rasterBounds);
+				float slopeCompare(Math::Vector2 origin, Math::Vector2 point1, Math::Vector2 point2);
 			};
 		}
 	}

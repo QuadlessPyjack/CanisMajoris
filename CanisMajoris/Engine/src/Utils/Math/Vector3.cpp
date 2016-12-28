@@ -196,6 +196,20 @@ bool operator>=(const Vector3& v1, const Vector3& v2)
 	return true;
 }
 
+Vector3 Vector3::Cross(const Vector3& rhs) const
+{
+	return Vector3((y * rhs.z) - (z * rhs.y),
+		(z * rhs.x) - (x * rhs.z),
+		(x * rhs.y) - (y * rhs.x));
+}
+
+Vector3 Vector3::Cross(const Vector3& lhs, const Vector3& rhs)
+{
+	return Vector3((lhs.y * rhs.z) - (lhs.z * rhs.y),
+		(lhs.z * rhs.x) - (lhs.x * rhs.z),
+		(lhs.x * rhs.y) - (lhs.y * rhs.x));
+}
+
 Vector3 operator+(const Vector3& v1, const Vector3& v2)
 {
 	Vector3 sum;

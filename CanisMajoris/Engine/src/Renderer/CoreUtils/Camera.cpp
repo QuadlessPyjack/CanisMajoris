@@ -15,7 +15,9 @@ namespace Core
 	{
 		namespace CoreUtils
 		{
-			Camera::Camera(Vector3 pozition) : m_location(pozition)
+			Camera::Camera(Vector3 position) 
+			: m_location(position)
+			, m_direction(Vector3::Forward())
 			{};
 
 			Camera::~Camera()

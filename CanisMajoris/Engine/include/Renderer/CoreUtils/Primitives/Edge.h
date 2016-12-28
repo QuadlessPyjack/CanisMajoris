@@ -32,6 +32,8 @@ public:
  void Draw(Vector3 colour = Vector3::Zero());
  void Translate(Vector3 offset);
 
+ void flipEdge();
+
  const Vertex* GetEdgeVertex(int index);
  const int GetEdgeOwner(int owner = 0);
 

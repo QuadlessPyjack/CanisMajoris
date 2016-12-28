@@ -20,8 +20,8 @@
 namespace {
 	void DrawEdgeToScreen(const Vertex &startVert, const Vertex &endVert, Vector3 colour = Vector3::Zero())
 	{
-		Vector2 uiStartVert(startVert.x, SCREEN_HEIGHT - startVert.y);
-		Vector2 uiEndVert(endVert.x, SCREEN_HEIGHT - endVert.y);
+		Vector2 uiStartVert(startVert.Location().x, SCREEN_HEIGHT - startVert.Location().y);
+		Vector2 uiEndVert(endVert.Location().x, SCREEN_HEIGHT - endVert.Location().y);
 
 		SDL_PixelFormat* fmt = Scene::GetInstance().GetViewport()->format;
 		if (ValidateScreenCoord(uiStartVert) && ValidateScreenCoord(uiEndVert))
@@ -137,20 +137,11 @@ void Edge::Draw(Vector3 colour)
 // 3D World Space Projection Handling
  SDL_PixelFormat* fmt = m_SDLSurface->format;
 
- Vector3 CameraPoz = Scene::GetInstance().GetCamera()->Location();
- Vector3 CamRelStartV3 = WorldToCameraCoords(m_startVert->Location());
- Vector3 CamRelEndV3 = WorldToCameraCoords(m_endVert->Location());
+ //Vector3 CameraPoz = Scene::GetInstance().GetCamera()->Location();
 
- float x_screen1 = (CamRelStartV3.x / CamRelStartV3.z) * SCREEN_WIDTH /* 1.5f*/  + SCREEN_WIDTH  / 2.0f;// *SCREEN_WIDTH + SCREEN_WIDTH / 2;
- float y_screen1 = (CamRelStartV3.y / CamRelStartV3.z) * SCREEN_HEIGHT /* 1.5f*/ + SCREEN_HEIGHT / 2.0f;// *SCREEN_HEIGHT + SCREEN_HEIGHT / 2;
- 
- float x_screen2 = (CamRelEndV3.x / CamRelEndV3.z) * SCREEN_WIDTH /* 1.5f*/  + SCREEN_WIDTH  / 2.0f;// *SCREEN_WIDTH + SCREEN_WIDTH / 2;
- float y_screen2 = (CamRelEndV3.y / CamRelEndV3.z) * SCREEN_HEIGHT /* 1.5f*/ + SCREEN_HEIGHT / 2.0f;// *SCREEN_HEIGHT + SCREEN_HEIGHT / 2;
- 
- Vector2 screen_start(x_screen1, y_screen1);
- Vector2 screen_end(x_screen2, y_screen2);
-//				std::cout << "[EDGE_DBG] SSTART: " << screen_start << " SEND: " << screen_end << "MEM ADDR: " << m_startVert << " " << m_endVert << std::endl;
-//				std::cout << "--------------------------" << std::endl;
+ Vector2 screen_start = WorldToScreenCoords(m_startVert->Location());
+ Vector2 screen_end = WorldToScreenCoords(m_endVert->Location());
+
  if (ValidateScreenCoord(screen_start) && ValidateScreenCoord(screen_end))
  {
 	 if (m_startVert->GetOwner().find("calibration_marker") == 0)
@@ -181,7 +172,15 @@ void Edge::Translate(Vector3 offset)
  }
 }
 
-Edge::~Edge()
+	void Edge::flipEdge()
+	{
+		Vertex* vx = m_startVert;
+		
+		m_startVert = m_endVert;
+		m_endVert = vx;
+	}
+
+	Edge::~Edge()
 {
  m_startVert = nullptr;
  delete m_startVert;
