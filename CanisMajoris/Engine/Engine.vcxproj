@@ -30,44 +30,45 @@
     <ProjectGuid>{69BBDDAD-092C-40F7-9723-EA7F7B8E6F7A}</ProjectGuid>
     <RootNamespace>CanisMajoris</RootNamespace>
     <ProjectName>Engine</ProjectName>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v120</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v120</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v120</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v120</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v120</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v120</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
@@ -128,14 +129,15 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)\include;X:\boost-1.57.0\include;X:\SDL-1.2.15\include;X:\SDL_draw-1.2.13\include;X:\SDL_ttf-2.0.11\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)\include;X:\boost-1.73.0\include;X:\SDL-1.2.15\include;X:\SDL_draw-1.2.13\include;X:\SDL_ttf-2.0.11\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>ENGINE_DLL_EXPORT_H;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalOptions>/EHsc %(AdditionalOptions)</AdditionalOptions>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>X:\boost-1.57.0\lib\x86;X:\SDL-1.2.15\lib\x86;X:\SDL_draw-1.2.13\lib\x86;X:\SDL_ttf-2.0.11\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>SDLmain.lib;SDL.lib;SDL_draw.LIB;SDL_ttf.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>X:\boost-1.73.0\lib\x86;X:\SDL-1.2.15\lib\x86;X:\SDL_draw-1.2.13\lib\x86;X:\SDL_ttf-2.0.11\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>SDLmain.lib;SDL.lib;SDL_ttf.lib;SDL_draw.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Windows</SubSystem>
     </Link>
   </ItemDefinitionGroup>
@@ -219,6 +221,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\Editor\ProcyonServer\EditorServer.cpp" />
+    <ClCompile Include="src\Engine.cpp" />
+    <ClCompile Include="src\EngineImpl.cpp" />
     <ClCompile Include="src\Events\EventClient.cpp" />
     <ClCompile Include="src\Events\EventManager.cpp" />
     <ClCompile Include="src\Events\TestEventClient.cpp" />
@@ -240,6 +244,8 @@
   <ItemGroup>
     <ClInclude Include="include\Editor\ProcyonServer\EditorServer.h" />
     <ClInclude Include="include\Editor\ProcyonServer\ProcyonConstants.h" />
+    <ClInclude Include="include\Engine.h" />
+    <ClInclude Include="include\EngineImpl.h" />
     <ClInclude Include="include\EngineDllExport.h" />
     <ClInclude Include="include\Events\EngineEvents.h" />
     <ClInclude Include="include\Events\EventClient.h" />

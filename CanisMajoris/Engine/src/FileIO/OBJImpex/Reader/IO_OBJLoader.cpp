@@ -9,6 +9,7 @@
 
 #include<sstream>
 #include<string>
+#include<filesystem>
 //For debug purposes only. Remove when done
 #include<iostream>
 
@@ -25,7 +26,7 @@ namespace IO   {
   m_input = new std::ifstream(filePath);
   m_filename = filePath;
  	
-  if (!m_input || !*m_input)
+  if (std::filesystem::file_size(filePath) == 0)
    std::cout << "[OBJ LOAD DBG] Incorrect Path or Missing File Error! (" << filePath << ")\n";
   else
    ;

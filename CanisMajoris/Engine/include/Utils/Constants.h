@@ -30,9 +30,9 @@ const float AMPLIFICATION_FACTOR = 1.0f;
 const float CAM_SPEED = 0.001f;
 
 //Used by PhysicsManager
-const Uint32 PHYS_TICK = 100;
+const uint32_t PHYS_TICK = 100;
 
 //Used by Engine
-const Uint32 ENGINE_TICK = 50;
+const uint32_t ENGINE_TICK = 50;
 
 #endif // CONSTANTS_H
