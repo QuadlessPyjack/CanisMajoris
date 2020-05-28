@@ -28,7 +28,7 @@ namespace CoreUtils {
  static SDL_Surface *GetViewport();
 
  private:
- Scene();
+ Scene() = default;
 
  static Scene *m_Scene;
  SDL_Surface *m_SceneViewport;
