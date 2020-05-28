@@ -2,6 +2,9 @@ log_*
 *.suo
 *.opensdf
 *.sdf
+*.user
 Debug/
 Release/
 bin/
+.vs/
+out/build
